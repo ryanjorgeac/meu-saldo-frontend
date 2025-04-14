@@ -1,0 +1,77 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 10px 30px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout geral */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+}
+
+/* Bloco 1: logo + título */
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 32px;
+}
+
+.title {
+  font-size: 20px;
+  margin: 0;
+  color: #000;
+}
+
+/* Bloco 2: navegação central */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  padding: 5px 20px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #333;
+  background: #f8f8f8;
+  transition: background 0.3s, color 0.3s;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.123);
+}
+
+.nav-link.active {
+  background: #87f17e;
+  color: #000;
+  font-weight: bold;
+}
+
+/* Bloco 3: ícone do usuário */
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+.user-icon img {
+  height: 28px;
+  cursor: pointer;
+}

@@ -1,18 +1,31 @@
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
+import { Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
+import Header from "./Components/Header";
+
+import Dashboard from "./pages/Dashboard";
+import Categories from "./pages/Categories";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
-    <Routes>
-      <Redirect exact from="/" to="/dashboard" />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/categories" element={<Categories />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/profile" element={<Profile />} />      
-    </Routes>
-  )
+    <>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </main>
+    </>
+  );
 }
 
-export default App
+export default App;
