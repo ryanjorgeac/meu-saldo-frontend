@@ -5,6 +5,9 @@ import {
   Register,
   ResetPassword,
   Profile,
+  NotFound,
+  Transactions,
+  Analytics,
 } from "../pages";
 
 export const ROUTES = {
@@ -35,4 +38,17 @@ export const ROUTES = {
     path: "/profile",
     element: <Profile />,
   },
+  transactions: {
+    path: "/transactions",
+    element: <Transactions />,
+  },
+  analytics: {
+    path: "/analytics",
+    element: <Analytics />,
+  },
+  // notFound: {
+  //   path: "/*",
+  //   element: <NotFound />,
+  //   hideHeader: true,
+  // }
 };

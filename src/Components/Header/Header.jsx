@@ -22,7 +22,7 @@ function Header() {
           <NavLink to="/transactions" className="nav-link">
             Transações
           </NavLink>
-          <NavLink to="/analises" className="nav-link">
+          <NavLink to="/analytics" className="nav-link">
             Análises
           </NavLink>
         </nav>
