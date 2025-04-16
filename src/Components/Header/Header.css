@@ -3,14 +3,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 4rem; /* Define uma altura fixa */
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Garante que o header fique acima de outros elementos */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem; /* Adiciona espaçamento interno */
+  background: transparent;
+  padding: 10px 30px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Layout geral */
