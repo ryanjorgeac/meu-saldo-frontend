@@ -1,29 +1,26 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import Header from "./Components/Header/Header.jsx";
-
-import Dashboard from "./pages/Dashboard/Dashboard.jsx";
-import GerenciarCategorias from "./pages/GerenciarCategorias/GerenciarCategorias.jsx";
-import GerenciarTransacoes from "./pages/GerenciarTransacoes/GerenciarTransacoes.jsx";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ResetPassword from "./pages/ResetPassword";
-import Profile from "./pages/Profile";
+import Header from "./Components/Header";
+import { ROUTES } from "./routes";
 
 function App() {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  
+  // Find current route and determine if header should be shown
+  const currentRoute = Object.values(ROUTES).find(route => route.path === currentPath);
+  const showHeader = !(currentRoute?.hideHeader);
+
   return (
     <>
-      <Header />
-      <main className="main-content">
+      {showHeader && <Header />}
+      <main>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/categories" element={<GerenciarCategorias />} />
-          <Route path="/transactions" element={<GerenciarTransacoes />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<Profile />} />
+        <Route path="/" element={<Navigate to={ROUTES.dashboard.path} replace />} />
+        
+        {Object.values(ROUTES).map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
         </Routes>
       </main>
     </>
