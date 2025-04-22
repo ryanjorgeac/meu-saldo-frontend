@@ -1,13 +1,23 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 import "./App.css";
-import Header from "./Components/Header";
+import Header from "./components/Header";
 import { ROUTES } from "./routes";
 import NotFound from "./pages/notFound/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const location = useLocation();
+  const { loading: authLoading } = useAuth();
   const currentPath = location.pathname;
   
+  // // If auth is still initializing and we're on a protected route, show nothing
+  // if (authLoading && Object.values(ROUTES).some(
+  //   route => route.isProtected && (currentPath === route.path || currentPath.startsWith(`${route.path}/`))
+  // )) {
+  //   return null; // Return nothing to prevent flash
+  // }
+
   const isKnownRoute = Object.values(ROUTES).some(
     route => route.path === currentPath || currentPath === "/"
   );
@@ -29,8 +39,8 @@ function App() {
         <Routes>
         <Route path="/" element={<Navigate to={ROUTES.dashboard.path} replace />} />
         
-        {Object.values(ROUTES).map(({ path, element }) => (
-          <Route key={path} path={path} element={element} />
+        {Object.values(ROUTES).map(({ path, element, isProtected }) => (
+          <Route key={path} path={path} element={getElement(element, isProtected)} />
         ))}
 
         <Route path="/*" element={<NotFound />} />
@@ -38,6 +48,13 @@ function App() {
       </main>
     </>
   );
+}
+
+function getElement(element, isProtected=false) {
+  if (isProtected) {
+    return <ProtectedRoute>{element}</ProtectedRoute>;
+  }
+  return element;
 }
 
 export default App;
