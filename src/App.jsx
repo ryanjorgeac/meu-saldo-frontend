@@ -11,12 +11,12 @@ function App() {
   const { loading: authLoading } = useAuth();
   const currentPath = location.pathname;
   
-  // // If auth is still initializing and we're on a protected route, show nothing
-  // if (authLoading && Object.values(ROUTES).some(
-  //   route => route.isProtected && (currentPath === route.path || currentPath.startsWith(`${route.path}/`))
-  // )) {
-  //   return null; // Return nothing to prevent flash
-  // }
+  // If auth is still initializing and we're on a protected route, show nothing
+  if (authLoading && Object.values(ROUTES).some(
+    route => route.isProtected && (currentPath === route.path || currentPath.startsWith(`${route.path}/`))
+  )) {
+    return null; // Return nothing to prevent flash
+  }
 
   const isKnownRoute = Object.values(ROUTES).some(
     route => route.path === currentPath || currentPath === "/"
