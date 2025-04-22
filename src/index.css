@@ -32,6 +32,11 @@ body {
   background-color: #eeeeee; /* opcional, se quiser clarear o fundo */
 }
 
+main {
+  flex: 1;
+  width: 100%;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
