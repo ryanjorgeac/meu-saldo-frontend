@@ -24,10 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0 3rem; /* Espaço lateral */
   min-width: 320px;
   min-height: 100vh;
+  
+  justify-content: center;
+  background-color: #eeeeee; /* opcional, se quiser clarear o fundo */
 }
 
 h1 {

@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import Header from "./Components/Header";
+import Header from "./Components/Header/Header.jsx";
 
-import Dashboard from "./pages/Dashboard";
-import Categories from "./pages/Categories";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import Categories from "./pages/GerenciarCategorias.jsx";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="main-content">
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />

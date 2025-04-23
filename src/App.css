@@ -6,6 +6,7 @@ body {
 }
 
 .main-content {
-  padding-top: 60px; /* Compensa a altura do header fixo */
+  padding-top: 0.5rem; /* Compensa a altura do header fixo */
+  padding-bottom: 3rem; /* Compensa a altura do footer fixo */
   padding-left: 20px; /* Deixa o conteúdo alinhado à esquerda */
 }

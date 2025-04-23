@@ -1,12 +1,16 @@
 .header {
-  position: fixed;
+  position: fixed; /* Fixa o header no topo da página */
   top: 0;
   left: 0;
   width: 100%;
-  background: white;
-  padding: 10px 30px;
-  z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 4rem; /* Define uma altura fixa */
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Garante que o header fique acima de outros elementos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem; /* Adiciona espaçamento interno */
 }
 
 /* Layout geral */
@@ -17,31 +21,24 @@
   width: 95%;
 }
 
-/* Bloco 1: logo + título */
 .logo-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 0.5rem;
 }
 
 .logo {
-  height: 32px;
+  height: 2.5rem; /* Ajusta o tamanho do logo */
 }
 
 .title {
-  font-size: 20px;
-  margin: 0;
-  color: #000;
+  font-size: 1.5rem;
+  color: #333;
 }
 
-/* Bloco 2: navegação central */
 .nav-buttons {
   display: flex;
-  gap: 10px;
-  padding: 0 20px;
-  flex-grow: 1;
-  justify-content: center;
+  gap: 1rem;
 }
 
 .nav-link {
@@ -49,20 +46,22 @@
   box-sizing: border-box;
   border-radius: 20px;
   text-decoration: none;
-  color: #333;
-  background: #f8f8f8;
-  transition: background 0.3s, color 0.3s;
-  font-size: 14px;
+  font-size: 1rem;
+  color: #555;
+  transition: color 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.123);
 }
 
 .nav-link.active {
-  background: #87f17e;
+  background: #a6f79f;
   color: #000;
   font-weight: bold;
 }
 
-/* Bloco 3: ícone do usuário */
+.nav-link:hover {
+  color: #000;
+}
+
 .profile-container {
   display: flex;
   align-items: center;
@@ -72,6 +71,6 @@
 }
 
 .user-icon img {
-  height: 28px;
-  cursor: pointer;
+  height: 2rem;
+  border-radius: 50%;
 }
