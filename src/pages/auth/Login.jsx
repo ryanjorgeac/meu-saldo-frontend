@@ -53,21 +53,20 @@ export default function Login() {
       <div className="login-left">
         <div className="login-left-content">
           <h1>Seu lugar preferido para gestão de finanças</h1>
-          <div className="illustration-container">
-            {/* <img src={loginIllustration} alt="Financial management illustration" /> */}
-          </div>
         </div>
       </div>
 
       <div className="login-right">
         <div className="login-form-container">
-          <h2>Faça login na sua conta</h2>
-          <p className="login-description">Por favor, insira os dados abaixo</p>
-          {error && <p className="error">{error}</p>}
+          <div className="login-right-texts">
+            <h2 className="login-header">Faça login na sua conta</h2>
+            <p className="login-description">Por favor, insira os dados abaixo</p>
+            {error && <p className="error">{error}</p>}
+          </div>
 
           <form onSubmit={handleSubmit} className='login-form'>
             <div className='form-group'>
-              <label htmlFor='email'>Email</label>
+              <label htmlFor='email'>E-mail</label>
               <input 
                 type="email"
                 id="email"
@@ -106,11 +105,11 @@ export default function Login() {
             <button type="submit" className="login-button">
                 Entrar
             </button>
+          </form>
 
-            <div className="register-prompt">
+          <div className="register-prompt">
                 Não possui uma conta ainda? <a className="login-link" href="/register">Cadastre-se</a>
             </div>
-          </form>
         </div>
       </div>
     </div>
