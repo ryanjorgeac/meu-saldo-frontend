@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
+import api from '../services/api';
 
 const getInitialAuthState = () => {
-  const token = localStorage.getItem('authToken');
   return { 
-    user: token ? { token } : null,
-    loading: false
+    user: null,
+    loading: true
   };
 };
 
@@ -13,41 +13,49 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [authState, setAuthState] = useState(getInitialAuthState);
 
-  // Use this for token verification with backend if needed
   useEffect(() => {
-    const verifyToken = async () => {
+    const verifyAuth = async () => {
       const token = localStorage.getItem('authToken');
-      if (token) {
-        try {
-          // Optional: Verify token with backend
-          // const response = await fetch('/api/verify-token', {
-          //   headers: { 'Authorization': `Bearer ${token}` }
-          // });
-          // if (!response.ok) throw new Error('Invalid token');
-          
-          // If verification successful, update user state
-          // const userData = await response.json();
-          // setAuthState(prev => ({ ...prev, user: userData, loading: false })
-        } catch (error) {
-          // If token is invalid, clear it
-          localStorage.removeItem('authToken');
-          setAuthState({ user: null, loading: false });
-        }
+      
+      if (!token) {
+        setAuthState({ user: null, loading: false });
+        return;
+      }
+      
+      try {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await api.get('/api/user/profile');
+        setAuthState({ 
+          user: response.data.user, 
+          loading: false 
+        });
+      } catch (error) {
+        localStorage.removeItem('authToken');
+        api.defaults.headers.common['Authorization'] = null;
+        setAuthState({ user: null, loading: false });
       }
     };
 
-    // Only run verification if you need backend verification
-    // verifyToken();
+    verifyAuth();
   }, []);
 
   const login = (userData, token) => {
     localStorage.setItem('authToken', token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setAuthState({ user: userData, loading: false });
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
+    api.defaults.headers.common['Authorization'] = null;
     setAuthState({ user: null, loading: false });
+  };
+
+  const testLoading = () => {
+    setAuthState({ ...authState, loading: true });
+    setTimeout(() => {
+      setAuthState({ ...authState, loading: false });
+    }, 3000);
   };
 
   return (
@@ -55,7 +63,8 @@ export function AuthProvider({ children }) {
       user: authState.user, 
       loading: authState.loading, 
       login, 
-      logout 
+      logout,
+      testLoading // Add this for testing
     }}>
       {children}
     </AuthContext.Provider>

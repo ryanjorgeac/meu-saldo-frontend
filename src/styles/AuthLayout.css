@@ -160,6 +160,27 @@
     background-color: rgb(14, 158, 110);
 }
 
+.button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.button-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .register-prompt {
     text-align: center;
     font-size: 0.85rem;
@@ -179,6 +200,40 @@
 .register-prompt {
     width: 100%;
 }
+
+.input-error {
+    border-color: #D92D20;
+    background-color: rgba(229, 57, 53, 0.05);
+}
+
+.field-error {
+    color: #D92D20;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0; 
+}
+
+.form-error {
+    color: #D92D20;
+    font-size: 0.85rem;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(229, 57, 53, 0.1);
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+}
+
+.success {
+    color: #027A48;
+    font-size: 0.85rem;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(46, 125, 50, 0.1);
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+  }
 
 @media (max-width: 1024px) {
     .login-left {
