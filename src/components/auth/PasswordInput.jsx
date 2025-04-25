@@ -7,7 +7,8 @@ export default function PasswordInput({
   placeholder = "••••••••", 
   value, 
   onChange,
-  required = true 
+  required = true,
+  error = null
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,6 +27,7 @@ export default function PasswordInput({
           value={value}
           onChange={onChange}
           required={required}
+          className={error ? 'input-error' : ''}
         />
         <button
           type="button"
@@ -35,6 +37,7 @@ export default function PasswordInput({
           {showPassword ? <FiEyeOff /> : <FiEye />}
         </button>
       </div>
+      {error && <p className="field-error">{error}</p>}
     </div>
   );
 }

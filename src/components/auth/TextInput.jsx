@@ -5,7 +5,8 @@ export default function TextInput({
   placeholder, 
   value, 
   onChange,
-  required = true 
+  required = true,
+  error = null
 }) {
   return (
     <div className='form-group'>
@@ -17,7 +18,9 @@ export default function TextInput({
         value={value}
         onChange={onChange}
         required={required}
+        className={error ? 'input-error' : ''}
       />
+      {error && <p className="field-error">{error}</p>}
     </div>
   );
 }
