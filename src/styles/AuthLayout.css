@@ -35,6 +35,7 @@
 
 .login-right-texts {
     text-align: center;
+    width: 100%;
 }
 
 .illustration-container img {
@@ -51,8 +52,12 @@
 }
 
 .login-form-container {
-    /* width: 50%; */
     min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
 }
 
 .login-form-container h2 {
@@ -64,15 +69,20 @@
 }
 
 .login-description {
-    color: #666;
-    margin-bottom: 2rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
     font-size: 0.9rem;
+    color: #666;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
+    width: 100%;
+    max-width: 340px;
 }
 
 .form-group {
@@ -122,41 +132,52 @@
 }
 
 .forgot-password {
-text-align: center;
+    text-align: center;
 }
 
 .forgot-password a {
-color: #027A48;
-text-decoration: none;
-font-size: 0.85rem;
+    color: #027A48;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.login-link:hover {
+    color: #004b2c;
 }
 
 .login-button {
-background-color: #12B76A;
-color: white;
-padding: 0.75rem;
-border: none;
-border-radius: 8px;
-font-weight: 500;
-cursor: pointer;
-transition: background-color 0.2s;
+    background-color: #12B76A;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .login-button:hover {
-background-color: rgb(14, 158, 110);
+    background-color: rgb(14, 158, 110);
 }
 
 .register-prompt {
-text-align: center;
-font-size: 0.85rem;
-color: #666;
-margin-top: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
 }
 
 .register-prompt a {
-color: #027A48;
-text-decoration: none;
-font-weight: 500;
+    color: #027A48;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-group, 
+.forgot-password,
+.login-button,
+.register-prompt {
+    width: 100%;
 }
 
 @media (max-width: 1024px) {
@@ -167,25 +188,25 @@ font-weight: 500;
 
 
 @media (max-width: 768px) {
-.login-container {
-    flex-direction: column;
-}
+    .login-container {
+        flex-direction: column;
+    }
 
-.login-left {
-    width: 100%;
-    height: 250px;
-}
+    .login-left {
+        width: 100%;
+        height: 250px;
+    }
 
-.login-right {
-    width: 100%;
-}
+    .login-right {
+        width: 100%;
+    }
 
-.login-left {
-    height: 30vh;
-}
+    .login-left {
+        height: 30vh;
+    }
 
-.login-form-container {
-    width: 80%;
-    padding: 2rem 0;
-}
+    .login-form-container {
+        width: 80%;
+        padding: 2rem 0;
+    }
 }

@@ -9,6 +9,7 @@ import {
   Transactions,
   Analytics,
 } from "../pages";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 export const ROUTES = {
   dashboard: {
@@ -33,12 +34,6 @@ export const ROUTES = {
     hideHeader: true,
     isProtected: false,
   },
-  resetPassword: {
-    path: "/reset-password",
-    element: <ResetPassword />,
-    hideHeader: true,
-    isProtected: false,
-  },
   profile: {
     path: "/profile",
     element: <Profile />,
@@ -54,6 +49,12 @@ export const ROUTES = {
     element: <Analytics />,
     isProtected: true,
   },
+  forgotPassword: {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
+    hideHeader: true,
+    isProtected: false,
+  }
   // notFound: {
   //   path: "/*",
   //   element: <NotFound />,
