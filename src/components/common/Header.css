@@ -3,24 +3,12 @@
   top: 0;
   left: 0;
   width: 100%;
-<<<<<<<< HEAD:src/components/common/Header.css
   background: transparent;
   padding: 10px 30px;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-========
-  height: 4rem; /* Define uma altura fixa */
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Garante que o header fique acima de outros elementos */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem; /* Adiciona espaçamento interno */
->>>>>>>> ac67a15 (Alterações de paginas):src/Components/Header/Header.css
 }
 
-/* Layout geral */
 .header-content {
   display: flex;
   align-items: center;
@@ -35,7 +23,7 @@
 }
 
 .logo {
-  height: 2.5rem; /* Ajusta o tamanho do logo */
+  height: 2.5rem;
 }
 
 .title {

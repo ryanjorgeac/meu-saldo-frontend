@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./dashboard.module.css";
-import Carteira from "../../Components/Carteira/Carteira";
-import Categoria from "../../Components/Categorias/Categorias";
-import Transacoes from "../../Components/Transacoes/Transacoes";
+import Carteira from "../../components/Carteira/Carteira";
+import Categoria from "../../components/Categorias/Categorias";
+import Transacoes from "../../components/Transacoes/Transacoes";
 
 function Dashboard() {
   return (
