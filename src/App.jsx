@@ -1,10 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import "./App.css";
-import Header from "./components/Header";
 import { ROUTES } from "./routes";
-import NotFound from "./pages/notFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AppLayout from "./components/layout/AppLayout";
 
 function App() {
   const location = useLocation();
@@ -32,28 +31,21 @@ function App() {
   const showHeader = isKnownRoute && !matchesNoHeaderPath;
 
   return (
-    <>
-      {showHeader && <Header />}
-      <main>
-        <Routes>
-        <Route path="/" element={<Navigate to={ROUTES.dashboard.path} replace />} />
-        
+    <Routes>
+      <Route element={<AppLayout hideHeader={!showHeader}/>}>
         {Object.values(ROUTES).map(({ path, element, isProtected }) => (
-          <Route key={path} path={path} element={getElement(element, isProtected)} />
+          <Route 
+            key={path} 
+            path={path} 
+            element={isProtected ? (
+              <ProtectedRoute>{element}</ProtectedRoute>
+            ) : element} 
+          />
         ))}
-
-        <Route path="/*" element={<NotFound />} />
-        </Routes>
-      </main>
-    </>
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Route>
+    </Routes>
   );
-}
-
-function getElement(element, isProtected=false) {
-  if (isProtected) {
-    return <ProtectedRoute>{element}</ProtectedRoute>;
-  }
-  return element;
 }
 
 export default App;
