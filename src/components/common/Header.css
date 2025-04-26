@@ -1,12 +1,10 @@
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: 95%;
   background: transparent;
-  padding: 10px 30px;
+  padding: 10px 40px;
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  align-content: center;
+  min-height: 65px;
 }
 
 .header-content {
@@ -19,37 +17,23 @@
 .logo-title {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.logo {
-  height: 2.5rem;
+  gap: 0.2rem;
 }
 
 .title {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
 }
 
 .nav-buttons {
   display: flex;
   gap: 1rem;
-
-.logo-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
 }
 
 .logo {
-  height: 32px;
-}
-
-.title {
-  font-size: 20px;
-  margin: 0;
-  color: #000;
+  height: 40px;
 }
 
 .nav-buttons {
@@ -93,4 +77,6 @@
 .user-icon img {
   height: 2rem;
   border-radius: 50%;
+  display: block;
+  margin: 0 auto;
 }

@@ -7,7 +7,7 @@ function Header() {
       <div className="header-content">
         <div className="logo-title">
           <img src="/src/assets/logo.svg" alt="Logo" className="logo" />
-          <h1 className="title">Meu saldo</h1>
+          <h1 className="title">Meu Saldo</h1>
         </div>
 
         <nav className="nav-buttons">
@@ -24,10 +24,12 @@ function Header() {
             Análises
           </NavLink>
         </nav>
+        <div className="profile-container">
+          <NavLink to="/profile" className="user-icon">
+            <img src="/src/assets/profile-icon.png" alt="Perfil" />
+          </NavLink>
+        </div>
 
-        <NavLink to="/profile" className="user-icon">
-          <img src="/src/assets/profile-icon.png" alt="Perfil" />
-        </NavLink>
       </div>
     </header>
   );
