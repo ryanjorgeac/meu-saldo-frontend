@@ -5,13 +5,11 @@ function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        {/* Logo e Título */}
         <div className="logo-title">
           <img src="/src/assets/logo.svg" alt="Logo" className="logo" />
           <h1 className="title">Meu saldo</h1>
         </div>
 
-        {/* Navegação */}
         <nav className="nav-buttons">
           <NavLink to="/dashboard" className="nav-link">
             Dashboard
@@ -27,7 +25,6 @@ function Header() {
           </NavLink>
         </nav>
 
-        {/* Ícone de perfil */}
         <NavLink to="/profile" className="user-icon">
           <img src="/src/assets/profile-icon.png" alt="Perfil" />
         </NavLink>

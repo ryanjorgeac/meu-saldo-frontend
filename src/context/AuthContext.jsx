@@ -1,17 +1,19 @@
 import { createContext, useState, useEffect } from 'react';
 import api from '../services/api';
 
-const getInitialAuthState = () => {
-  return { 
-    user: null,
-    loading: true
-  };
-};
 
-const AuthContext = createContext(null);
+const AuthContext = createContext({
+  user: null,
+  loading: true,
+  login: () => {},
+  logout: () => {}
+});
 
 export function AuthProvider({ children }) {
-  const [authState, setAuthState] = useState(getInitialAuthState);
+  const [authState, setAuthState] = useState({ 
+    user: null,
+    loading: true
+  });
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -21,12 +23,12 @@ export function AuthProvider({ children }) {
         setAuthState({ user: null, loading: false });
         return;
       }
-      
       try {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const response = await api.get('/api/user/profile');
+        const response = await api.get('/api/v1/users/profile');
+
         setAuthState({ 
-          user: response.data.user, 
+          user: response.data, 
           loading: false 
         });
       } catch (error) {
@@ -51,20 +53,12 @@ export function AuthProvider({ children }) {
     setAuthState({ user: null, loading: false });
   };
 
-  const testLoading = () => {
-    setAuthState({ ...authState, loading: true });
-    setTimeout(() => {
-      setAuthState({ ...authState, loading: false });
-    }, 3000);
-  };
-
   return (
     <AuthContext.Provider value={{ 
       user: authState.user, 
       loading: authState.loading, 
       login, 
       logout,
-      testLoading // Add this for testing
     }}>
       {children}
     </AuthContext.Provider>
