@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { authService } from "../../services/api";
+import authService from "../../services/authService";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -93,7 +93,7 @@ export default function Login() {
         password: password,
       };
       const response = await authService.login(credentials);
-      login(response.user, response.token);
+      login(response.user, response.refreshToken);
       navigate(from);
     } catch (err) {
       setFormError(err.message || "Erro ao fazer login.");
