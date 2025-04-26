@@ -1,4 +1,3 @@
-import "../Style/profile.css";
 function Profile() {
   return (
     <div>

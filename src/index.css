@@ -1,9 +1,9 @@
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
   /* line-height: 1.5; */
   font-weight: 400;
   color: #213547; /* Updated for better visibility on light background */
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -11,7 +11,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -43,11 +44,9 @@ a:hover {
 
 body {
   margin: 0;
-  padding: 0 3rem; /* Espaço lateral */
+  display: flex;
   min-width: 320px;
   min-height: 100vh;
-  
-  justify-content: center;
   background-color: #eeeeee; /* opcional, se quiser clarear o fundo */
 }
 
