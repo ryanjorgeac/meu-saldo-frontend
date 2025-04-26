@@ -1,7 +1,54 @@
 #user-img {
   width: 75px;
   height: 75px;
+  margin: 50px;
 }
-/* div {
-  border: 1px solid;
-} */
+#profile-div {
+  color: black;
+  width: 700px;
+  margin: auto;
+  height: 700px;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+  position: relative;
+  padding: 20px;
+  background-color: #eeeeee;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+#img-div{
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+#edit-icon{
+  display: inline-block;
+}
+.user-data{
+ background-color: #ffffff;
+ padding: 20px;
+ border-radius: 20px;
+ box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+h2{
+  text-align: center;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+#logout, #setSaldo, #setName{
+text-align: center;
+background-color: white;
+color: black;
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);;
+max-width: 200px;
+margin: 9px;
+}
+#button-div{
+  max-width: 200px;
+  margin: auto;
+}
+
