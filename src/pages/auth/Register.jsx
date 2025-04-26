@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  authService from "../../services/authService";
+import  authService from "../../services/api";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";

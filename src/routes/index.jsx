@@ -52,10 +52,5 @@ export const ROUTES = {
     element: <ForgotPassword />,
     hideHeader: true,
     isProtected: false,
-  },
-  // notFound: {
-  //   path: "/*",
-  //   element: <NotFound />,
-  //   hideHeader: true,
-  // }
+  }
 };

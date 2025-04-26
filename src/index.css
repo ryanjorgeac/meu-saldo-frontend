@@ -1,18 +1,15 @@
 :root {
-  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  /* line-height: 1.5; */
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
-  color: #213547; /* Updated for better visibility on light background */
-  background-color: #fafafa;
-
+  color: #213547;
+  background-color: #FAFAFA;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -47,7 +44,12 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #eeeeee; /* opcional, se quiser clarear o fundo */
+  background-color: #eeeeee;
+}
+
+main {
+  flex: 1;
+  width: 100%;
 }
 
 main {
