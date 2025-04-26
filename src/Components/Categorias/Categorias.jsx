@@ -8,29 +8,21 @@ const Categoria = () => {
       title: "Despesas",
       amount: "2.300,27",
       color: "#4CAF50",
-      growth: "20%",
-      positive: false,
     },
     {
       title: "Lazer",
       amount: "1.500,00",
       color: "#E53935",
-      growth: "15%",
-      positive: false,
     },
     {
       title: "Investimentos",
       amount: "3.200,89",
       color: "#1E88E5",
-      growth: "25%",
-      positive: true,
     },
     {
       title: "Compras",
       amount: "950,10",
       color: "#FF9800",
-      growth: "10%",
-      positive: false,
     },
   ];
 
