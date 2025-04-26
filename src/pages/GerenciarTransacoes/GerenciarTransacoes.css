@@ -1,0 +1,248 @@
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transactions-table thead {
+    background-color: #f8f8f8;
+}
+
+.transactions-table th, 
+.transactions-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.transactions-table th {
+    font-weight: bold;
+    color: #555;
+}
+
+.transaction-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.transaction-icon.expense {
+    background-color: rgba(229, 57, 53, 0.1);
+    color: #E53935;
+}
+
+.transaction-icon.income {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+.transactions td {
+    vertical-align: middle;
+}
+
+.transactions-table td:first-child {
+    display: flex;
+    align-items: center;
+}
+
+.negative {
+    color: #E53935;
+}
+
+.positive {
+    color: #4CAF50;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* #-- CRUD Sections Styles */
+.crud-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.form-section, 
+.list-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.crud-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.form-actions {
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.primary-btn {
+    background-color: #0066cc;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #0055aa;
+}
+
+.edit-btn {
+    background-color: #f8f8f8;
+    color: #555;
+}
+
+.edit-btn:hover {
+    background-color: #eaeaea;
+}
+
+.delete-btn {
+    background-color: rgba(229, 57, 53, 0.1);
+    color: #E53935;
+}
+
+.delete-btn:hover {
+    background-color: rgba(229, 57, 53, 0.2);
+}
+
+.categories-list, 
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.category-item, 
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+}
+
+.category-color-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.category-details, 
+.transaction-details {
+    flex: 1;
+}
+
+.category-name, 
+.transaction-description {
+    font-weight: bold;
+}
+
+.category-budget {
+    font-size: 0.875rem;
+    color: #777;
+}
+
+.transaction-category {
+    font-size: 0.875rem;
+    color: #777;
+}
+
+.category-actions, 
+.transaction-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.transaction-amount {
+    font-weight: bold;
+    margin: 0 1rem;
+}
+
+.transaction-date {
+    color: #777;
+    font-size: 0.875rem;
+    margin-right: 1rem;
+}
+
+/* #-- Responsive Design Adjustments */
+@media (max-width: 768px) {
+    .crud-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .categories {
+        grid-template-columns: 1fr;
+    }
+    
+    .transactions-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .category-item, 
+    .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .category-actions, 
+    .transaction-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* Hover and Interactive States */
+.category-item:hover,
+.transaction-item:hover {
+    background-color: #f0f0f0;
+}
+
+.transactions-table tr:hover {
+    background-color: #f5f5f7;
+}

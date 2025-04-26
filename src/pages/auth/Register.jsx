@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import  authService from "../../services/authService";
 import  authService from "../../services/api";
 
 import AuthLayout from "../../components/auth/AuthLayout";
@@ -116,8 +117,7 @@ export default function Register() {
         firstName: name,
         lastName: surname,
       };
-      await authService.register(userData);
-
+      await authService.register(userData)
       navigate("/login", {
         state: {
           message: "Cadastro realizado com sucesso! Faça login para continuar.",

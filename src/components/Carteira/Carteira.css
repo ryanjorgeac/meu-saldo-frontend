@@ -1,0 +1,79 @@
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.wallet-card {
+  background: linear-gradient(135deg, #ffffff, #f5f5f7);
+  padding: 2rem; /* Mantém o espaçamento interno */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.wallet-info {
+  text-align: left;
+}
+
+.wallet-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.wallet-balance {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.balance-label {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 0.25rem;
+}
+
+.balance-amount {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* #-- Responsive Design Adjustments */
+@media (max-width: 768px) {
+  .crud-section {
+    grid-template-columns: 1fr;
+  }
+
+  .categories {
+    grid-template-columns: 1fr;
+  }
+
+  .transactions-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .category-item,
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .category-actions,
+  .transaction-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Hover and Interactive States */
+.category-item:hover,
+.transaction-item:hover {
+  background-color: #f0f0f0;
+}
+
+.transactions-table tr:hover {
+  background-color: #f5f5f7;
+}

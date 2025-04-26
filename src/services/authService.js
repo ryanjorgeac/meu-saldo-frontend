@@ -1,6 +1,6 @@
 import api from './api';
 
-const authService = {
+export const authService = {
     register: async (userData) => {
       try {
         const response = await api.post('/api/v1/auth/register', userData);
@@ -73,4 +73,4 @@ const authService = {
     }
   };
 
-  export default authService;
+export default authService;

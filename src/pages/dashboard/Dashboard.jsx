@@ -1,8 +1,16 @@
+import React from "react";
+import styles from "./dashboard.module.css";
+import Carteira from "../../components/Carteira/Carteira";
+import Categoria from "../../components/Categorias/Categorias";
+import Transacoes from "../../components/Transacoes/Transacoes";
+
 function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Bem-vindo ao seu painel de controle.</p>
+    <div className={styles.dashboard}>
+      <h1 className={styles.greeting}>Olá, usuário!</h1>
+      <Carteira />
+      <Categoria />
+      <Transacoes />
     </div>
   );
 }

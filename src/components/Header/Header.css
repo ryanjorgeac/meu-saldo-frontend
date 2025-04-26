@@ -1,5 +1,5 @@
 .header {
-  position: fixed;
+  position: fixed; /* Fixa o header no topo da página */
   top: 0;
   left: 0;
   width: 100%;
@@ -34,30 +34,6 @@
 .nav-buttons {
   display: flex;
   gap: 1rem;
-
-.logo-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.logo {
-  height: 32px;
-}
-
-.title {
-  font-size: 20px;
-  margin: 0;
-  color: #000;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  padding: 0 20px;
-  flex-grow: 1;
-  justify-content: center;
 }
 
 .nav-link {
@@ -65,15 +41,14 @@
   box-sizing: border-box;
   border-radius: 20px;
   text-decoration: none;
-  color: #333;
-  background: #f8f8f8;
-  transition: background 0.3s, color 0.3s;
-  font-size: 14px;
+  font-size: 1rem;
+  color: #555;
+  transition: color 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.123);
 }
 
 .nav-link.active {
-  background: #87f17e;
+  background: #a6f79f;
   color: #000;
   font-weight: bold;
 }

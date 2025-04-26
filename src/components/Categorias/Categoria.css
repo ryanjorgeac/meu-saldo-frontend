@@ -1,0 +1,61 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.view-all {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* #-- Responsive Design Adjustments */
+@media (max-width: 768px) {
+  .crud-section {
+    grid-template-columns: 1fr;
+  }
+
+  .categories {
+    grid-template-columns: 1fr;
+  }
+
+  .transactions-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .category-item,
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .category-actions,
+  .transaction-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Hover and Interactive States */
+.category-item:hover,
+.transaction-item:hover {
+  background-color: #f0f0f0;
+}
+
+.transactions-table tr:hover {
+  background-color: #f5f5f7;
+}

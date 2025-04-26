@@ -1,12 +1,13 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from '../common/Header';
-import { useAuth } from '../../hooks/useAuth';
-import LoadingSpinner from '../common/LoadingSpinner';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "../common/Header";
+import { useAuth } from "../../hooks/useAuth";
+import LoadingSpinner from "../common/LoadingSpinner";
+import "./AppLayout.css";
 
 const AppLayout = ({ hideHeader = false }) => {
   const { loading } = useAuth();
-  
+
   try {
     if (loading) {
       return <LoadingSpinner overlay={true} />;

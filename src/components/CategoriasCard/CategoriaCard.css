@@ -1,0 +1,83 @@
+.category-card {
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+}
+
+.category-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.category-currency {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.category-amount {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.category-stats {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+}
+
+.growth.positive {
+  color: #00e676;
+}
+
+.growth.negative {
+  color: #ff1744;
+}
+
+/* #-- Responsive Design Adjustments */
+@media (max-width: 768px) {
+  .crud-section {
+    grid-template-columns: 1fr;
+  }
+
+  .categories {
+    grid-template-columns: 1fr;
+  }
+
+  .transactions-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .category-item,
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .category-actions,
+  .transaction-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Hover and Interactive States */
+.category-item:hover,
+.transaction-item:hover {
+  background-color: #f0f0f0;
+}
+
+.transactions-table tr:hover {
+  background-color: #f5f5f7;
+}
