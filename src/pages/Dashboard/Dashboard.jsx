@@ -7,6 +7,7 @@ import Transacoes from "../../Components/Transacoes/Transacoes";
 function Dashboard() {
   return (
     <div className={styles.dashboard}>
+      <h1 className={styles.greeting}>Olá, usuário!</h1>
       <Carteira />
       <Categoria />
       <Transacoes />
