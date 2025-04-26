@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./GerenciarTransacoes.css";
 
-import TransactionForm from "../../Components/TransactionForm/TransactionForm.jsx";
-import TransactionTable from "../../Components/TransactionTable/TransactionTable.jsx";
+import TransactionForm from "../../components/TransactionForm/TransactionForm.jsx";
+import TransactionTable from "../../components/TransactionTable/TransactionTable.jsx";
 
 function GerenciarTransacoes() {
   const [transactions, setTransactions] = useState([]);

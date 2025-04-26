@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./GerenciarCategorias.css";
-import FormSection from "../../Components/FormSection/FormSection";
-import CategoryList from "../../Components/CategoryList/CategoryList";
+import FormSection from "../../components/FormSection/FormSection";
+import CategoryList from "../../components/CategoryList/CategoryList";
 
 export default function CategoriasPage() {
   const [categories, setCategories] = useState([]);
