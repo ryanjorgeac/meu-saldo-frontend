@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./GerenciarCategorias.css";
-import FormSection from "../../Components/FormSection/FormSection";
-import CategoryList from "../../Components/CategoryList/CategoryList";
+import FormSection from "../../components/FormSection/FormSection";
+import CategoryList from "../../components/CategoryList/CategoryList";
 import { categoryService } from "../../services/categoryService";
 
 export default function GerenciarCategorias() {
