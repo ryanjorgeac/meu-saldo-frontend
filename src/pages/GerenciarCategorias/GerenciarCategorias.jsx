@@ -11,6 +11,8 @@ export default function GerenciarCategorias() {
     try {
       const response = await categoryService.getCategories();
       setCategories(response);
+      const response = await categoryService.getCategories();
+      setCategories(response);
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
     }
@@ -21,8 +23,22 @@ export default function GerenciarCategorias() {
     try {
       const newCategoryData = await categoryService.createCategory(newCategory);
       setCategories((prevCategories) => [...prevCategories, newCategoryData]);
+      const newCategoryData = await categoryService.createCategory(newCategory);
+      setCategories((prevCategories) => [...prevCategories, newCategoryData]);
     } catch (error) {
       console.error("Erro ao adicionar categoria:", error);
+    }
+  };
+
+  // Função para deletar uma categoria
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      await categoryService.deleteCategory(categoryId); // Chama o backend para deletar
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== categoryId)
+      ); // Remove a categoria do estado local
+    } catch (error) {
+      console.error("Erro ao deletar categoria:", error);
     }
   };
 
@@ -52,6 +68,7 @@ export default function GerenciarCategorias() {
 
       <section className="crud-section">
         <FormSection onAddCategory={handleAddCategory} />
+        <CategoryList categories={categories} onDelete={handleDeleteCategory} />
         <CategoryList categories={categories} onDelete={handleDeleteCategory} />
       </section>
     </main>

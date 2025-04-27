@@ -7,7 +7,11 @@ function FormSection({ onAddCategory }) {
     description: "teste",
     icon: "teste",
     budgetAmount: "",
+    description: "teste",
+    icon: "teste",
+    budgetAmount: "",
     color: "#4CAF50",
+    isActive: true,
     isActive: true,
   });
 
@@ -30,6 +34,15 @@ function FormSection({ onAddCategory }) {
       color: "#4CAF50",
       isActive: true,
     }); 
+    onAddCategory(formData); // Envia os dados para o componente pai
+    setFormData({
+      name: "",
+      description: "",
+      icon: "",
+      budgetAmount: "",
+      color: "#4CAF50",
+      isActive: true,
+    }); // Limpa o formulário
   };
 
   return (
