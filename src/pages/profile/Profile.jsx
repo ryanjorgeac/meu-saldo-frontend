@@ -3,6 +3,7 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "./profile.css";
 
+
 function Profile() {
   const { user, logout } = useContext(AuthContext);
   const [name, setName] = useState(user ?  `${user.firstName} ${user.lastName}` : "usuário");
@@ -34,12 +35,10 @@ function Profile() {
       <h2>{name}</h2>  
       
       <div>
-      <p className="data-label">Username</p>
+      <p className="data-label">Nome de usuário</p>
       <p className="user-data">{format(name)} </p>
-      <p className="data-label">User email</p>
+      <p className="data-label">Email de usuário</p>
       <p className="user-data">{email}</p>
-      <p className="data-label">User Id</p>
-      <p className="user-data">{id}</p>
             
       <div id="button-div">
 

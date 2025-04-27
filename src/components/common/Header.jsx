@@ -26,7 +26,7 @@ function Header() {
           </NavLink>
         </nav>
         <div className="profile-container">
-         <DropDown></DropDown>
+         <DropDown/>
            
          
         </div>
