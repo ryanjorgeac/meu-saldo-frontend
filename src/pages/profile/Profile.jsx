@@ -5,7 +5,7 @@ import "./profile.css";
 
 function Profile() {
   const { user, logout } = useContext(AuthContext);
-  const [name, setName] = useState(user ? user.name : "usuário");
+  const [name, setName] = useState(user ? user.firstName : "usuário");
   return (
     <>
       <div id="profile-div">
