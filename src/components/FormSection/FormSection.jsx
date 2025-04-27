@@ -18,7 +18,7 @@ function FormSection({ onAddCategory }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddCategory(formData);
+    onAddCategory(formData); // Envia os dados para o componente pai
     setFormData({ name: "", budget: "", color: "#4CAF50" }); // Limpa o formulário
   };
 
@@ -44,7 +44,7 @@ function FormSection({ onAddCategory }) {
             id="budget"
             value={formData.budget}
             onChange={handleChange}
-            placeholder="Ex: 500,00"
+            placeholder="Ex: 100,00"
           />
         </div>
 
