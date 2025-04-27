@@ -7,11 +7,7 @@ function FormSection({ onAddCategory }) {
     description: "teste",
     icon: "teste",
     budgetAmount: "",
-    description: "teste",
-    icon: "teste",
-    budgetAmount: "",
     color: "#4CAF50",
-    isActive: true,
     isActive: true,
   });
 
