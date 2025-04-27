@@ -34,11 +34,7 @@ h2{
   text-align: center;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-}
+
 #logout, #setSaldo, #setName{
 text-align: center;
 background-color: white;
