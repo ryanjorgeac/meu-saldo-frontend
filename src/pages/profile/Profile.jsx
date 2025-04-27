@@ -6,6 +6,20 @@ import "./profile.css";
 function Profile() {
   const { user, logout } = useContext(AuthContext);
   const [name, setName] = useState(user ?  `${user.firstName} ${user.lastName}` : "usuário");
+  const [email, setEmail] = useState(user ? user.email : "Null");
+  const [id, setId] = useState(user ? user.id : "Null")
+
+  function format(name){
+    if (typeof name === "string") {
+      // Deixa a primeira letra de cada palavra maiúscula
+      return name.split(' ').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      ).join(' ');
+      setName(name);
+    }
+    return name;
+  }
+
   return (
     <>
       <div id="profile-div">
@@ -20,7 +34,12 @@ function Profile() {
       <h2>{name}</h2>  
       
       <div>
-      <p className="user-data">{name} </p>
+      <p className="data-label">Username</p>
+      <p className="user-data">{format(name)} </p>
+      <p className="data-label">User email</p>
+      <p className="user-data">{email}</p>
+      <p className="data-label">User Id</p>
+      <p className="user-data">{id}</p>
             
       <div id="button-div">
 
