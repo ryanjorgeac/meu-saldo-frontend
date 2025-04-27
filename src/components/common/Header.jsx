@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./Header.css";
+import DropDown from "../../pages/DropDown/DropDown";
 
 function Header() {
   return (
@@ -25,9 +26,9 @@ function Header() {
           </NavLink>
         </nav>
         <div className="profile-container">
-          <NavLink to="/profile" className="user-icon">
-            <img src="/src/assets/profile-icon.png" alt="Perfil" />
-          </NavLink>
+         <DropDown/>
+           
+         
         </div>
 
       </div>
