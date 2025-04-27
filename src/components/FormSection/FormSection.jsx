@@ -4,8 +4,11 @@ import "./FormSection.css";
 function FormSection({ onAddCategory }) {
   const [formData, setFormData] = useState({
     name: "",
-    budget: "",
+    description: "teste",
+    icon: "teste",
+    budgetAmount: "",
     color: "#4CAF50",
+    isActive: true,
   });
 
   const handleChange = (e) => {
@@ -19,7 +22,14 @@ function FormSection({ onAddCategory }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddCategory(formData); // Envia os dados para o componente pai
-    setFormData({ name: "", budget: "", color: "#4CAF50" }); // Limpa o formulário
+    setFormData({
+      name: "",
+      description: "",
+      icon: "",
+      budgetAmount: "",
+      color: "#4CAF50",
+      isActive: true,
+    }); // Limpa o formulário
   };
 
   return (
@@ -41,8 +51,8 @@ function FormSection({ onAddCategory }) {
           <label htmlFor="budget">Orçamento</label>
           <input
             type="text"
-            id="budget"
-            value={formData.budget}
+            id="budgetAmount"
+            value={formData.budgetAmount}
             onChange={handleChange}
             placeholder="Ex: 100,00"
           />

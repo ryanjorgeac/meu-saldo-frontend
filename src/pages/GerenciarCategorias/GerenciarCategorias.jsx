@@ -10,8 +10,8 @@ export default function GerenciarCategorias() {
   // Função para buscar categorias do backend
   const fetchCategories = async () => {
     try {
-      const response = await categoryService.getCategories(); // Corrigido para chamar o serviço
-      setCategories(response); // Atualiza o estado com as categorias do backend
+      const response = await categoryService.getCategories();
+      setCategories(response);
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
     }
@@ -20,10 +20,22 @@ export default function GerenciarCategorias() {
   // Função para adicionar uma nova categoria
   const handleAddCategory = async (newCategory) => {
     try {
-      const newCategoryData = await categoryService.createCategory(newCategory); // Corrigido para chamar o serviço
-      setCategories((prevCategories) => [...prevCategories, newCategoryData]); // Atualiza o estado local com a nova categoria
+      const newCategoryData = await categoryService.createCategory(newCategory);
+      setCategories((prevCategories) => [...prevCategories, newCategoryData]);
     } catch (error) {
       console.error("Erro ao adicionar categoria:", error);
+    }
+  };
+
+  // Função para deletar uma categoria
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      await categoryService.deleteCategory(categoryId); // Chama o backend para deletar
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== categoryId)
+      ); // Remove a categoria do estado local
+    } catch (error) {
+      console.error("Erro ao deletar categoria:", error);
     }
   };
 
@@ -39,11 +51,8 @@ export default function GerenciarCategorias() {
       </div>
 
       <section className="crud-section">
-        {/* Formulário para criar categorias */}
         <FormSection onAddCategory={handleAddCategory} />
-
-        {/* Lista de categorias */}
-        <CategoryList categories={categories} />
+        <CategoryList categories={categories} onDelete={handleDeleteCategory} />
       </section>
     </main>
   );
