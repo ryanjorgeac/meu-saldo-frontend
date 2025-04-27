@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./dashboard.module.css";
 import Carteira from "../../components/Carteira/Carteira";
-import Categoria from "../../components/Categorias/Categorias";
+import Categoria from "../../Components/category/Category";
 import Transacoes from "../../components/Transacoes/Transacoes";
 
 function Dashboard() {
