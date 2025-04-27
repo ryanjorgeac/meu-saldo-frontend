@@ -65,4 +65,12 @@ export const categoryService = {
       }
     }
   },
+  deleteCategory: async (categoryId) => {
+    const response = await fetch(`${API_URL}/${categoryId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Erro ao deletar categoria");
+    }
+  },
 };

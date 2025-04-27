@@ -1,7 +1,7 @@
 import React from "react";
 import "./CategoryList.css";
 
-function CategoryList({ categories }) {
+function CategoryList({ categories, onDelete }) {
   return (
     <div className="list-section">
       <h3>Categorias Existentes</h3>
@@ -15,6 +15,14 @@ function CategoryList({ categories }) {
             <div className="category-details">
               <div className="category-name">{category.name}</div>
               <div className="category-budget">{category.budgetAmount}</div>
+            </div>
+            <div className="category-actions">
+              <button
+                className="btn delete-btn"
+                onClick={() => onDelete(category.id)}
+              >
+                Excluir
+              </button>
             </div>
           </div>
         ))}
