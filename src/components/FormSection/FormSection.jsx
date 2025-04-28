@@ -30,6 +30,15 @@ function FormSection({ onAddCategory }) {
       color: "#4CAF50",
       isActive: true,
     }); 
+    onAddCategory(formData); // Envia os dados para o componente pai
+    setFormData({
+      name: "",
+      description: "",
+      icon: "",
+      budgetAmount: "",
+      color: "#4CAF50",
+      isActive: true,
+    }); 
   };
 
   return (

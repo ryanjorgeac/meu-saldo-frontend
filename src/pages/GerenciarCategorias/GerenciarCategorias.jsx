@@ -7,7 +7,6 @@ import { categoryService } from "../../services/categoryService";
 export default function GerenciarCategorias() {
   const [categories, setCategories] = useState([]);
 
-
   async function fetchCategories(){
     try {
       const response = await categoryService.getCategories();
@@ -26,7 +25,6 @@ export default function GerenciarCategorias() {
       console.error("Erro ao adicionar categoria:", error);
     }
   };
-
  
   const handleDeleteCategory = async (categoryId) => {
     try {
