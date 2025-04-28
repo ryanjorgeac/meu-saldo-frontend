@@ -8,7 +8,7 @@ export default function GerenciarCategorias() {
   const [categories, setCategories] = useState([]);
 
   // Função para buscar categorias do backend
-  const fetchCategories = async () => {
+  async function fetchCategories(){
     try {
       const response = await categoryService.getCategories();
       setCategories(response);
