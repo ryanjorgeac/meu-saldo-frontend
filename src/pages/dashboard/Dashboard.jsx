@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./dashboard.module.css";
 import Carteira from "../../components/Carteira/Carteira";
 import Categoria from "../../components/category/Category";
 import Transacoes from "../../components/Transacoes/Transacoes";
+import { categoryService } from "../../services/categoryService";
 
 function Dashboard() {
+  const [categories, setCategories] = useState([]);
+
+  async function fetchCategories() {
+    try {
+      const response = await categoryService.getCategories();
+      console.log("Categorias recebidas:", response); 
+      setCategories(response);
+    } catch (error) {
+      console.error("Erro ao buscar categorias:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log("Categorias no estado atualizado:", categories);
+  }, [categories]);
+
   return (
     <div className={styles.dashboard}>
       <h1 className={styles.greeting}>Olá, usuário!</h1>
       <Carteira />
-      <Categoria />
+      <Categoria categorias={categories} />
       <Transacoes />
     </div>
   );

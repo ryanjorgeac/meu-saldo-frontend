@@ -1,13 +1,26 @@
 .category-card {
-  border-radius: 10px;
+  background: white; /* ADICIONA a borda */
+  border-radius: 18px;
   padding: 1.5rem;
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
+  margin-bottom: 0.4rem;
+  width: 10rem;
+  cursor: pointer;
 }
 
+.category-budget {
+  font-size: 0.875rem;
+  color: #000000 !important;
+}
+
+.category-cards {
+  display: flex;
+  gap: 1rem;
+}
 .category-card:hover {
   transform: translateY(-5px);
 }

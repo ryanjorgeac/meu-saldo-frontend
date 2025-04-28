@@ -13,6 +13,9 @@
 
 .wallet-info {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .wallet-info h2 {

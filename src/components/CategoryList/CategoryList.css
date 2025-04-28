@@ -29,7 +29,7 @@
 }
 
 .category-budget {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #777;
 }
 
@@ -37,19 +37,14 @@
   display: flex;
   gap: 0.5rem;
 }
-
-.edit-btn {
-  background-color: #f8f8f8;
-  color: #555;
-}
-
-.edit-btn:hover {
-  background-color: #eaeaea;
-}
-
 .delete-btn {
   background-color: rgba(229, 57, 53, 0.1);
   color: #e53935;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .delete-btn:hover {

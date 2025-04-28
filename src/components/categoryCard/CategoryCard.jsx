@@ -1,11 +1,14 @@
 import React from "react";
 import "./CategoryCard.css";
 
-function CategoryCard( categoryData ) {
+function CategoryCard({ color, name, budgetAmount }) {
+  console.log("Cor recebida:", color);
   return (
-    <div className="category-card" style={{ borderColor: categoryData.color }}>
-      <h4>{categoryData.name}</h4>
-      <p> {categoryData.budgetAmount}</p>
+    <div className="category-card" style={{ background: color }}>
+      <div className="category-name">{name}</div>
+      <div className="category-budget">
+        Orçamento: {budgetAmount}
+      </div>
     </div>
   );
 }

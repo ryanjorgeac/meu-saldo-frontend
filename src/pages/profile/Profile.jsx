@@ -12,7 +12,7 @@ function Profile() {
 
   function format(name){
     if (typeof name === "string") {
-      // Deixa a primeira letra de cada palavra maiúscula
+      
       return name.split(' ').map(word => 
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
       ).join(' ');

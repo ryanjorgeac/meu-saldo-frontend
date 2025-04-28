@@ -13,7 +13,6 @@ export default function ForgotPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate a password reset request
     if (email === "") {
       setError("Email is required");
       return;

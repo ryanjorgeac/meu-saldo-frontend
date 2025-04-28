@@ -6,7 +6,7 @@ const Transacoes = () => {
     <main>
       <div className="page-header">
         <h2>Transações Recentes</h2>
-        <a href="gerenciar-transacoes.html" className="view-all">
+        <a href="transactions" className="view-all">
           Ver todas &rsaquo;
         </a>
       </div>
