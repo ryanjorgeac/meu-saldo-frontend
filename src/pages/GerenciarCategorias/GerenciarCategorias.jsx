@@ -7,7 +7,6 @@ import { categoryService } from "../../services/categoryService";
 export default function GerenciarCategorias() {
   const [categories, setCategories] = useState([]);
 
-
   async function fetchCategories(){
     try {
       const response = await categoryService.getCategories();
