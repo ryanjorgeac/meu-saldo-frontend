@@ -30,10 +30,10 @@ export default function GerenciarCategorias() {
     }
   };
 
-  // Função para deletar uma categoria
+ 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      await categoryService.deleteCategory(categoryId); // Chama o backend para deletar
+      await categoryService.deleteCategory(categoryId); 
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.id !== categoryId)
       ); // Remove a categoria do estado local

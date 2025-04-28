@@ -42,7 +42,7 @@ function FormSection({ onAddCategory }) {
       budgetAmount: "",
       color: "#4CAF50",
       isActive: true,
-    }); // Limpa o formulário
+    }); 
   };
 
   return (
