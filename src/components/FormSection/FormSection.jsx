@@ -21,7 +21,7 @@ function FormSection({ onAddCategory }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddCategory(formData); // Envia os dados para o componente pai
+    onAddCategory(formData);
     setFormData({
       name: "",
       description: "",
@@ -29,7 +29,7 @@ function FormSection({ onAddCategory }) {
       budgetAmount: "",
       color: "#4CAF50",
       isActive: true,
-    }); // Limpa o formulário
+    }); 
   };
 
   return (

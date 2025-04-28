@@ -1,11 +1,10 @@
-/* Reset and Base Styles */  
+
   body {
     background-color: #f5f5f7;
     color: #333;
     line-height: 1.6;
   }
   
-  /* CRUD Section */
   .crud-section {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -20,7 +19,7 @@
     padding: 1.5rem;
   }
   
-  /* Form Styles */
+
   .crud-form {
     display: flex;
     flex-direction: column;

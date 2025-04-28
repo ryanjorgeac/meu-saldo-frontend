@@ -7,7 +7,7 @@ import { categoryService } from "../../services/categoryService";
 export default function GerenciarCategorias() {
   const [categories, setCategories] = useState([]);
 
-  // Função para buscar categorias do backend
+
   async function fetchCategories(){
     try {
       const response = await categoryService.getCategories();
@@ -17,7 +17,7 @@ export default function GerenciarCategorias() {
     }
   };
 
-  // Função para adicionar uma nova categoria
+
   const handleAddCategory = async (newCategory) => {
     try {
       const newCategoryData = await categoryService.createCategory(newCategory);
@@ -27,20 +27,20 @@ export default function GerenciarCategorias() {
     }
   };
 
-  // Função para deletar uma categoria
+ 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      await categoryService.deleteCategory(categoryId); // Chama o backend para deletar
+      await categoryService.deleteCategory(categoryId); 
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.id !== categoryId)
-      ); // Remove a categoria do estado local
-      fetchCategories(); // Atualiza a lista de categorias
+      ); 
+      fetchCategories();
     } catch (error) {
       console.error("Erro ao deletar categoria:", error);
     }
   };
 
-  // Busca as categorias ao carregar o componente
+  
   useEffect(() => {
     fetchCategories();
   }, []);

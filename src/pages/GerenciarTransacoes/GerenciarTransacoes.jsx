@@ -17,7 +17,7 @@ function GerenciarTransacoes() {
   const handleEditTransaction = (index) => {
     const transactionToEdit = transactions[index];
     console.log("Editar transação:", transactionToEdit);
-    // Aqui você pode implementar a lógica de edição
+   
   };
 
   const handleDeleteTransaction = (index) => {
