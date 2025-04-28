@@ -34,6 +34,7 @@ export default function GerenciarCategorias() {
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.id !== categoryId)
       ); // Remove a categoria do estado local
+      fetchCategories(); // Atualiza a lista de categorias
     } catch (error) {
       console.error("Erro ao deletar categoria:", error);
     }
