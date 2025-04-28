@@ -1,11 +1,9 @@
 import api from "./api";
-import api from "./api";
 
 export const categoryService = {
   getCategories: async () => {
     try {
       const response = await api.get("/api/v1/categories");
-      console.log("Response:", response.data); // Log the response data
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -34,7 +32,6 @@ export const categoryService = {
   },
   createCategory: async (categoryData) => {
     try {
-      console.log("Category Data:", categoryData); // Log the category data being sent
       const response = await api.post("/api/v1/categories", categoryData);
       return response.data;
     } catch (error) {

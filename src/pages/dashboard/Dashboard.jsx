@@ -11,7 +11,6 @@ function Dashboard() {
   async function fetchCategories() {
     try {
       const response = await categoryService.getCategories();
-      console.log("Categorias recebidas:", response); 
       setCategories(response);
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
@@ -23,7 +22,6 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    console.log("Categorias no estado atualizado:", categories);
   }, [categories]);
 
   return (
