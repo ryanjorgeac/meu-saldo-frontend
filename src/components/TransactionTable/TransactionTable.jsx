@@ -20,7 +20,7 @@ function TransactionTable({ transactions, onEdit, onDelete }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                {transaction.type === "income" ? (
+                {transaction.type === "INCOME" ? (
                   <polyline points="18 15 12 9 6 15"></polyline>
                 ) : (
                   <polyline points="6 9 12 15 18 9"></polyline>
@@ -35,7 +35,7 @@ function TransactionTable({ transactions, onEdit, onDelete }) {
             </div>
             <div
               className={`transaction-amount ${
-                transaction.type === "income" ? "positive" : "negative"
+                transaction.type === "INCOME" ? "positive" : "negative"
               }`}
             >
               {transaction.amount}

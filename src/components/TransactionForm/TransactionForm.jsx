@@ -59,8 +59,8 @@ function TransactionForm({ onAddTransaction }) {
         <div className="form-group">
           <label htmlFor="type">Tipo</label>
           <select id="type" value={formData.type} onChange={handleChange}>
-            <option value="expense">Despesa</option>
-            <option value="income">Receita</option>
+            <option value="EXPENSE">Despesa</option>
+            <option value="INCOME">Receita</option>
           </select>
         </div>
 

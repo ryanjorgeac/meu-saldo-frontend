@@ -1,0 +1,24 @@
+.search-box {
+    position: relative;
+    width: 250px;
+    display: flex;
+    box-sizing: border-box;
+  }
+  
+  .search-box input {
+    padding: 8px 8px 8px 30px;
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    border-color: #6dd265;
+  }
+      
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #535862;
+    width: 14px;
+  }
