@@ -85,7 +85,7 @@
   background: #eaeaea;
   color: #252B37;
 }
-
+/* 
 .profile-container {
   display: flex;
   align-items: center;
@@ -97,7 +97,7 @@
 .profile-container > div {
   margin: 0;
   padding: 0;
-}
+} */
 
 /* .user-icon img {
   height: 2rem;
@@ -122,9 +122,9 @@
     margin-right: auto;
   }
   
-  .profile-container {
+  /* .profile-container {
     position: absolute;
     top: 12px;
     right: 24px;
-  }
+  } */
 }
