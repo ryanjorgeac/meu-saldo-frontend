@@ -35,7 +35,7 @@ function DropDown(){
   };
 
     return (
-      <div className="dropdown">
+      <div className="dropdown" ref={dropdownRef}>
         <div className="profile-icon-container" onClick={toggleDropdown}>
           <img src="/src/assets/profile-icon.png" alt="user-icon" className="user-icon"/>
         </div>
