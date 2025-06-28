@@ -41,6 +41,17 @@
   width: auto;
 }
 
+.active-indicator {
+  position: absolute;
+  height: calc(100% - 10px);
+  background-color: #87f17e;
+  border-radius: 20px;
+  top: 5px;
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+}
+
 .nav-container {
   flex-grow: 1;
   display: flex;
@@ -59,6 +70,8 @@
   gap: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .nav-link {
@@ -66,45 +79,59 @@
   border-radius: 20px;
   text-decoration: none;
   color: #414651;
-  transition: background 0.2s ease;
   font-size: 14px;
   font-weight: 500;
   text-align: center;
   flex: 1;
   background: transparent;
   box-shadow: none;
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease, font-weight 0.3s ease;
 }
 
 .nav-link.active {
-  background: #87f17e;
+  background: transparent;
   color: #252B37;
   font-weight: 600;
+}
+
+.nav-buttons::before {
+  content: '';
+  position: absolute;
+  height: calc(100% - 10px);
+  top: 5px;
+  left: 5px; /* Starting position */
+  background-color: #87f17e;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+
+.nav-link:nth-child(1).active ~ .nav-buttons::before {
+  left: 5px;
+  width: calc(25% - 5px);
+}
+
+.nav-link:nth-child(2).active ~ .nav-buttons::before {
+  left: 25%;
+  width: calc(25% - 5px);
+}
+
+.nav-link:nth-child(3).active ~ .nav-buttons::before {
+  left: 50%;
+  width: calc(25% - 5px);
+}
+
+.nav-link:nth-child(4).active ~ .nav-buttons::before {
+  left: 75%;
+  width: calc(25% - 5px);
 }
 
 .nav-link:hover:not(.active) {
   background: #eaeaea;
   color: #252B37;
 }
-/* 
-.profile-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 40px;
-  margin-left: 16px;
-}
-
-.profile-container > div {
-  margin: 0;
-  padding: 0;
-} */
-
-/* .user-icon img {
-  height: 2rem;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto;
-} */
 
 @media (max-width: 768px) {
   .header-content {
@@ -121,10 +148,4 @@
   .logo-title {
     margin-right: auto;
   }
-  
-  /* .profile-container {
-    position: absolute;
-    top: 12px;
-    right: 24px;
-  } */
 }
