@@ -1,8 +1,8 @@
-export default function AuthLink({ text, linkText, href, className = "login-link" }) {
+export default function AuthLink({ text, linkText, href }) {
   return (
-    <div className={text ? "register-prompt" : "forgot-password"}>
+    <div className={text ? "auth-link-section" : "auth-forgot-password"}>
       {text && <>{text} </>}
-      <a className={className} href={href}>{linkText}</a>
+      <a href={href}>{linkText}</a>
     </div>
   );
 }

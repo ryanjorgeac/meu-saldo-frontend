@@ -9,7 +9,7 @@ export default function TextInput({
   error = null
 }) {
   return (
-    <div className='form-group'>
+    <div className='auth-form-group'>
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
@@ -18,9 +18,9 @@ export default function TextInput({
         value={value}
         onChange={onChange}
         required={required}
-        className={error ? 'input-error' : ''}
+        className={error ? 'auth-input-error' : ''}
       />
-      {error && <p className="field-error">{error}</p>}
+      {error && <p className="auth-field-error">{error}</p>}
     </div>
   );
 }

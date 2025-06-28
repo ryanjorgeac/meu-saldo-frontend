@@ -136,8 +136,7 @@ export default function Register() {
         description="Por favor, informe seus dados para continuar"
         error={formError}
       >
-        {isLoading && <LoadingSpinner size="small" />}
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <TextInput
             type="text"
             id="name"
@@ -185,6 +184,7 @@ export default function Register() {
           <ActionButton
             text={isLoading ? "Cadastrando..." : "Finalizar cadastro"}
             disabled={isLoading}
+            isLoading={isLoading}
           />
         </form>
 

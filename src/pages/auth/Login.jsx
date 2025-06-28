@@ -110,8 +110,7 @@ export default function Login() {
         error={formError}
         success={success}
       >
-        {isLoading && <LoadingSpinner size="small" />}
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <TextInput
             type="email"
             id="email"
@@ -133,6 +132,7 @@ export default function Login() {
           <ActionButton
             text={isLoading ? "Entrando..." : "Entrar"}
             disabled={isLoading}
+            isLoading={isLoading}
           />
         </form>
 

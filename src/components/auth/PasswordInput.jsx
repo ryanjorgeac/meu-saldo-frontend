@@ -17,9 +17,9 @@ export default function PasswordInput({
   };
 
   return (
-    <div className='form-group'>
+    <div className='auth-form-group'>
       <label htmlFor={id}>{label}</label>
-      <div className='password-input-container'>
+      <div className='auth-password-container'>
         <input
           type={showPassword ? "text" : "password"}
           id={id}
@@ -27,17 +27,17 @@ export default function PasswordInput({
           value={value}
           onChange={onChange}
           required={required}
-          className={error ? 'input-error' : ''}
+          className={error ? 'auth-input-error' : ''}
         />
         <button
           type="button"
-          className='password-toggle'
+          className='auth-password-toggle'
           onClick={togglePasswordVisibility}
           aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}>
           {showPassword ? <FiEyeOff /> : <FiEye />}
         </button>
       </div>
-      {error && <p className="field-error">{error}</p>}
+      {error && <p className="auth-field-error">{error}</p>}
     </div>
   );
 }

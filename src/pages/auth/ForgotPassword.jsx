@@ -14,10 +14,10 @@ export default function ForgotPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email === "") {
-      setError("Email is required");
+      setError("Email é obrigatório");
       return;
     }
-    setSuccess("Password reset link sent to your email");
+    setSuccess("Link de redefinição enviado para seu email");
     setError("");
   };
 
@@ -27,8 +27,9 @@ export default function ForgotPassword() {
         title="Resete a sua senha"
         description="Insira seu e-mail e te enviaremos um link para redefinir sua senha"
         error={error}
+        success={success}
       >
-        <form onSubmit={handleSubmit} className='login-form'>
+        <form onSubmit={handleSubmit} className='auth-form'>
           <TextInput
             type="email"
             id="email"
@@ -37,7 +38,7 @@ export default function ForgotPassword() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {success && <p className="success">{success}</p>}
+          
           <ActionButton text="Enviar" />
         </form>
         <AuthLink
