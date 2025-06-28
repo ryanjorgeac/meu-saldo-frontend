@@ -20,11 +20,6 @@
   background-color: rgba(138, 235, 174, 0.25);
 }
 
-.profile-svg-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);

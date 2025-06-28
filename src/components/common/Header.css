@@ -101,31 +101,11 @@
   position: absolute;
   height: calc(100% - 10px);
   top: 5px;
-  left: 5px; /* Starting position */
+  left: 5px;
   background-color: #87f17e;
   border-radius: 20px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 1;
-}
-
-.nav-link:nth-child(1).active ~ .nav-buttons::before {
-  left: 5px;
-  width: calc(25% - 5px);
-}
-
-.nav-link:nth-child(2).active ~ .nav-buttons::before {
-  left: 25%;
-  width: calc(25% - 5px);
-}
-
-.nav-link:nth-child(3).active ~ .nav-buttons::before {
-  left: 50%;
-  width: calc(25% - 5px);
-}
-
-.nav-link:nth-child(4).active ~ .nav-buttons::before {
-  left: 75%;
-  width: calc(25% - 5px);
 }
 
 .nav-link:hover:not(.active) {
