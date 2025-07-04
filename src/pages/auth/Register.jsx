@@ -32,11 +32,15 @@ export default function Register() {
   const validateField = (field, value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const hasNumbersRegex = /\d/;
+    
     switch (field) {
       case "name":
-        return value ? null : "Nome é obrigatório";
+        if (!value) return "Nome é obrigatório";
+        return hasNumbersRegex.test(value) ? "Nome não pode conter números" : null;
       case "surname":
-        return value ? null : "Sobrenome é obrigatório";
+        if (!value) return "Sobrenome é obrigatório";
+        return hasNumbersRegex.test(value) ? "Sobrenome não pode conter números" : null;
       case "email":
         if (!value) return "E-mail é obrigatório";
         return emailRegex.test(value) ? null : "E-mail inválido";
