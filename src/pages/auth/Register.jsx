@@ -31,7 +31,7 @@ export default function Register() {
 
   const validateField = (field, value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
     const hasNumbersRegex = /\d/;
     
     switch (field) {
@@ -49,7 +49,7 @@ export default function Register() {
         if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
         return passwordRegex.test(value)
           ? null
-          : "A senha deve conter letras maiúsculas, minúsculas e números";
+          : "A senha deve conter letras maiúsculas, minúsculas, números e símbolos";
       case "confirmPassword":
         if (!value) return "Confirmação de senha é obrigatória";
         return value === password ? null : "As senhas não coincidem";

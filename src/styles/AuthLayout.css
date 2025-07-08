@@ -237,7 +237,7 @@
     border: 1px solid rgba(239, 68, 68, 0.2);
     border-radius: 6px;
     text-align: center;
-    width: 100%;
+    width: max-content;
     box-sizing: border-box;
 }
 
