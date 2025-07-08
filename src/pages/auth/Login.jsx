@@ -96,7 +96,7 @@ export default function Login() {
       login(response.user, response.refreshToken);
       navigate(from);
     } catch (err) {
-      setFormError(err.message || "Erro ao fazer login.");
+      setFormError(err.message || "Erro ao fazer login. Verifique suas credenciais.");
     } finally {
       setIsLoading(false);
     }
