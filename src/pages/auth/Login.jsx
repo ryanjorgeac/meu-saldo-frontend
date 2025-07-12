@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import authService from "../../services/authService";
+import useSafeAsync from "../../hooks/useSafeAsync";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -69,6 +70,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
+  const { safeAsync } = useSafeAsync();
 
   useEffect(() => {
     if (location.state?.message) {
@@ -86,16 +88,22 @@ export default function Login() {
     }
 
     setIsLoading(true);
-
+    
     try {
       const credentials = {
         email: email,
         password: password,
       };
       const response = await authService.login(credentials);
+      
+      if (!response || !response.user) {
+        throw new Error("Resposta inválida do servidor. Dados do usuário não recebidos.");
+      }
+
       login(response.user, response.refreshToken);
       navigate(from);
     } catch (err) {
+      console.error("Login error:", err);
       setFormError(err.message || "Erro ao fazer login. Verifique suas credenciais.");
     } finally {
       setIsLoading(false);
