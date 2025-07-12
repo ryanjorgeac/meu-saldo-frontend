@@ -23,7 +23,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('authToken');
+      const unauthorizedEvent = new CustomEvent('auth:unauthorized', {
+        detail: { message: 'Session expired or invalid' }
+      });
+      window.dispatchEvent(unauthorizedEvent);
     }
     return Promise.reject(error);
   }
