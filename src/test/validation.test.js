@@ -1,33 +1,5 @@
 import { describe, it, expect } from 'vitest'
-
-const validateField = (field, value, password = '') => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-  const hasNumbersRegex = /\d/;
-
-  switch (field) {
-    case "name":
-      if (!value || !value.trim()) return "Nome é obrigatório";
-      return hasNumbersRegex.test(value) ? "Nome não pode conter números" : null;
-    case "surname":
-      if (!value || !value.trim()) return "Sobrenome é obrigatório";
-      return hasNumbersRegex.test(value) ? "Sobrenome não pode conter números" : null;
-    case "email":
-      if (!value) return "E-mail é obrigatório";
-      return emailRegex.test(value) ? null : "E-mail inválido";
-    case "password":
-      if (!value) return "Senha é obrigatória";
-      if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-      return passwordRegex.test(value)
-        ? null
-        : "A senha deve conter letras maiúsculas, minúsculas, números e símbolos";
-    case "confirmPassword":
-      if (!value) return "Confirmação de senha é obrigatória";
-      return value === password ? null : "As senhas não coincidem";
-    default:
-      return null;
-  }
-};
+import { validateField } from '../utils/validation.js'
 
 describe('Validation Functions Unit Tests', () => {
   describe('Name validation', () => {
@@ -179,21 +151,21 @@ describe('Validation Functions Unit Tests', () => {
 
   describe('Password confirmation validation', () => {
     it('should return error for empty confirmation', () => {
-      expect(validateField('confirmPassword', '', 'Password123!')).toBe('Confirmação de senha é obrigatória')
-      expect(validateField('confirmPassword', null, 'Password123!')).toBe('Confirmação de senha é obrigatória')
-      expect(validateField('confirmPassword', undefined, 'Password123!')).toBe('Confirmação de senha é obrigatória')
+      expect(validateField('confirmPassword', '', { password: 'Password123!' })).toBe('Confirmação de senha é obrigatória')
+      expect(validateField('confirmPassword', null, { password: 'Password123!' })).toBe('Confirmação de senha é obrigatória')
+      expect(validateField('confirmPassword', undefined, { password: 'Password123!' })).toBe('Confirmação de senha é obrigatória')
     })
 
     it('should return error for mismatched passwords', () => {
-      expect(validateField('confirmPassword', 'Password123!', 'DifferentPass123!')).toBe('As senhas não coincidem')
-      expect(validateField('confirmPassword', 'Password123', 'Password123!')).toBe('As senhas não coincidem')
-      expect(validateField('confirmPassword', 'PASSWORD123!', 'Password123!')).toBe('As senhas não coincidem')
+      expect(validateField('confirmPassword', 'Password123!', { password: 'DifferentPass123!' })).toBe('As senhas não coincidem')
+      expect(validateField('confirmPassword', 'Password123', { password: 'Password123!' })).toBe('As senhas não coincidem')
+      expect(validateField('confirmPassword', 'PASSWORD123!', { password: 'Password123!' })).toBe('As senhas não coincidem')
     })
 
     it('should return null for matching passwords', () => {
-      expect(validateField('confirmPassword', 'Password123!', 'Password123!')).toBe(null)
-      expect(validateField('confirmPassword', 'MySecure123@', 'MySecure123@')).toBe(null)
-      expect(validateField('confirmPassword', 'C0mpl3x!Pass', 'C0mpl3x!Pass')).toBe(null)
+      expect(validateField('confirmPassword', 'Password123!', { password: 'Password123!' })).toBe(null)
+      expect(validateField('confirmPassword', 'MySecure123@', { password: 'MySecure123@' })).toBe(null)
+      expect(validateField('confirmPassword', 'C0mpl3x!Pass', { password: 'C0mpl3x!Pass' })).toBe(null)
     })
   })
 

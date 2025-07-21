@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import authService from "../../services/authService";
 import useSafeAsync from "../../hooks/useSafeAsync";
+import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -23,21 +24,6 @@ export default function Login() {
     password: null,
   });
   const [formError, setFormError] = useState("");
-
-  const validateField = (field, value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    switch (field) {
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      case "password":
-        if (!value) return "Senha é obrigatória";
-        if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-        return null;
-      default:
-        return null;
-    }
-  };
 
   const handleChange = (field, value) => {
     switch (field) {
@@ -71,13 +57,9 @@ export default function Login() {
   };
 
   const validateForm = () => {
-    const newErrors = {
-      email: validateField("email", email),
-      password: validateField("password", password),
-    };
-
-    setErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error !== null);
+    const errors = authValidation.validateLogin({ email, password });
+    setErrors(errors);
+    return !hasValidationErrors(errors);
   };
 
   const { login } = useAuth();

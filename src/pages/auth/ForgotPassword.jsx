@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { validateField, authValidation } from "../../utils/validation";
 
 import FormContainer from "../../components/auth/FormContainer";
 import TextInput from "../../components/auth/TextInput";
@@ -10,17 +11,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  const validateField = (field, value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    switch (field) {
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      default:
-        return null;
-    }
-  };
+   const [formError, setFormError] = useState("");
 
   const handleBlur = () => {
     const fieldError = validateField("email", email);
@@ -29,9 +20,12 @@ export default function ForgotPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fieldError = validateField("email", email);
-    if (fieldError) {
-      setError(fieldError);
+
+    setFormError("");
+    
+    const errors = authValidation.validateForgotPassword({ email });
+    if (errors.email) {
+      setError(errors.email);
       return;
     }
     setSuccess("Link de redefinição enviado para seu email");
@@ -43,7 +37,7 @@ export default function ForgotPassword() {
       <FormContainer
         title="Resete a sua senha"
         description="Insira seu e-mail e te enviaremos um link para redefinir sua senha"
-        error={error}
+        error={formError}
         success={success}
       >
         <form onSubmit={handleSubmit} className='auth-form'>

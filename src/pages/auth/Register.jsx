@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  authService from "../../services/authService";
+import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -29,35 +30,6 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const validateField = (field, value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-    const hasNumbersRegex = /\d/;
-    
-    switch (field) {
-      case "name":
-        if (!value || !value.trim()) return "Nome é obrigatório";
-        return hasNumbersRegex.test(value) ? "Nome não pode conter números" : null;
-      case "surname":
-        if (!value || !value.trim()) return "Sobrenome é obrigatório";
-        return hasNumbersRegex.test(value) ? "Sobrenome não pode conter números" : null;
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      case "password":
-        if (!value) return "Senha é obrigatória";
-        if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-        return passwordRegex.test(value)
-          ? null
-          : "A senha deve conter letras maiúsculas, minúsculas, números e símbolos";
-      case "confirmPassword":
-        if (!value) return "Confirmação de senha é obrigatória";
-        return value === password ? null : "As senhas não coincidem";
-      default:
-        return null;
-    }
-  };
-
   const handleChange = (field, value) => {
     switch (field) {
       case "name":
@@ -74,8 +46,7 @@ export default function Register() {
         if (confirmPassword) {
           setErrors((prev) => ({
             ...prev,
-            confirmPassword:
-              value === confirmPassword ? null : "As senhas não coincidem",
+            confirmPassword: validateField("confirmPassword", confirmPassword, { password: value }),
           }));
         }
         break;
@@ -107,7 +78,7 @@ export default function Register() {
         return;
     }
 
-    const fieldError = validateField(field, value);
+    const fieldError = validateField(field, value, { password });
     setErrors((prev) => ({
       ...prev,
       [field]: fieldError,
@@ -115,16 +86,16 @@ export default function Register() {
   };
 
   const validateForm = () => {
-    const newErrors = {
-      name: validateField("name", name),
-      surname: validateField("surname", surname),
-      email: validateField("email", email),
-      password: validateField("password", password),
-      confirmPassword: validateField("confirmPassword", confirmPassword),
-    };
+    const errors = authValidation.validateRegistration({
+      name,
+      surname,
+      email,
+      password,
+      confirmPassword
+    });
 
-    setErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error !== null);
+    setErrors(errors);
+    return !hasValidationErrors(errors);
   };
 
   const handleSubmit = async (e) => {

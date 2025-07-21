@@ -1,34 +1,7 @@
 import { describe, it, expect } from 'vitest'
+import { validateField } from '../utils/validation.js'
 
 describe('Register Validation Logic Tests', () => {
-  const validateField = (field, value, password = '') => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-    const hasNumbersRegex = /\d/;
-    
-    switch (field) {
-      case "name":
-        if (!value) return "Nome é obrigatório";
-        return hasNumbersRegex.test(value) ? "Nome não pode conter números" : null;
-      case "surname":
-        if (!value) return "Sobrenome é obrigatório";
-        return hasNumbersRegex.test(value) ? "Sobrenome não pode conter números" : null;
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      case "password":
-        if (!value) return "Senha é obrigatória";
-        if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-        return passwordRegex.test(value)
-          ? null
-          : "A senha deve conter letras maiúsculas, minúsculas, números e símbolos";
-      case "confirmPassword":
-        if (!value) return "Confirmação de senha é obrigatória";
-        return value === password ? null : "As senhas não coincidem";
-      default:
-        return null;
-    }
-  };
 
   describe('Critical Validation Rules', () => {
     it('should reject names with numbers (new validation rule)', () => {
@@ -148,8 +121,8 @@ describe('Register Validation Logic Tests', () => {
 
       expect(validateField('password', 'short')).toBe('A senha deve ter pelo menos 8 caracteres');
 
-      expect(validateField('confirmPassword', 'different', 'Password123!')).toBe('As senhas não coincidem');
-      expect(validateField('confirmPassword', 'Password123!', 'Password123!')).toBe(null);
+      expect(validateField('confirmPassword', 'different', { password: 'Password123!' })).toBe('As senhas não coincidem');
+      expect(validateField('confirmPassword', 'Password123!', { password: 'Password123!' })).toBe(null);
     });
   });
 
