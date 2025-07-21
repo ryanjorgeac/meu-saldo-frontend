@@ -244,13 +244,15 @@ describe('Register Component Validation', () => {
         'Password123>'
       ]
       
-      for (const password of validPasswords) {
-        await user.clear(passwordInput)
-        await user.type(passwordInput, password)
-        await user.tab()
-        
-        expect(screen.queryByText('A senha deve conter letras maiúsculas, minúsculas, números e símbolos')).not.toBeInTheDocument()
-      }
+      await Promise.all(
+        validPasswords.map(async (password) => {
+          await user.clear(passwordInput)
+          await user.type(passwordInput, password)
+          await user.tab()
+          
+          expect(screen.queryByText('A senha deve conter letras maiúsculas, minúsculas, números e símbolos')).not.toBeInTheDocument()
+        })
+      )
     })
   })
 
