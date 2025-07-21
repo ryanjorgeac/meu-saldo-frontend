@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validateField } from '../utils/validation.js'
+import { validateField, validationRegex } from '../utils/validation.js'
 
 describe('Validation Functions Unit Tests', () => {
   describe('Name validation', () => {
@@ -185,9 +185,9 @@ describe('Validation Functions Unit Tests', () => {
     })
 
     it('should validate regex patterns correctly', () => {
-      const hasNumbersRegex = /\d/
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/
+      const hasNumbersRegex = validationRegex.hasNumbers
+      const emailRegex = validationRegex.email
+      const passwordRegex = validationRegex.password
       
       expect(hasNumbersRegex.test('João123')).toBe(true)
       expect(hasNumbersRegex.test('João')).toBe(false)
