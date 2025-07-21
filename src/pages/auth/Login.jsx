@@ -75,7 +75,7 @@ export default function Login() {
     }
   }, [location.state]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = safeAsync(async (e) => {
     e.preventDefault();
 
     setFormError("");
@@ -104,7 +104,7 @@ export default function Login() {
     } finally {
       setIsLoading(false);
     }
-  };
+  });
 
   return (
     <AuthLayout title="Seu lugar preferido para gestão de finanças">
