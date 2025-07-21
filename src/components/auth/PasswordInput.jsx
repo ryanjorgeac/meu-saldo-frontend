@@ -7,6 +7,7 @@ export default function PasswordInput({
   placeholder = "••••••••", 
   value, 
   onChange,
+  onBlur,
   required = true,
   error = null
 }) {
@@ -26,6 +27,7 @@ export default function PasswordInput({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           required={required}
           className={error ? 'auth-input-error' : ''}
         />

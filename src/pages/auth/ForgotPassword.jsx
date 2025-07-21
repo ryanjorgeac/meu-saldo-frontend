@@ -11,10 +11,27 @@ export default function ForgotPassword() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const validateField = (field, value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    switch (field) {
+      case "email":
+        if (!value) return "E-mail é obrigatório";
+        return emailRegex.test(value) ? null : "E-mail inválido";
+      default:
+        return null;
+    }
+  };
+
+  const handleBlur = () => {
+    const fieldError = validateField("email", email);
+    setError(fieldError || "");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "") {
-      setError("Email é obrigatório");
+    const fieldError = validateField("email", email);
+    if (fieldError) {
+      setError(fieldError);
       return;
     }
     setSuccess("Link de redefinição enviado para seu email");
@@ -37,6 +54,8 @@ export default function ForgotPassword() {
             placeholder="Informe seu e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={handleBlur}
+            error={error || null}
           />
           
           <ActionButton text="Enviar" />

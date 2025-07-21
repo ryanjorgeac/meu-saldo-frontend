@@ -5,6 +5,7 @@ export default function TextInput({
   placeholder, 
   value, 
   onChange,
+  onBlur,
   required = true,
   error = null
 }) {
@@ -17,6 +18,7 @@ export default function TextInput({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         required={required}
         className={error ? 'auth-input-error' : ''}
       />

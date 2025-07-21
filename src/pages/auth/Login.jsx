@@ -48,6 +48,20 @@ export default function Login() {
         setPassword(value);
         break;
     }
+  };
+
+  const handleBlur = (field) => {
+    let value;
+    switch (field) {
+      case "email":
+        value = email;
+        break;
+      case "password":
+        value = password;
+        break;
+      default:
+        return;
+    }
 
     const fieldError = validateField(field, value);
     setErrors((prev) => ({
@@ -126,12 +140,14 @@ export default function Login() {
             placeholder="Insira o seu e-mail"
             value={email}
             onChange={(e) => handleChange("email", e.target.value)}
+            onBlur={() => handleBlur("email")}
             error={errors.email}
           />
 
           <PasswordInput
             value={password}
             onChange={(e) => handleChange("password", e.target.value)}
+            onBlur={() => handleBlur("password")}
             error={errors.password}
           />
 

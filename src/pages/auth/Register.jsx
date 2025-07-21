@@ -36,10 +36,10 @@ export default function Register() {
     
     switch (field) {
       case "name":
-        if (!value) return "Nome é obrigatório";
+        if (!value || !value.trim()) return "Nome é obrigatório";
         return hasNumbersRegex.test(value) ? "Nome não pode conter números" : null;
       case "surname":
-        if (!value) return "Sobrenome é obrigatório";
+        if (!value || !value.trim()) return "Sobrenome é obrigatório";
         return hasNumbersRegex.test(value) ? "Sobrenome não pode conter números" : null;
       case "email":
         if (!value) return "E-mail é obrigatório";
@@ -83,6 +83,29 @@ export default function Register() {
         setConfirmPassword(value);
         break;
     }
+  };
+
+  const handleBlur = (field) => {
+    let value;
+    switch (field) {
+      case "name":
+        value = name;
+        break;
+      case "surname":
+        value = surname;
+        break;
+      case "email":
+        value = email;
+        break;
+      case "password":
+        value = password;
+        break;
+      case "confirmPassword":
+        value = confirmPassword;
+        break;
+      default:
+        return;
+    }
 
     const fieldError = validateField(field, value);
     setErrors((prev) => ({
@@ -117,8 +140,8 @@ export default function Register() {
       const userData = {
         email: email,
         password: password,
-        firstName: name,
-        lastName: surname,
+        firstName: name.trim(),
+        lastName: surname.trim(),
       };
       await authService.register(userData)
       navigate("/login", {
@@ -148,6 +171,7 @@ export default function Register() {
             placeholder="Insira o seu nome"
             value={name}
             onChange={(e) => handleChange('name', e.target.value)}
+            onBlur={() => handleBlur('name')}
             error={errors.name}
           />
 
@@ -158,6 +182,7 @@ export default function Register() {
             placeholder="Insira o seu sobrenome"
             value={surname}
             onChange={(e) => handleChange('surname', e.target.value)}
+            onBlur={() => handleBlur('surname')}
             error={errors.surname}
           />
 
@@ -168,12 +193,14 @@ export default function Register() {
             placeholder="Insira o seu e-mail"
             value={email}
             onChange={(e) => handleChange('email', e.target.value)}
+            onBlur={() => handleBlur('email')}
             error={errors.email}
           />
 
           <PasswordInput
             value={password}
             onChange={(e) => handleChange('password', e.target.value)}
+            onBlur={() => handleBlur('password')}
             error={errors.password}
           />
 
@@ -182,6 +209,7 @@ export default function Register() {
             label="Confirme sua senha"
             value={confirmPassword}
             onChange={(e) => handleChange('confirmPassword', e.target.value)}
+            onBlur={() => handleBlur('confirmPassword')}
             error={errors.confirmPassword}
           />
 
