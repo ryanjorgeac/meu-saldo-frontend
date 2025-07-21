@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import authService from "../../services/authService";
-import useSafeAsync from "../../hooks/useSafeAsync";
 import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
@@ -11,7 +10,6 @@ import TextInput from "../../components/auth/TextInput";
 import PasswordInput from "../../components/auth/PasswordInput";
 import ActionButton from "../../components/auth/ActionButton";
 import AuthLink from "../../components/auth/AuthLink";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -66,7 +64,6 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
-  const { safeAsync } = useSafeAsync();
 
   useEffect(() => {
     if (location.state?.message) {
@@ -75,7 +72,7 @@ export default function Login() {
     }
   }, [location.state]);
 
-  const handleSubmit = safeAsync(async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setFormError("");
@@ -104,7 +101,7 @@ export default function Login() {
     } finally {
       setIsLoading(false);
     }
-  });
+  };
 
   return (
     <AuthLayout title="Seu lugar preferido para gestão de finanças">

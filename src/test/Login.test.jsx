@@ -26,10 +26,6 @@ vi.mock('../services/authService', () => ({
   }
 }))
 
-vi.mock('../hooks/useSafeAsync', () => ({
-  default: () => ({ safeAsync: vi.fn() })
-}))
-
 const renderLogin = () => {
   return render(
     <BrowserRouter>

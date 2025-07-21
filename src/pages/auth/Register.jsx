@@ -9,7 +9,6 @@ import TextInput from "../../components/auth/TextInput";
 import PasswordInput from "../../components/auth/PasswordInput";
 import ActionButton from "../../components/auth/ActionButton";
 import AuthLink from "../../components/auth/AuthLink";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 export default function Register() {
   const [name, setName] = useState("");
