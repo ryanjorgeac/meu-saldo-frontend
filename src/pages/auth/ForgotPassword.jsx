@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { validateField, authValidation } from "../../utils/validation";
 
 import FormContainer from "../../components/auth/FormContainer";
 import TextInput from "../../components/auth/TextInput";
@@ -10,14 +11,24 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+   const [formError, setFormError] = useState("");
+
+  const handleBlur = () => {
+    const fieldError = validateField("email", email);
+    setError(fieldError || "");
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email === "") {
-      setError("Email is required");
+
+    setFormError("");
+    
+    const errors = authValidation.validateForgotPassword({ email });
+    if (errors.email) {
+      setError(errors.email);
       return;
     }
-    setSuccess("Password reset link sent to your email");
+    setSuccess("Link de redefinição enviado para seu email");
     setError("");
   };
 
@@ -26,9 +37,10 @@ export default function ForgotPassword() {
       <FormContainer
         title="Resete a sua senha"
         description="Insira seu e-mail e te enviaremos um link para redefinir sua senha"
-        error={error}
+        error={formError}
+        success={success}
       >
-        <form onSubmit={handleSubmit} className='login-form'>
+        <form onSubmit={handleSubmit} className='auth-form'>
           <TextInput
             type="email"
             id="email"
@@ -36,8 +48,10 @@ export default function ForgotPassword() {
             placeholder="Informe seu e-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={handleBlur}
+            error={error || null}
           />
-          {success && <p className="success">{success}</p>}
+          
           <ActionButton text="Enviar" />
         </form>
         <AuthLink

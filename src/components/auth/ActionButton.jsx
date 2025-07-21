@@ -1,17 +1,21 @@
-export default function ActionButton({ text, onClick, type = "submit", disabled = false, isLoading = false }) {
+export default function ActionButton({ 
+  text, 
+  disabled = false, 
+  isLoading = false, 
+  onClick = null,
+  type = "submit" 
+}) {
   return (
     <button 
-      type={type} 
-      className={`login-button ${isLoading ? 'button-loading' : ''}`}
-      onClick={onClick}
+      type={type}
+      className="auth-submit-button" 
       disabled={disabled || isLoading}
+      onClick={onClick}
     >
-      {isLoading ? (
-        <div className="button-content">
-          <div className="button-spinner"></div>
-          <span>{text}</span>
-        </div>
-      ) : text}
+      <div className="auth-button-content">
+        {isLoading && <div className="auth-button-spinner"></div>}
+        {text}
+      </div>
     </button>
   );
 }

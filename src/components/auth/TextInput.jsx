@@ -5,11 +5,12 @@ export default function TextInput({
   placeholder, 
   value, 
   onChange,
+  onBlur,
   required = true,
   error = null
 }) {
   return (
-    <div className='form-group'>
+    <div className='auth-form-group'>
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
@@ -17,10 +18,11 @@ export default function TextInput({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         required={required}
-        className={error ? 'input-error' : ''}
+        className={error ? 'auth-input-error' : ''}
       />
-      {error && <p className="field-error">{error}</p>}
+      {error && <p className="auth-field-error">{error}</p>}
     </div>
   );
 }

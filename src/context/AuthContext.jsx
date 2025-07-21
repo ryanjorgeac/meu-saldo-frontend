@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 
 
@@ -14,6 +14,23 @@ export function AuthProvider({ children }) {
     user: null,
     loading: true
   });
+
+  const handleUnauthorized = useCallback(() => {
+    localStorage.removeItem('authToken');
+    api.defaults.headers.common['Authorization'] = null;
+    setAuthState({ user: null, loading: false });
+
+    if (window.location.pathname !== '/login') {
+      window.location.href = '/login';
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('auth:unauthorized', handleUnauthorized);
+    return () => {
+      window.removeEventListener('auth:unauthorized', handleUnauthorized);
+    };
+  }, [handleUnauthorized]);
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -40,6 +57,29 @@ export function AuthProvider({ children }) {
 
     verifyAuth();
   }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'authToken' && !e.newValue) {
+        api.defaults.headers.common['Authorization'] = null;
+        setAuthState({ user: null, loading: false });
+
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    const token = localStorage.getItem('authToken');
+    if (!token && authState.user) {
+      setAuthState({ user: null, loading: false });
+    }
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [authState.user]);
 
   const login = (userData, token) => {
     localStorage.setItem('authToken', token);

@@ -6,12 +6,12 @@ export const categoryService = {
       const response = await api.get("/api/v1/categories");
       return response.data;
     } catch (error) {
+      if (error.response?.status === 401) {
+        return [];
+      }
+
       if (error.response) {
         switch (error.response.status) {
-          case 401:
-            throw new Error(
-              "Erro ao buscar categorias. Verifique os dados enviados."
-            );
           case 503:
             throw new Error(
               "Erro no servidor. Por favor, tente novamente mais tarde."

@@ -8,21 +8,18 @@ import { categoryService } from "../../services/categoryService";
 function Dashboard() {
   const [categories, setCategories] = useState([]);
 
-  async function fetchCategories() {
-    try {
-      const response = await categoryService.getCategories();
-      setCategories(response);
-    } catch (error) {
-      console.error("Erro ao buscar categorias:", error);
-    }
-  }
-
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await categoryService.getCategories();
+        setCategories(response);
+      } catch (error) {
+        console.error("Erro ao buscar categorias:", error);
+      }
+    };
+
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-  }, [categories]);
 
   return (
     <div className={styles.dashboard}>

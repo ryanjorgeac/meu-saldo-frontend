@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  authService from "../../services/authService";
+import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -8,7 +9,6 @@ import TextInput from "../../components/auth/TextInput";
 import PasswordInput from "../../components/auth/PasswordInput";
 import ActionButton from "../../components/auth/ActionButton";
 import AuthLink from "../../components/auth/AuthLink";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -29,31 +29,6 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const validateField = (field, value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    switch (field) {
-      case "name":
-        return value ? null : "Nome é obrigatório";
-      case "surname":
-        return value ? null : "Sobrenome é obrigatório";
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      case "password":
-        if (!value) return "Senha é obrigatória";
-        if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-        return passwordRegex.test(value)
-          ? null
-          : "A senha deve conter letras maiúsculas, minúsculas e números";
-      case "confirmPassword":
-        if (!value) return "Confirmação de senha é obrigatória";
-        return value === password ? null : "As senhas não coincidem";
-      default:
-        return null;
-    }
-  };
-
   const handleChange = (field, value) => {
     switch (field) {
       case "name":
@@ -70,8 +45,7 @@ export default function Register() {
         if (confirmPassword) {
           setErrors((prev) => ({
             ...prev,
-            confirmPassword:
-              value === confirmPassword ? null : "As senhas não coincidem",
+            confirmPassword: validateField("confirmPassword", confirmPassword, { password: value }),
           }));
         }
         break;
@@ -79,8 +53,31 @@ export default function Register() {
         setConfirmPassword(value);
         break;
     }
+  };
 
-    const fieldError = validateField(field, value);
+  const handleBlur = (field) => {
+    let value;
+    switch (field) {
+      case "name":
+        value = name;
+        break;
+      case "surname":
+        value = surname;
+        break;
+      case "email":
+        value = email;
+        break;
+      case "password":
+        value = password;
+        break;
+      case "confirmPassword":
+        value = confirmPassword;
+        break;
+      default:
+        return;
+    }
+
+    const fieldError = validateField(field, value, { password });
     setErrors((prev) => ({
       ...prev,
       [field]: fieldError,
@@ -88,16 +85,16 @@ export default function Register() {
   };
 
   const validateForm = () => {
-    const newErrors = {
-      name: validateField("name", name),
-      surname: validateField("surname", surname),
-      email: validateField("email", email),
-      password: validateField("password", password),
-      confirmPassword: validateField("confirmPassword", confirmPassword),
-    };
+    const errors = authValidation.validateRegistration({
+      name,
+      surname,
+      email,
+      password,
+      confirmPassword
+    });
 
-    setErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error !== null);
+    setErrors(errors);
+    return !hasValidationErrors(errors);
   };
 
   const handleSubmit = async (e) => {
@@ -113,8 +110,8 @@ export default function Register() {
       const userData = {
         email: email,
         password: password,
-        firstName: name,
-        lastName: surname,
+        firstName: name.trim(),
+        lastName: surname.trim(),
       };
       await authService.register(userData)
       navigate("/login", {
@@ -136,8 +133,7 @@ export default function Register() {
         description="Por favor, informe seus dados para continuar"
         error={formError}
       >
-        {isLoading && <LoadingSpinner size="small" />}
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <TextInput
             type="text"
             id="name"
@@ -145,6 +141,7 @@ export default function Register() {
             placeholder="Insira o seu nome"
             value={name}
             onChange={(e) => handleChange('name', e.target.value)}
+            onBlur={() => handleBlur('name')}
             error={errors.name}
           />
 
@@ -155,6 +152,7 @@ export default function Register() {
             placeholder="Insira o seu sobrenome"
             value={surname}
             onChange={(e) => handleChange('surname', e.target.value)}
+            onBlur={() => handleBlur('surname')}
             error={errors.surname}
           />
 
@@ -165,12 +163,14 @@ export default function Register() {
             placeholder="Insira o seu e-mail"
             value={email}
             onChange={(e) => handleChange('email', e.target.value)}
+            onBlur={() => handleBlur('email')}
             error={errors.email}
           />
 
           <PasswordInput
             value={password}
             onChange={(e) => handleChange('password', e.target.value)}
+            onBlur={() => handleBlur('password')}
             error={errors.password}
           />
 
@@ -179,12 +179,14 @@ export default function Register() {
             label="Confirme sua senha"
             value={confirmPassword}
             onChange={(e) => handleChange('confirmPassword', e.target.value)}
+            onBlur={() => handleBlur('confirmPassword')}
             error={errors.confirmPassword}
           />
 
           <ActionButton
             text={isLoading ? "Cadastrando..." : "Finalizar cadastro"}
             disabled={isLoading}
+            isLoading={isLoading}
           />
         </form>
 

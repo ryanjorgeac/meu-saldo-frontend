@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import authService from "../../services/authService";
+import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import FormContainer from "../../components/auth/FormContainer";
@@ -9,7 +10,6 @@ import TextInput from "../../components/auth/TextInput";
 import PasswordInput from "../../components/auth/PasswordInput";
 import ActionButton from "../../components/auth/ActionButton";
 import AuthLink from "../../components/auth/AuthLink";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,21 +23,6 @@ export default function Login() {
   });
   const [formError, setFormError] = useState("");
 
-  const validateField = (field, value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    switch (field) {
-      case "email":
-        if (!value) return "E-mail é obrigatório";
-        return emailRegex.test(value) ? null : "E-mail inválido";
-      case "password":
-        if (!value) return "Senha é obrigatória";
-        if (value.length < 8) return "A senha deve ter pelo menos 8 caracteres";
-        return null;
-      default:
-        return null;
-    }
-  };
-
   const handleChange = (field, value) => {
     switch (field) {
       case "email":
@@ -46,6 +31,20 @@ export default function Login() {
       case "password":
         setPassword(value);
         break;
+    }
+  };
+
+  const handleBlur = (field) => {
+    let value;
+    switch (field) {
+      case "email":
+        value = email;
+        break;
+      case "password":
+        value = password;
+        break;
+      default:
+        return;
     }
 
     const fieldError = validateField(field, value);
@@ -56,13 +55,9 @@ export default function Login() {
   };
 
   const validateForm = () => {
-    const newErrors = {
-      email: validateField("email", email),
-      password: validateField("password", password),
-    };
-
-    setErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error !== null);
+    const errors = authValidation.validateLogin({ email, password });
+    setErrors(errors);
+    return !hasValidationErrors(errors);
   };
 
   const { login } = useAuth();
@@ -86,17 +81,23 @@ export default function Login() {
     }
 
     setIsLoading(true);
-
+    
     try {
       const credentials = {
         email: email,
         password: password,
       };
       const response = await authService.login(credentials);
+      
+      if (!response || !response.user) {
+        throw new Error("Resposta inválida do servidor. Dados do usuário não recebidos.");
+      }
+
       login(response.user, response.refreshToken);
       navigate(from);
     } catch (err) {
-      setFormError(err.message || "Erro ao fazer login.");
+      console.error("Login error:", err);
+      setFormError(err.message || "Erro ao fazer login. Verifique suas credenciais.");
     } finally {
       setIsLoading(false);
     }
@@ -110,8 +111,7 @@ export default function Login() {
         error={formError}
         success={success}
       >
-        {isLoading && <LoadingSpinner size="small" />}
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <TextInput
             type="email"
             id="email"
@@ -119,12 +119,14 @@ export default function Login() {
             placeholder="Insira o seu e-mail"
             value={email}
             onChange={(e) => handleChange("email", e.target.value)}
+            onBlur={() => handleBlur("email")}
             error={errors.email}
           />
 
           <PasswordInput
             value={password}
             onChange={(e) => handleChange("password", e.target.value)}
+            onBlur={() => handleBlur("password")}
             error={errors.password}
           />
 
@@ -133,6 +135,7 @@ export default function Login() {
           <ActionButton
             text={isLoading ? "Entrando..." : "Entrar"}
             disabled={isLoading}
+            isLoading={isLoading}
           />
         </form>
 
