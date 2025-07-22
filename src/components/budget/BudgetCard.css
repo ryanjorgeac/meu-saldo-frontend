@@ -1,0 +1,98 @@
+.budget-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.budget-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.budget-card__header {
+  margin-bottom: 1rem;
+}
+
+.budget-card__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.budget-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.budget-card__amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Variant: Default (Total Orçado) */
+.budget-card--default .budget-card__amount {
+  color: #6b7280;
+}
+
+.budget-card--default {
+  border-left: 4px solid #6b7280;
+}
+
+/* Variant: Spent (Total Gasto) */
+.budget-card--spent .budget-card__amount {
+  color: #ef4444;
+}
+
+.budget-card--spent {
+  border-left: 4px solid #ef4444;
+}
+
+/* Variant: Remaining (Restante) */
+.budget-card--remaining .budget-card__amount {
+  color: #10b981;
+}
+
+.budget-card--remaining {
+  border-left: 4px solid #10b981;
+}
+
+.budget-card__subtitle {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0.5rem 0 0 0;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .budget-card {
+    padding: 1rem;
+    min-height: 100px;
+  }
+
+  .budget-card__amount {
+    font-size: 1.5rem;
+  }
+
+  .budget-card__title {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-card__amount {
+    font-size: 1.25rem;
+  }
+}
