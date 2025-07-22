@@ -1,65 +1,57 @@
-/* Reset and Base Styles */  
+.categories-page {
+  padding: 2rem;
+}
 
-  
-  .crud-section {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-  }
-  
-  .form-section,
-  .list-section {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-  }
-  
+.category-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
 
-  .crud-form {
-    display: flex;
+.category-page-header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.category-page-header-text h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.category-page-header-text p {
+  margin: 0;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.categories-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .categories-page {
+    padding: 1rem;
+  }
+
+  .category-page-header {
     flex-direction: column;
+    align-items: stretch;
     gap: 1rem;
   }
   
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  .category-page-header-text {
+    margin-bottom: 1rem;
   }
-  
-  .form-group label {
-    font-weight: bold;
-    font-size: 0.875rem;
-    color: #555;
+
+  .categories-content {
+    padding: 1rem;
+    border-radius: 8px;
   }
-  
-  .form-group input,
-  .form-group select {
-    padding: 0.75rem;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-  }
-  
-  .form-actions {
-    margin-top: 1rem;
-  }
-  
-  .btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-  }
-  
-  .primary-btn {
-    background-color: #0066cc;
-    color: white;
-  }
-  
-  .primary-btn:hover {
-    background-color: #0055aa;
-  }
- 
+}

@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="80" viewBox="0 0 1040 80">
+            
+            <g>
+                <rect x="0" y="0" width="80" height="80" fill="#cdffbb" />
+                <text x="40" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    50
+                </text>
+                <text x="40" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #CDFFBB
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="80" y="0" width="80" height="80" fill="#88ff29" />
+                <text x="120" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    100
+                </text>
+                <text x="120" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #88FF29
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="160" y="0" width="80" height="80" fill="#7aea1e" />
+                <text x="200" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    200
+                </text>
+                <text x="200" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #7AEA1E
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="240" y="0" width="80" height="80" fill="#72db1e" />
+                <text x="280" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    300
+                </text>
+                <text x="280" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #72DB1E
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="320" y="0" width="80" height="80" fill="#66c51c" />
+                <text x="360" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    400
+                </text>
+                <text x="360" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #66C51C
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="400" y="0" width="80" height="80" fill="#59ac18" />
+                <text x="440" y="36" text-anchor="middle" fill="#153103" font-family="sans-serif" font-size="14">
+                    500
+                </text>
+                <text x="440" y="54" text-anchor="middle" fill="#153103" font-family="monospace" font-size="10">
+                    #59AC18
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="480" y="0" width="80" height="80" fill="#4b9214" />
+                <text x="520" y="36" text-anchor="middle" fill="#000" font-family="sans-serif" font-size="14">
+                    600
+                </text>
+                <text x="520" y="54" text-anchor="middle" fill="#000" font-family="monospace" font-size="10">
+                    #4B9214
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="560" y="0" width="80" height="80" fill="#3b770f" />
+                <text x="600" y="36" text-anchor="middle" fill="#fff" font-family="sans-serif" font-size="14">
+                    700
+                </text>
+                <text x="600" y="54" text-anchor="middle" fill="#fff" font-family="monospace" font-size="10">
+                    #3B770F
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="640" y="0" width="80" height="80" fill="#2d5b09" />
+                <text x="680" y="36" text-anchor="middle" fill="#88ff29" font-family="sans-serif" font-size="14">
+                    800
+                </text>
+                <text x="680" y="54" text-anchor="middle" fill="#88ff29" font-family="monospace" font-size="10">
+                    #2D5B09
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="720" y="0" width="80" height="80" fill="#1d3f05" />
+                <text x="760" y="36" text-anchor="middle" fill="#88ff29" font-family="sans-serif" font-size="14">
+                    900
+                </text>
+                <text x="760" y="54" text-anchor="middle" fill="#88ff29" font-family="monospace" font-size="10">
+                    #1D3F05
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="800" y="0" width="80" height="80" fill="#153103" />
+                <text x="840" y="36" text-anchor="middle" fill="#88ff29" font-family="sans-serif" font-size="14">
+                    1000
+                </text>
+                <text x="840" y="54" text-anchor="middle" fill="#88ff29" font-family="monospace" font-size="10">
+                    #153103
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="880" y="0" width="80" height="80" fill="#0d2302" />
+                <text x="920" y="36" text-anchor="middle" fill="#88ff29" font-family="sans-serif" font-size="14">
+                    1100
+                </text>
+                <text x="920" y="54" text-anchor="middle" fill="#88ff29" font-family="monospace" font-size="10">
+                    #0D2302
+                </text>
+            </g>
+        
+
+            <g>
+                <rect x="960" y="0" width="80" height="80" fill="#071500" />
+                <text x="1000" y="36" text-anchor="middle" fill="#88ff29" font-family="sans-serif" font-size="14">
+                    1200
+                </text>
+                <text x="1000" y="54" text-anchor="middle" fill="#88ff29" font-family="monospace" font-size="10">
+                    #071500
+                </text>
+            </g>
+        
+        </svg>

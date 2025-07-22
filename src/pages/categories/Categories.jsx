@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import "./GerenciarCategorias.css";
-import FormSection from "../../components/FormSection/FormSection";
+import { useState, useEffect } from "react";
+import "./Categories.css";
+import AddButton from "../../components/common/AddButton";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import { categoryService } from "../../services/categoryService";
 
-export default function GerenciarCategorias() {
+export default function Categories() {
   const [categories, setCategories] = useState([]);
 
   async function fetchCategories(){
@@ -16,43 +16,35 @@ export default function GerenciarCategorias() {
     }
   };
 
-
-  const handleAddCategory = async (newCategory) => {
-    try {
-      const newCategoryData = await categoryService.createCategory(newCategory);
-      setCategories((prevCategories) => [...prevCategories, newCategoryData]);
-    } catch (error) {
-      console.error("Erro ao adicionar categoria:", error);
-    }
-  };
- 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      await categoryService.deleteCategory(categoryId); 
+      await categoryService.deleteCategory(categoryId);
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.id !== categoryId)
-      ); 
-      fetchCategories();
+      );
     } catch (error) {
       console.error("Erro ao deletar categoria:", error);
     }
   };
-
-  
+   
   useEffect(() => {
     fetchCategories();
   }, []);
 
   return (
-    <main>
+    <main className="categories-page">
       <div className="category-page-header">
-        <h2>Categorias</h2>
-        <p>Adicione, edite ou remova categorias conforme necessário.</p>
-        <AddButton text="Adicionar Categoria" />
+        <div className="category-page-header-text">
+          <h2>Categorias</h2>
+          <p>Adicione, edite ou remova categorias conforme necessário.</p>
+        </div>
+        <AddButton
+          text="Nova Categoria"
+          onClick={() => console.log('Adicionar categoria')}
+        />
       </div>
 
-      <section className="crud-section">
-        <FormSection onAddCategory={handleAddCategory} />
+      <section className="categories-content">
         <CategoryList categories={categories} onDelete={handleDeleteCategory} />
       </section>
     </main>

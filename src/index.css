@@ -8,6 +8,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: none;
+
+  --lima-50: #ceffc4;
+  --lima-100: #7efb4a;
+  --lima-200: #6fdd41;
+  --lima-300: #68ce3c;
+  --lima-400: #5db936;
+  --lima-500: #51a32e;
+  --lima-600: #448a26;
+  --lima-700: #36701e;
+  --lima-800: #285615;
+  --lima-900: #1a3c0c;
+  --lima-1000: #132f07;
+  --lima-1100: #0c2204;
+  --lima-1200: #061502;
 }
 
 :root::-webkit-scrollbar {
