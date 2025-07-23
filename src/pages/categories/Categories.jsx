@@ -7,6 +7,7 @@ import { categoryService } from "../../services/categoryService";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [budgetData, setBudgetData] = useState({
     totalBudget: 0,
     totalSpent: 0,
@@ -15,17 +16,27 @@ export default function Categories() {
 
   async function fetchCategories(){
     try {
+      setLoading(true);
       const response = await categoryService.getCategories();
       setCategories(response);
 
-      const totalBudget = response.reduce((sum, cat) => sum + (cat.budget || 0), 0);
+      // Calculate budget totals from the categories including spent amounts
+      const totalBudget = response.reduce((sum, cat) => sum + (cat.budgetAmount || 0), 0);
       const totalSpent = response.reduce((sum, cat) => sum + (cat.spent || 0), 0);
       const remaining = totalBudget - totalSpent;
       
       setBudgetData({ totalBudget, totalSpent, remaining });
     } catch (error) {
       console.error("Erro ao buscar categorias:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleEditCategory = (categoryId) => {
+    console.log('Editar categoria:', categoryId);
+    // TODO: Implement edit functionality
+    // This could open a modal or navigate to an edit page
   };
 
   const handleDeleteCategory = async (categoryId) => {
@@ -34,10 +45,17 @@ export default function Categories() {
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.id !== categoryId)
       );
+      // Recalculate budget after deletion
       fetchCategories();
     } catch (error) {
       console.error("Erro ao deletar categoria:", error);
     }
+  };
+
+  const handleAddCategory = () => {
+    console.log('Adicionar nova categoria');
+    // TODO: Implement add functionality
+    // This could open a modal or navigate to a create page
   };
    
   useEffect(() => {
@@ -53,7 +71,7 @@ export default function Categories() {
         </div>
         <AddButton
           text="Nova Categoria"
-          onClick={() => console.log('Adicionar categoria')}
+          onClick={handleAddCategory}
         />
       </div>
 
@@ -64,7 +82,12 @@ export default function Categories() {
       />
 
       <section className="categories-content">
-        <CategoryList categories={categories} onDelete={handleDeleteCategory} />
+        <CategoryList 
+          categories={categories} 
+          loading={loading}
+          onEdit={handleEditCategory}
+          onDelete={handleDeleteCategory} 
+        />
       </section>
     </main>
   );
