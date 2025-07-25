@@ -1,7 +1,5 @@
-html { font-family: "Inter", "system-ui"; }
-
 :root {
-  font-family: "Inter", sans-serif, system-ui, Avenir, Helvetica, Arial;
+  font-family: Inter, "system-ui", sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   font-weight: 400;
   color: #f5f5f7;
@@ -123,5 +121,7 @@ button:focus-visible {
 }
 
 @supports (font-variation-settings: semibold) {
-  html { font-family: "InterVariable", "system-ui"; }
+  :root {
+    font-family: InterVariable, sans-serif; 
+  }
 }

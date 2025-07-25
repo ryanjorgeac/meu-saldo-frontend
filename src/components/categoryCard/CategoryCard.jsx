@@ -22,6 +22,8 @@ const CategoryCard = ({
   const spent = spentAmount >= 0 ? spentAmount: spentAmount * -1;
   const progressPercentage = budgetAmount > 0 ? Math.min((spent / budgetAmount) * 100, 100) : 0;
 
+  const rightSizeDescription = description.length > 38 ? `${description.substring(0, 37)}...` : description;
+
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
       minimumFractionDigits: 2,
@@ -75,7 +77,7 @@ const CategoryCard = ({
           <div className="category-card__title">{name}</div>
           <div className="category-card__symbol">R$</div>
           <div className="category-card__amount">{formatCurrency(remainingAmount)}</div>
-          <div className="category-card__description">{description}</div>
+          <div className="category-card__description">{rightSizeDescription}</div>
         </div>
       </div>
       
@@ -84,7 +86,7 @@ const CategoryCard = ({
       <div className="category-card__budget">
         <div className="category-card__budget-header">
           <span className="category-card__budget-label">Orçamento</span>
-          <span className="category-card__budget-amount">R$ {formatCurrency(budgetAmount)}</span>
+          <span className="category-card__budget-amount">R${formatCurrency(budgetAmount)}</span>
         </div>
         
         <div className="category-card__progress">
@@ -99,7 +101,7 @@ const CategoryCard = ({
             {transactionCount} transações
           </span>
           <span className="category-card__spent">
-            R$ {formatCurrency(spent)} gasto
+            R${formatCurrency(spent)} gasto
           </span>
         </div>
       </div>
