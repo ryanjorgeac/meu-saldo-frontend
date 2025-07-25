@@ -5,7 +5,7 @@ html { font-family: "Inter", "system-ui"; }
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   font-weight: 400;
   color: #f5f5f7;
-  background-color:  #f5f5f7 /* #FAFAFA */;
+  background-color:  var(--gray-100) /* #FAFAFA */;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,6 +25,13 @@ html { font-family: "Inter", "system-ui"; }
   --lima-1000: #132f07;
   --lima-1100: #0c2204;
   --lima-1200: #061502;
+
+  --gray-25: #FDFDFD;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-300: #D5D7DA;
+  --gray-500: #717680;
+  --gray-900: #181D27;
 }
 
 :root::-webkit-scrollbar {

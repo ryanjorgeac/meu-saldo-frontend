@@ -1,7 +1,6 @@
 .category-card {
-  background: var(--category-color, #10b981);
+  background: #FFFFFF;
   border-radius: 20px;
-  /* padding: 1.5rem; */
   color: white;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -13,10 +12,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* .category-card:hover {
+.category-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-} */
+}
 
 .category-card--inactive {
   opacity: 0.6;
@@ -24,16 +23,19 @@
 
 .category-card__identification {
   padding: 1.5rem;
-  background-color: var(--category-color);
+  background-color: var(--category-color, --lima-400);
   border-radius: 20px;
 }
 
-/* Header */
 .category-card__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
+}
+
+.category-card__budget-header span {
+  color: var(--gray-500);
 }
 
 .category-card__icon {
@@ -63,10 +65,8 @@
   transform: scale(1.05);
 }
 
-/* Category Info */
 .category-card__info {
   flex: 1;
-  /* margin-bottom: 1.5rem; */
 }
 
 .category-card__title {
@@ -74,11 +74,9 @@
   font-weight: 600;
 }
 
-.category-card__type {
+.category-card__symbol {
   font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  opacity: 0.9;
+  font-weight: 700;
 }
 
 .category-card__amount {
@@ -94,9 +92,7 @@
   line-height: 1.4;
 }
 
-/* Budget Section */
 .category-card__budget {
-  background: gray;
   border-radius: 0px 0px 20px 20px;
   padding: 1rem;
   backdrop-filter: blur(10px);
@@ -110,27 +106,27 @@
 }
 
 .category-card__budget-label {
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 600;
   opacity: 0.8;
 }
 
 .category-card__budget-amount {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* Progress Bar */
 .category-card__progress {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--gray-300);
   border-radius: 4px;
-  height: 6px;
+  height: 7px;
   margin-bottom: 0.75rem;
   overflow: hidden;
 }
 
 .category-card__progress-bar {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--lima-400);
   height: 100%;
   border-radius: 4px;
   transition: width 0.3s ease;
@@ -142,10 +138,15 @@
   align-items: center;
 }
 
-.category-card__transactions,
+
+.category-card__transactions {
+  font-size: 0.9rem;
+  color: #717680;
+}
 .category-card__spent {
-  font-size: 0.75rem;
-  opacity: 0.8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-900);
 }
 
 /* Color Variants */
