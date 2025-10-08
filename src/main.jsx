@@ -5,6 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import "inter-ui/inter.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { logServiceMode } from "./services";
+
+logServiceMode();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

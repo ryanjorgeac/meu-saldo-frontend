@@ -30,6 +30,35 @@ export const categoryService = {
       }
     }
   },
+  getSummary: async () => {
+    try {
+      const response = await api.get("/api/v1/categories/summary");
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        return [];
+      }
+
+      if (error.response) {
+        switch (error.response.status) {
+          case 503:
+            throw new Error(
+              "Erro no servidor. Por favor, tente novamente mais tarde."
+            );
+          default:
+            throw new Error(
+              error.response.data.message || "Erro ao buscar categorias."
+            );
+        }
+      } else if (error.request) {
+        throw new Error(
+          "Não foi possível conectar ao servidor. Verifique sua conexão."
+        );
+      } else {
+        throw new Error("Erro ao processar a solicitação.");
+      }
+    }
+  },
   createCategory: async (categoryData) => {
     try {
       const response = await api.post("/api/v1/categories", categoryData);

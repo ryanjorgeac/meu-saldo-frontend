@@ -1,0 +1,23 @@
+// Service configuration - easily switch between mock and real services
+import { 
+  USE_MOCK_SERVICES, 
+  mockCategoryService, 
+  mockTransactionService, 
+  mockAuthService,
+  categoryService as realCategoryService,
+  transactionService as realTransactionService,
+  authService as realAuthService
+} from './mock';
+
+// Export the appropriate services based on configuration
+export const categoryService = USE_MOCK_SERVICES ? mockCategoryService : realCategoryService;
+export const transactionService = USE_MOCK_SERVICES ? mockTransactionService : realTransactionService;
+export const authService = USE_MOCK_SERVICES ? mockAuthService : realAuthService;
+
+// Helper function to check if we're using mocks
+export const isUsingMocks = () => USE_MOCK_SERVICES;
+
+// Helper function to log current service mode
+export const logServiceMode = () => {
+  console.log(`🔧 Services: ${USE_MOCK_SERVICES ? 'MOCK MODE' : 'REAL BACKEND'}`);
+};

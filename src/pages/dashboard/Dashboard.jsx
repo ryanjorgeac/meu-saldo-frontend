@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./dashboard.module.css";
 import Carteira from "../../components/Carteira/Carteira";
 import Transacoes from "../../components/Transacoes/Transacoes";
-import { categoryService } from "../../services/categoryService";
+import { categoryService } from "../../services";
 import { useAuth } from "../../hooks/useAuth";
 
 function Dashboard() {

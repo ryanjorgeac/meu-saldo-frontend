@@ -3,8 +3,7 @@ import "./Categories.css";
 import AddButton from "../../components/common/AddButton";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
-import { categoryService } from "../../services/categoryService";
-import Modal from "../../components/common/Modal";
+import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
 
 export default function Categories() {
@@ -29,12 +28,13 @@ export default function Categories() {
   async function fetchCategories(){
     try {
       setLoading(true);
-      const response = await categoryService.getCategories();
-      setCategories(response);
+      const categoryResponse = await categoryService.getCategories();
+      const summaryResponse = await categoryService.getSummary();
+      setCategories(categoryResponse);
 
-      const totalBudget = response.reduce((sum, cat) => sum + (cat.budgetAmount || 0), 0);
-      const totalSpent = response.reduce((sum, cat) => sum + (cat.spent || 0), 0);
-      const remaining = totalBudget - totalSpent;
+      const totalBudget = summaryResponse.totalBudget;
+      const totalSpent = summaryResponse.totalSpent;
+      const remaining = summaryResponse.remainingBudget;
       
       setBudgetData({ totalBudget, totalSpent, remaining });
     } catch (error) {
