@@ -1,6 +1,5 @@
 import { mockUser, simulateDelay } from './mockData';
 
-// In-memory storage for auth state
 let currentUser = null;
 let isAuthenticated = false;
 
@@ -8,7 +7,6 @@ export const mockAuthService = {
   register: async (userData) => {
     await simulateDelay(800);
 
-    // Validate required fields
     if (!userData.name?.trim()) {
     throw new Error("Nome é obrigatório");
     }
@@ -20,34 +18,28 @@ export const mockAuthService = {
     if (!userData.password || userData.password.length < 6) {
     throw new Error("Senha deve ter pelo menos 6 caracteres");
     }
-    
-    // Simulate email validation
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
     throw new Error("E-mail inválido");
     }
     
-    // Simulate checking if email already exists
     if (userData.email === "admin@example.com") {
     throw new Error("Não foi possível cadastrar o usuário com esse e-mail.");
     }
-    
-    // Create user
+
     const newUser = {
     id: Date.now(),
     name: userData.name.trim(),
     email: userData.email.trim().toLowerCase(),
     createdAt: new Date().toISOString()
     };
-    
-    // Simulate JWT token
+
     const token = `mock-jwt-token-${Date.now()}`;
-    
-    // Set as current user
+
     currentUser = newUser;
     isAuthenticated = true;
-    
-    // Store in localStorage for persistence
+
     localStorage.setItem('authToken', token);
     localStorage.setItem('user', JSON.stringify(newUser));
     
@@ -68,26 +60,21 @@ export const mockAuthService = {
     if (!credentials.password?.trim()) {
     throw new Error("Senha é obrigatória");
     }
-    
-    // Simulate authentication (accept any email/password except specific cases)
+
     if (credentials.email === "invalid@example.com") {
     throw new Error("E-mail ou senha inválidos.");
     }
-    
-    // Create mock user
+
     const user = {
     ...mockUser,
     email: credentials.email.trim().toLowerCase()
     };
-    
-    // Simulate JWT token
+
     const token = `mock-jwt-token-${Date.now()}`;
     
-    // Set as current user
     currentUser = user;
     isAuthenticated = true;
     
-    // Store in localStorage for persistence
     localStorage.setItem('authToken', token);
     localStorage.setItem('user', JSON.stringify(user));
     
@@ -102,11 +89,9 @@ export const mockAuthService = {
     await simulateDelay(200);
     
     try {
-      // Clear current user
       currentUser = null;
       isAuthenticated = false;
       
-      // Clear localStorage
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
       
@@ -121,7 +106,6 @@ export const mockAuthService = {
   forgotPassword: async (email) => {
     await simulateDelay(1000);
 
-    // Validate email
     if (!email?.trim()) {
     throw new Error("E-mail é obrigatório");
     }
@@ -131,7 +115,6 @@ export const mockAuthService = {
     throw new Error("E-mail inválido");
     }
     
-    // Simulate checking if email exists
     if (email === "notfound@example.com") {
     throw new Error("E-mail não encontrado em nossa base de dados.");
     }
@@ -144,7 +127,6 @@ export const mockAuthService = {
   resetPassword: async (token, newPassword) => {
     await simulateDelay(500);
 
-    // Validate fields
     if (!token?.trim()) {
     throw new Error("Token inválido");
     }
@@ -161,7 +143,6 @@ export const mockAuthService = {
   getCurrentUser: async () => {
     await simulateDelay(100);
 
-    // Check localStorage for persisted auth
     const token = localStorage.getItem('authToken');
     const userStr = localStorage.getItem('user');
     

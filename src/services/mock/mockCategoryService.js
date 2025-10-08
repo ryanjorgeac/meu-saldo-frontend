@@ -1,13 +1,10 @@
 import { mockCategories, simulateDelay, generateId, mockSummary } from './mockData';
 
-// In-memory storage for categories (will reset on page refresh)
 let categories = [...mockCategories];
 
 export const mockCategoryService = {
   getCategories: async () => {
-    // await simulateDelay(300); // Simulate network delay
-    
-    // Return a copy to prevent direct mutation
+    await simulateDelay(300); // Simulate network delay
     return JSON.parse(JSON.stringify(categories));
   },
   getSummary: async () => {
@@ -17,21 +14,16 @@ export const mockCategoryService = {
     await simulateDelay(500);
     
     try {
-      // Validate required fields
       if (!categoryData.name?.trim()) {
         throw new Error("Nome da categoria é obrigatório");
       }
-
-      // Check if category name already exists
       const nameExists = categories.some(
         cat => cat.name.toLowerCase() === categoryData.name.toLowerCase()
       );
-      
       if (nameExists) {
         throw new Error("Já existe uma categoria com este nome");
       }
 
-      // Create new category
       const newCategory = {
         id: generateId(),
         name: categoryData.name.trim(),
@@ -64,12 +56,10 @@ export const mockCategoryService = {
         throw new Error("Categoria não encontrada");
       }
 
-      // Validate required fields
       if (!categoryData.name?.trim()) {
         throw new Error("Nome da categoria é obrigatório");
       }
 
-      // Check if new name conflicts with existing categories (excluding current one)
       const nameExists = categories.some(
         cat => cat.id !== categoryId && cat.name.toLowerCase() === categoryData.name.toLowerCase()
       );
@@ -78,7 +68,6 @@ export const mockCategoryService = {
         throw new Error("Já existe uma categoria com este nome");
       }
 
-      // Update category
       const updatedCategory = {
         ...categories[categoryIndex],
         name: categoryData.name.trim(),
@@ -113,9 +102,6 @@ export const mockCategoryService = {
         throw new Error("Categoria não encontrada");
       }
 
-      // Check if category has transactions (in a real app, you'd check this)
-      // For now, we'll allow deletion
-      
       categories.splice(categoryIndex, 1);
       return { message: "Categoria deletada com sucesso" };
     } catch (error) {

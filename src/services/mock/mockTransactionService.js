@@ -1,6 +1,5 @@
 import { mockTransactions, mockCategories, simulateDelay, generateId } from './mockData';
 
-// In-memory storage for transactions (will reset on page refresh)
 let transactions = [...mockTransactions];
 let categories = [...mockCategories];
 
@@ -10,8 +9,7 @@ export const mockTransactionService = {
     
     try {
       let filteredTransactions = [...transactions];
-      
-      // Apply filters
+
       if (filters.categoryId) {
         filteredTransactions = filteredTransactions.filter(
           t => t.categoryId === parseInt(filters.categoryId)
@@ -43,11 +41,9 @@ export const mockTransactionService = {
                t.categoryName.toLowerCase().includes(searchTerm)
         );
       }
-      
-      // Sort by date (newest first)
+
       filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-      
-      // Pagination
+
       const startIndex = (page - 1) * limit;
       const endIndex = startIndex + limit;
       const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
@@ -69,7 +65,6 @@ export const mockTransactionService = {
     await simulateDelay(500);
     
     try {
-      // Validate required fields
       if (!transactionData.description?.trim()) {
         throw new Error("Descrição é obrigatória");
       }
@@ -81,14 +76,12 @@ export const mockTransactionService = {
       if (!transactionData.categoryId) {
         throw new Error("Categoria é obrigatória");
       }
-      
-      // Find category
+
       const category = categories.find(cat => cat.id === parseInt(transactionData.categoryId));
       if (!category) {
         throw new Error("Categoria não encontrada");
       }
-      
-      // Create new transaction
+
       const newTransaction = {
         id: generateId(),
         description: transactionData.description.trim(),
@@ -121,8 +114,7 @@ export const mockTransactionService = {
       if (transactionIndex === -1) {
         throw new Error("Transação não encontrada");
       }
-      
-      // Validate required fields
+
       if (!transactionData.description?.trim()) {
         throw new Error("Descrição é obrigatória");
       }
@@ -134,14 +126,12 @@ export const mockTransactionService = {
       if (!transactionData.categoryId) {
         throw new Error("Categoria é obrigatória");
       }
-      
-      // Find category
+
       const category = categories.find(cat => cat.id === parseInt(transactionData.categoryId));
       if (!category) {
         throw new Error("Categoria não encontrada");
       }
-      
-      // Update transaction
+
       const updatedTransaction = {
         ...transactions[transactionIndex],
         description: transactionData.description.trim(),

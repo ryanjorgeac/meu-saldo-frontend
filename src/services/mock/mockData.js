@@ -1,4 +1,3 @@
-// Mock data for development
 export const mockSummary = {
     totalBudget: "1000.00",
     totalSpent: "630.50",
@@ -11,7 +10,7 @@ export const mockCategories = [
     name: "Groceries",
     description: "Expenses related to groceries",
     color: "#FF5733",
-    icon: "tomato-icon",
+    icon: "coffee",
     budgetAmount: 800.00,
     userId: "1fedcba",
     isActive: true,
@@ -27,7 +26,7 @@ export const mockCategories = [
     name: "Transporte",
     description: "Combustível, ônibus, uber",
     color: "#4ECDC4",
-    icon: "transport",
+    icon: "map",
     budgetAmount: 300.00,
     userId: "2fedcba",
     isActive: true,
@@ -43,7 +42,7 @@ export const mockCategories = [
     name: "Moradia",
     description: "Aluguel, contas, manutenção",
     color: "#45B7D1",
-    icon: "wallet",
+    icon: "shield",
     budgetAmount: 1200.00,
     userId: "3fedcba",
     isActive: true,
@@ -59,7 +58,7 @@ export const mockCategories = [
     name: "Salário",
     description: "Renda mensal principal",
     color: "#96CEB4",
-    icon: "wallet",
+    icon: "happy-face",
     budgetAmount: 5000.00,
     userId: "4fedcba",
     isActive: true,
@@ -91,7 +90,7 @@ export const mockCategories = [
     name: "Entretenimento",
     description: "Cinema, jogos, lazer",
     color: "#DDA0DD",
-    icon: "happy-face",
+    icon: "gift",
     budgetAmount: 200.00,
     userId: "6fedcba",
     isActive: true,
@@ -190,16 +189,14 @@ export const mockTransactions = [
 
 export const mockUser = {
   id: 1,
-  name: "João Silva",
+  name: "Ryan Carvalho",
   email: "joao@example.com",
   createdAt: "2025-01-15T10:00:00Z"
 };
 
-// Helper function to simulate API delay
 export const simulateDelay = (ms = 500) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-// Helper function to generate unique IDs
 let nextId = 1000;
 export const generateId = () => ++nextId;

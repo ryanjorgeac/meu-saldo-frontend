@@ -78,9 +78,10 @@
 .category-list__grid {
   display: grid;
   width: 100%;
-  justify-items: start;
+  justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
-  justify-content: left;
+  justify-content: center;
+  row-gap: 1rem;
 }
 
 .category-list__loading,
@@ -112,7 +113,7 @@
 @media (min-width: 1400px) {
   .category-list__grid {
     grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
-    max-width: 1400px;
+    /* max-width: 1400px; */
   }
 }
 
