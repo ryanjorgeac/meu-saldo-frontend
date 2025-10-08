@@ -136,7 +136,19 @@
   background: var(--lima-400);
   height: 100%;
   border-radius: 4px;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.category-card__progress-bar--safe {
+  background: #4CAF50;
+}
+
+.category-card__progress-bar--warning {
+  background: #FF9800;
+}
+
+.category-card__progress-bar--danger {
+  background: #F44336
 }
 
 .category-card__budget-footer {

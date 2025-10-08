@@ -22,6 +22,12 @@ const CategoryCard = ({
   const spent = spentAmount >= 0 ? spentAmount: spentAmount * -1;
   const progressPercentage = budgetAmount > 0 ? Math.min((spent / budgetAmount) * 100, 100) : 0;
 
+  const getProgressBarClass = () => {
+    if (progressPercentage < 65) return 'category-card__progress-bar--safe';
+    if (progressPercentage < 90) return 'category-card__progress-bar--warning';
+    return 'category-card__progress-bar--danger';
+  };
+
   const rightSizeDescription = description.length > 38 ? `${description.substring(0, 37)}...` : description;
 
   const formatCurrency = (value) => {
@@ -91,7 +97,7 @@ const CategoryCard = ({
         
         <div className="category-card__progress">
           <div 
-            className="category-card__progress-bar"
+            className={`category-card__progress-bar ${getProgressBarClass()}`}
             style={{ width: `${progressPercentage}%` }}
           />
         </div>
