@@ -1,4 +1,5 @@
-import { getIcon, EditIcon, TrashIcon } from '../../assets/icons';
+import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
+import { Icon } from '../icons';
 import "./CategoryCard.css";
 
 const CategoryCard = ({ 
@@ -37,12 +38,6 @@ const CategoryCard = ({
     }).format(value);
   };
 
-  const getCategoryIcon = () => {
-    const IconComponent = getIcon(icon, "anchor");
-    return <IconComponent />;
-  };
-
-
   const handleEdit = (e) => {
     e.stopPropagation();
     if (onEdit) onEdit(id);
@@ -59,22 +54,24 @@ const CategoryCard = ({
     >
       <div className="category-card__identification" style={{ '--category-color': color }}>
         <div className="category-card__header">
-          <div className="category-card__icon">{getCategoryIcon()}</div>
-            <div className="category-card__actions">
-              <button 
-                className="category-card__action-btn"
-                onClick={handleEdit}
-                title="Editar categoria"
-              >
-                <EditIcon />
-              </button>
-              <button 
-                className="category-card__action-btn category-card__action-btn--delete"
-                onClick={handleDelete}
-                title="Excluir categoria"
-              >
-                <TrashIcon />
-              </button>
+          <div className="category-card__icon">
+            <Icon fontSize="22" color="rgba(0, 0, 0, 0.6)" icon={icon || 'happyface'} />
+          </div>
+          <div className="category-card__actions">
+            <button 
+              className="category-card__action-btn"
+              onClick={handleEdit}
+              title="Editar categoria"
+            >
+              <EditIcon fontSize="20" />
+            </button>
+            <button 
+              className="category-card__action-btn category-card__action-btn--delete"
+              onClick={handleDelete}
+              title="Excluir categoria"
+            >
+              <TrashIcon fontSize="20" />
+            </button>
           </div>
         </div>
 
