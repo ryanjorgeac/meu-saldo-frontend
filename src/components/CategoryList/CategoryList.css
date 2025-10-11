@@ -82,6 +82,7 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
   justify-content: center;
   row-gap: 1rem;
+  column-gap: 1rem;
 }
 
 .category-list__loading,
@@ -112,7 +113,7 @@
 /* Responsive grid adjustments */
 @media (min-width: 1400px) {
   .category-list__grid {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 350px));
     /* max-width: 1400px; */
   }
 }
