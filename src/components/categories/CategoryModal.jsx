@@ -2,6 +2,29 @@ import Modal from '../common/Modal';
 import './CategoryModal.css';
 
 const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => {
+    const formatBudgetDisplay = (cents) => {
+        if (!cents || cents === 0) return '0,00';
+        return `${(cents / 100).toString().replace('.', ',')}`;
+    };
+
+    const handleBudgetChange = (e) => {
+        const inputValue = e.target.value;
+        const digits = inputValue.replace(/\D/g, '');
+        const cents = digits === '' ? 0 : parseInt(digits, 10);
+
+        const MAX_CENTS = 9999999999999;
+        if (cents > MAX_CENTS) {
+            return;
+        }
+        
+        setCategory(prev => ({
+            ...prev,
+            budget: cents
+        }));
+    };
+
+    const displayBudgetValue = formatBudgetDisplay(category.budget);
+        
     return (
         <Modal onClose={onClose}>
             <div className="category-modal">
@@ -39,29 +62,16 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                         />
                         <small>{category.description.length}/30</small>
                     </div>
-                    
+
                     <div className="form-group">
-                        <label htmlFor="type">Tipo</label>
-                        <select
-                        id="type"
-                        name="type"
-                        value={category.type}
-                        onChange={onChange}
-                        >
-                        <option value="expense">Despesa</option>
-                        <option value="income">Receita</option>
-                        </select>
-                    </div>
-                    
-                    <div className="form-group">
-                        <label htmlFor="placeholder">Valor Padrão</label>
+                        <label htmlFor="budget">Orçamento (R$)</label>
                         <input
-                        type="number"
-                        id="placeholder"
-                        name="placeholder"
-                        value={category.placeholder}
-                        onChange={onChange}
-                        placeholder="0.00"
+                            type="text"
+                            id="budget"
+                            name="budget"
+                            value={displayBudgetValue}
+                            onChange={handleBudgetChange}
+                            placeholder="0,00"
                         />
                     </div>
                     

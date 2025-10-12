@@ -1,6 +1,7 @@
 import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
 import { Icon } from '../icons';
 import "./CategoryCard.css";
+import { parseCurrency } from '../../utils/money';
 
 const CategoryCard = ({ 
   category, 
@@ -13,15 +14,17 @@ const CategoryCard = ({
     description,
     color,
     icon,
-    budgetAmount = 0,
-    spentAmount = 0,
-    remainingAmount = 0,
+    budgetAmount,
+    spentAmount,
+    remainingAmount,
     transactionCount = 0,
     isActive = true
   } = category;
 
-  const spent = spentAmount >= 0 ? spentAmount: spentAmount * -1;
-  const progressPercentage = budgetAmount > 0 ? Math.min((spent / budgetAmount) * 100, 100) : 0;
+  const budget = parseCurrency(budgetAmount);
+  const spent = parseCurrency(spentAmount);
+
+  const progressPercentage = budget > 0 ? Math.min((spent / budget) * 100, 100) : 0;
 
   const getProgressBarClass = () => {
     if (progressPercentage < 65) return 'category-card__progress-bar--safe';
@@ -30,13 +33,6 @@ const CategoryCard = ({
   };
 
   const rightSizeDescription = description.length > 38 ? `${description.substring(0, 37)}...` : description;
-
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value);
-  };
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -75,21 +71,18 @@ const CategoryCard = ({
           </div>
         </div>
 
-        {/* Category info */}
         <div className="category-card__info">
           <div className="category-card__title">{name}</div>
           <div className="category-card__symbol">R$</div>
-          <div className="category-card__amount">{formatCurrency(remainingAmount)}</div>
+          <div className="category-card__amount">{remainingAmount}</div>
           <div className="category-card__description">{rightSizeDescription}</div>
         </div>
       </div>
-      
 
-      {/* Budget progress */}
       <div className="category-card__budget">
         <div className="category-card__budget-header">
           <span className="category-card__budget-label">Orçamento</span>
-          <span className="category-card__budget-amount">R${formatCurrency(budgetAmount)}</span>
+          <span className="category-card__budget-amount">R${budgetAmount}</span>
         </div>
         
         <div className="category-card__progress">
@@ -104,7 +97,7 @@ const CategoryCard = ({
             {transactionCount} transações
           </span>
           <span className="category-card__spent">
-            R${formatCurrency(spent)} gasto
+            R${spentAmount} gasto
           </span>
         </div>
       </div>

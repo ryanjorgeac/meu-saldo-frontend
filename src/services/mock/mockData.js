@@ -1,7 +1,7 @@
 export const mockSummary = {
-    totalBudget: "1000.00",
-    totalSpent: "630.50",
-    remainingBudget: "203.75"
+    totalBudget: "1.000,00",
+    totalSpent: "630,50",
+    remainingBudget: "203,75"
 }
 
 export const mockCategories = [
@@ -11,14 +11,14 @@ export const mockCategories = [
     description: "Expenses related to groceries",
     color: "#FF5733",
     icon: "coffee",
-    budgetAmount: 800.00,
+    budgetAmount: "800,00",
     userId: "1fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "450.75",
-    incomeAmount: "50.00",
-    remainingAmount: "350.00",
+    spentAmount: "450,75",
+    incomeAmount: "50,00",
+    remainingAmount: "350,00",
     transactionCount: 12
   },
   {
@@ -27,14 +27,14 @@ export const mockCategories = [
     description: "Combustível, ônibus, uber",
     color: "#4ECDC4",
     icon: "map",
-    budgetAmount: 300.00,
+    budgetAmount: "300,00",
     userId: "2fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "250.75",
-    incomeAmount: "50.00",
-    remainingAmount: "49.25",
+    spentAmount: "250,75",
+    incomeAmount: "50,00",
+    remainingAmount: "49,25",
     transactionCount: 3
   },
   {
@@ -43,14 +43,14 @@ export const mockCategories = [
     description: "Aluguel, contas, manutenção",
     color: "#45B7D1",
     icon: "shield",
-    budgetAmount: 1200.00,
+    budgetAmount: "1200,00",
     userId: "3fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "1200.00",
-    incomeAmount: "0.00",
-    remainingAmount: "0.00",
+    spentAmount: "1200,00",
+    incomeAmount: "0,00",
+    remainingAmount: "0,00",
     transactionCount: 5
   },
   {
@@ -59,14 +59,14 @@ export const mockCategories = [
     description: "Renda mensal principal",
     color: "#96CEB4",
     icon: "happy-face",
-    budgetAmount: 5000.00,
+    budgetAmount: "5000,00",
     userId: "4fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "0.00",
-    incomeAmount: "0.00",
-    remainingAmount: "5000.00",
+    spentAmount: "0,00",
+    incomeAmount: "0,00",
+    remainingAmount: "5000,00",
     transactionCount: 0
   },
   {
@@ -75,14 +75,14 @@ export const mockCategories = [
     description: "Trabalhos extras",
     color: "#FFEAA7",
     icon: "tool",
-    budgetAmount: 800.00,
+    budgetAmount: "800,00",
     userId: "5fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "0.00",
-    incomeAmount: "0.00",
-    remainingAmount: "800.00",
+    spentAmount: "0,00",
+    incomeAmount: "0,00",
+    remainingAmount: "800,00",
     transactionCount: 0
   },
   {
@@ -91,14 +91,14 @@ export const mockCategories = [
     description: "Cinema, jogos, lazer",
     color: "#DDA0DD",
     icon: "gift",
-    budgetAmount: 200.00,
+    budgetAmount: "200,00",
     userId: "6fedcba",
     isActive: true,
     createdAt: "2025-04-21T12:00:00Z",
     updatedAt: "2025-04-21T12:00:00Z",
-    spentAmount: "120.00",
-    incomeAmount: "0.00",
-    remainingAmount: "80.00",
+    spentAmount: "120,00",
+    incomeAmount: "0,00",
+    remainingAmount: "80,00",
     transactionCount: 2
   }
 ];

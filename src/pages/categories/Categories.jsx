@@ -10,17 +10,16 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [budgetData, setBudgetData] = useState({
-    totalBudget: 0,
-    totalSpent: 0,
-    remaining: 0
+    totalBudget: "0,00",
+    totalSpent: "0,00",
+    remaining: "0,00"
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
-    type: "fixed", // Default value, can be "fixed" or "percentage"
-    value: "",
+    budget: 0,
     icon: "wallet", // Default icon
     color: "#6200EE" // Default color We will update using gradient colors from backend
   });
@@ -72,8 +71,9 @@ export default function Categories() {
     setNewCategory({
       name: "",
       description: "",
-      type: "expense",
-      placeholder: "",
+      valueType: "fixed",
+      fixedValue: "0",
+      percentageValue: "0",
       icon: "wallet",
       color: "#6200EE"
     });

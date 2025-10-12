@@ -32,6 +32,49 @@
   font-size: 0.8rem;
 }
 
+.radio-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.radio-option:hover {
+  border-color: #6200EE;
+  background-color: #f8f5ff;
+}
+
+.radio-option input[type="radio"] {
+  margin: 0;
+  accent-color: #6200EE;
+}
+
+.radio-option input[type="radio"]:checked + .radio-label {
+  color: #6200EE;
+  font-weight: 600;
+}
+
+.radio-option:has(input[type="radio"]:checked) {
+  border-color: #6200EE;
+  background-color: #f8f5ff;
+}
+
+.radio-label {
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
 .icon-selector {
   display: flex;
   flex-wrap: wrap;

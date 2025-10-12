@@ -2,12 +2,10 @@ import BudgetCard from './BudgetCard';
 import './BudgetSummary.css';
 
 const BudgetSummary = ({ 
-  totalBudget = 0, 
-  totalSpent = 0, 
-  remaining = 0 
+  totalBudget = "0,00", 
+  totalSpent = "0,00", 
+  remaining = "0,00" 
 }) => {
-  const calculatedRemaining = remaining || (totalBudget - totalSpent);
-
   return (
     <div className="budget-summary">
       <BudgetCard
@@ -24,7 +22,7 @@ const BudgetSummary = ({
       />
       <BudgetCard
         title="Restante"
-        amount={calculatedRemaining}
+        amount={remaining}
         variant="remaining"
         subtitle="Disponível"
       />
