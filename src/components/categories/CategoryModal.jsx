@@ -1,4 +1,6 @@
 import Modal from '../common/Modal';
+import { Icon } from '../icons';
+import { CATEGORY_COLORS } from '../../utils/colors';
 import './CategoryModal.css';
 
 const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => {
@@ -28,13 +30,13 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
     return (
         <Modal onClose={onClose}>
             <div className="category-modal">
-                <div className="modal-header">
+                <div className="category-modal-header">
                     <h2>Nova Categoria</h2>
                     <p>Preencha os dados para criar uma nova categoria</p>
                 </div>
 
                 <div className="modal-body">
-                    <div className="form-group">
+                    <div className="category-form-group">
                         <label htmlFor="name">Nome da Categoria</label>
                         <input
                         type="text"
@@ -46,10 +48,10 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                         placeholder="Ex: Alimentação"
                         required
                         />
-                        <small>{category.name.length}/15</small>
+                        {/* <small>{category.name.length}/15</small> */}
                     </div>
                     
-                    <div className="form-group">
+                    <div className="category-form-group">
                         <label htmlFor="description">Descrição</label>
                         <input
                         type="text"
@@ -60,10 +62,10 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                         maxLength={30}
                         placeholder="Breve descrição"
                         />
-                        <small>{category.description.length}/30</small>
+                        {/* <small>{category.description.length}/30</small> */}
                     </div>
 
-                    <div className="form-group">
+                    <div className="category-form-group">
                         <label htmlFor="budget">Orçamento (R$)</label>
                         <input
                             type="text"
@@ -74,45 +76,97 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                             placeholder="0,00"
                         />
                     </div>
-                    
-                    <div className="form-group">
+
+                    <div className="category-form-group">
                         <label>Ícone</label>
                         <div className="icon-selector">
-                        {/* You would implement an actual icon selector here */}
-                        <button 
-                            type="button" 
-                            className="icon-option"
-                            onClick={() => setCategory({...category, icon: "wallet"})}
-                        >
-                            🏦
-                        </button>
-                        <button 
-                            type="button" 
-                            className="icon-option"
-                            onClick={() => setCategory({...category, icon: "food"})}
-                        >
-                            🍔
-                        </button>
-                        <button 
-                            type="button" 
-                            className="icon-option"
-                            onClick={() => setCategory({...category, icon: "transport"})}
-                        >
-                            🚗
-                        </button>
-                        {/* Add more icon options */}
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'bus' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "bus"})}
+                            >
+                                <Icon icon="bus" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'book' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "book"})}
+                            >
+                                <Icon icon="book" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'coffee' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "coffee"})}
+                            >
+                                <Icon icon="coffee" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'gift' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "gift"})}
+                            >
+                                <Icon icon="gift" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'graph' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "graph"})}
+                            >
+                                <Icon icon="graph" fontSize="22" color="" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'happyface' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "happyface"})}
+                            >
+                                <Icon icon="happyface" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'map' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "map"})}
+                            >
+                                <Icon icon="map" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'shield' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "shield"})}
+                            >
+                                <Icon icon="shield" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'shoppingbag' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "shoppingbag"})}
+                            >
+                                <Icon icon="shoppingbag" fontSize="22" />
+                            </button>
+                            <button 
+                                type="button" 
+                                className={`icon-option ${category.icon === 'tool' ? 'icon-option--selected' : ''}`}
+                                onClick={() => setCategory({...category, icon: "tool"})}
+                            >
+                                <Icon icon="tool" fontSize="22" />
+                            </button>
                         </div>
                     </div>
                     
-                    <div className="form-group">
-                        <label htmlFor="color">Cor</label>
-                        <input
-                        type="color"
-                        id="color"
-                        name="color"
-                        value={category.color}
-                        onChange={onChange}
-                        />
+                    <div className="category-form-group">
+                        <label>Cor</label>
+                        <div className="color-selector">
+                            {CATEGORY_COLORS.map((color) => (
+                                <button
+                                    key={color}
+                                    type="button"
+                                    className={`color-option ${category.color === color ? 'color-option--selected' : ''}`}
+                                    style={{ background: color }}
+                                    onClick={() => setCategory({...category, color})}
+                                    title={color}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
                 
