@@ -9,3 +9,14 @@ export const parseCurrency = (value) => {
     }
     return 0;
 };
+
+const brlFormatter = new Intl.NumberFormat('pt-BR', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2
+});
+
+export const formatCurrencyFromCents = (value) => {
+    const valueInReais = value / 100;
+    console.log(`Value In Reais: ${valueInReais}`);
+    return brlFormatter.format(valueInReais);
+}

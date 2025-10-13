@@ -1,4 +1,5 @@
 import Modal from '../common/Modal';
+import { formatCurrencyFromCents } from '../../utils/money'
 import { Icon } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
 import './CategoryModal.css';
@@ -6,19 +7,17 @@ import './CategoryModal.css';
 const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => {
     const formatBudgetDisplay = (cents) => {
         if (!cents || cents === 0) return '0,00';
-        return `${(cents / 100).toString().replace('.', ',')}`;
+        return formatCurrencyFromCents(cents);
     };
 
     const handleBudgetChange = (e) => {
         const inputValue = e.target.value;
         const digits = inputValue.replace(/\D/g, '');
         const cents = digits === '' ? 0 : parseInt(digits, 10);
-
         const MAX_CENTS = 9999999999999;
         if (cents > MAX_CENTS) {
             return;
         }
-        
         setCategory(prev => ({
             ...prev,
             budget: cents
