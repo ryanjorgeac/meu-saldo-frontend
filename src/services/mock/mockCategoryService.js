@@ -1,3 +1,4 @@
+import { formatCurrencyFromCents } from '../../utils/money';
 import { mockCategories, simulateDelay, generateId, mockSummary } from './mockData';
 
 let categories = [...mockCategories];
@@ -28,13 +29,17 @@ export const mockCategoryService = {
         id: generateId(),
         name: categoryData.name.trim(),
         description: categoryData.description?.trim() || "",
-        type: categoryData.type || "expense",
         icon: categoryData.icon || "wallet",
         color: categoryData.color || "#6200EE",
-        budgetAmount: parseFloat(categoryData.placeholder) || 0,
-        spentAmount: 0,
-        placeholder: categoryData.placeholder || "0.00",
-        createdAt: new Date().toISOString()
+        budgetAmount: formatCurrencyFromCents(categoryData.budget || 0),
+        userId: "6fedcba",
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        spentAmount: "0,00",
+        incomeAmount: "0,00",
+        remainingAmount: "0,00",
+        transactionCount: 0
       };
 
       categories.push(newCategory);
