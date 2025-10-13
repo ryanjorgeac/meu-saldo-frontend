@@ -29,11 +29,13 @@ const iconMap = {
   trash: FaTrash
 };
 
+const defaultColor = "#9c9c9c"
+
 const Icon = ({ icon, ...props }) => {
   const IconComponent = iconMap[icon?.toLowerCase()] || FaRegFaceGrin;
   
   return (
-    <IconComponent {...props} />
+    <IconComponent color={defaultColor} {...props} />
   );
 };
 

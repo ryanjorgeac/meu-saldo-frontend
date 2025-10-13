@@ -29,6 +29,8 @@
   --gray-100: #F5F5F5;
   --gray-300: #D5D7DA;
   --gray-500: #717680;
+  --gray-700: #494c52;
+  --gray-800: #242c3b;
   --gray-900: #181D27;
 }
 
@@ -95,12 +97,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
 }
 button:focus,
 button:focus-visible {

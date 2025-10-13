@@ -5,6 +5,7 @@ import CategoryList from "../../components/CategoryList/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
+import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -20,8 +21,8 @@ export default function Categories() {
     name: "",
     description: "",
     budget: 0,
-    icon: "wallet", // Default icon
-    color: "#6200EE" // Default color We will update using gradient colors from backend
+    icon: "happyface", // Default icon
+    color: DEFAULT_CATEGORY_COLOR // Default color from utils
   });
 
   async function fetchCategories(){
@@ -71,11 +72,9 @@ export default function Categories() {
     setNewCategory({
       name: "",
       description: "",
-      valueType: "fixed",
-      fixedValue: "0",
-      percentageValue: "0",
-      icon: "wallet",
-      color: "#6200EE"
+      budget: 0,
+      icon: "happyface",
+      color: DEFAULT_CATEGORY_COLOR
     });
   };
 
