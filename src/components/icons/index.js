@@ -5,3 +5,4 @@ export { GoGraph } from "react-icons/go";
 export { RiShoppingBag4Fill } from "react-icons/ri";
 export { FiTool } from "react-icons/fi";
 export { default as Icon } from "./Icon.jsx";
+export { iconMap } from "./icons.js";

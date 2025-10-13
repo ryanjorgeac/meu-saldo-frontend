@@ -1,10 +1,15 @@
 import Modal from '../common/Modal';
 import { formatCurrencyFromCents } from '../../utils/money'
-import { Icon } from '../icons';
+import { Icon, iconMap } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
 import './CategoryModal.css';
 
 const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => {
+    const getAvailableIcons = () => {
+        const excludedIcons = ['edit', 'trash'];
+        return Object.keys(iconMap).filter(icon => !excludedIcons.includes(icon));
+    };
+
     const formatBudgetDisplay = (cents) => {
         if (!cents || cents === 0) return '0,00';
         return formatCurrencyFromCents(cents);
@@ -79,76 +84,16 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                     <div className="category-form-group">
                         <label>Ícone</label>
                         <div className="icon-selector">
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'bus' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "bus"})}
-                            >
-                                <Icon icon="bus" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'book' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "book"})}
-                            >
-                                <Icon icon="book" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'coffee' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "coffee"})}
-                            >
-                                <Icon icon="coffee" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'gift' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "gift"})}
-                            >
-                                <Icon icon="gift" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'graph' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "graph"})}
-                            >
-                                <Icon icon="graph" fontSize="22" color="" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'happyface' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "happyface"})}
-                            >
-                                <Icon icon="happyface" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'map' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "map"})}
-                            >
-                                <Icon icon="map" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'shield' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "shield"})}
-                            >
-                                <Icon icon="shield" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'shoppingbag' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "shoppingbag"})}
-                            >
-                                <Icon icon="shoppingbag" fontSize="22" />
-                            </button>
-                            <button 
-                                type="button" 
-                                className={`icon-option ${category.icon === 'tool' ? 'icon-option--selected' : ''}`}
-                                onClick={() => setCategory({...category, icon: "tool"})}
-                            >
-                                <Icon icon="tool" fontSize="22" />
-                            </button>
+                            {getAvailableIcons().map((iconName) => (
+                                <button 
+                                    key={iconName}
+                                    type="button" 
+                                    className={`icon-option ${category.icon === iconName ? 'icon-option--selected' : ''}`}
+                                    onClick={() => setCategory({...category, icon: iconName})}
+                                >
+                                    <Icon icon={iconName} fontSize="22" />
+                                </button>
+                            ))}
                         </div>
                     </div>
                     

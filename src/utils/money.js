@@ -17,6 +17,5 @@ const brlFormatter = new Intl.NumberFormat('pt-BR', {
 
 export const formatCurrencyFromCents = (value) => {
     const valueInReais = value / 100;
-    console.log(`Value In Reais: ${valueInReais}`);
     return brlFormatter.format(valueInReais);
 }

@@ -21,8 +21,8 @@ export default function Categories() {
     name: "",
     description: "",
     budget: 0,
-    icon: "happyface", // Default icon
-    color: DEFAULT_CATEGORY_COLOR // Default color from utils
+    icon: "happyface",
+    color: DEFAULT_CATEGORY_COLOR
   });
 
   async function fetchCategories(){
@@ -68,7 +68,6 @@ export default function Categories() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    // Reset form data
     setNewCategory({
       name: "",
       description: "",
@@ -92,16 +91,13 @@ export default function Categories() {
 
   const handleCreateCategory = async () => {
     try {
-      // Validate form
       if (!newCategory.name.trim()) {
         alert("Nome da categoria é obrigatório");
         return;
       }
-      
-      // Call API to create category
+
       await categoryService.createCategory(newCategory);
-      
-      // Close modal and refresh categories
+
       handleCloseModal();
       fetchCategories();
     } catch (error) {
