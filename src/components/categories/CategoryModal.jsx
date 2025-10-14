@@ -4,7 +4,7 @@ import { Icon, iconMap } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
 import './CategoryModal.css';
 
-const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => {
+const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEditing = false }) => {
     const getAvailableIcons = () => {
         const excludedIcons = ['edit', 'trash'];
         return Object.keys(iconMap).filter(icon => !excludedIcons.includes(icon));
@@ -35,8 +35,8 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
         <Modal onClose={onClose}>
             <div className="category-modal">
                 <div className="category-modal-header">
-                    <h2>Nova Categoria</h2>
-                    <p>Preencha os dados para criar uma nova categoria</p>
+                    <h2>{isEditing ? 'Editar Categoria' : 'Nova Categoria'}</h2>
+                    <p>{isEditing ? 'Altere os dados da categoria' : 'Preencha os dados para criar uma nova categoria'}</p>
                 </div>
 
                 <div className="modal-body">
@@ -127,7 +127,7 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory }) => 
                     className="btn btn-primary"
                     onClick={onSave}
                     >
-                    Criar
+                    {isEditing ? 'Salvar' : 'Criar'}
                     </button>
                 </div>
             </div>

@@ -80,7 +80,7 @@ export const mockCategoryService = {
         type: categoryData.type || categories[categoryIndex].type,
         icon: categoryData.icon || categories[categoryIndex].icon,
         color: categoryData.color || categories[categoryIndex].color,
-        budgetAmount: parseFloat(categoryData.placeholder) || categories[categoryIndex].budgetAmount,
+        budgetAmount: formatCurrencyFromCents(categoryData.budget || 0),
         placeholder: categoryData.placeholder || categories[categoryIndex].placeholder,
         updatedAt: new Date().toISOString()
       };

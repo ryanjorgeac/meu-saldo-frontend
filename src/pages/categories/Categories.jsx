@@ -6,6 +6,7 @@ import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
 import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
+import { parseCurrency } from "../../utils/money";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -17,6 +18,7 @@ export default function Categories() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
@@ -45,9 +47,19 @@ export default function Categories() {
   };
 
   const handleEditCategory = (categoryId) => {
-    console.log('Editar categoria:', categoryId);
-    // TODO: Implement edit functionality
-    // This could open a modal or navigate to an edit page
+    const categoryToEdit = categories.find(cat => cat.id === categoryId);
+    console.log(`Category Budget: ${categoryToEdit.budgetAmount}`);
+    if (categoryToEdit) {
+      setEditingCategory(categoryToEdit);
+      setNewCategory({
+        name: categoryToEdit.name,
+        description: categoryToEdit.description || "",
+        budget: typeof categoryToEdit.budgetAmount === 'string' ? parseCurrency(categoryToEdit.budgetAmount) : categoryToEdit.budgetAmount || 0,
+        icon: categoryToEdit.icon,
+        color: categoryToEdit.color
+      });
+      setIsModalOpen(true);
+    }
   };
 
   const handleDeleteCategory = async (categoryId) => {
@@ -68,6 +80,7 @@ export default function Categories() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setEditingCategory(null);
     setNewCategory({
       name: "",
       description: "",
@@ -83,6 +96,7 @@ export default function Categories() {
     if (name === "name" && value.length > 15) return;
     if (name === "description" && value.length > 30) return;
     
+    console.log(`${name} - ${value}`)
     setNewCategory(prev => ({
       ...prev,
       [name]: value
@@ -96,13 +110,17 @@ export default function Categories() {
         return;
       }
 
-      await categoryService.createCategory(newCategory);
+      if (editingCategory) {
+        await categoryService.updateCategory(editingCategory.id, newCategory);
+      } else {
+        await categoryService.createCategory(newCategory);
+      }
 
       handleCloseModal();
       fetchCategories();
     } catch (error) {
-      console.error("Erro ao criar categoria:", error);
-      alert("Erro ao criar categoria. Tente novamente.");
+      console.error(editingCategory ? "Erro ao atualizar categoria:" : "Erro ao criar categoria:", error);
+      alert(editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
     }
   };
    
@@ -144,6 +162,7 @@ export default function Categories() {
           onChange={handleInputChange}
           onSave={handleCreateCategory}
           setCategory={setNewCategory}
+          isEditing={!!editingCategory}
         />
       )}
     </main>
