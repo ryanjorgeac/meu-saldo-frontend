@@ -94,13 +94,14 @@ export const categoryService = {
   },
   deleteCategory: async (categoryId) => {
     const response = await api.delete(`/api/v1/categories/${categoryId}`);
-    if (!response.ok) {
+    if (!response.status || response.status !== 204) {
       throw new Error("Erro ao deletar categoria");
     }
   },
   updateCategory: async (categoryId, categoryData) => {
     try {
-      const response = await api.put(`/api/v1/categories/${categoryId}`, categoryData);
+      const response = await api.patch(`/api/v1/categories/${categoryId}`, categoryData);
+      
       return response.data;
     } catch (error) {
       if (error.response) {

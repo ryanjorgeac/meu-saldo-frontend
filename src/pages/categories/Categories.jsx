@@ -69,8 +69,9 @@ export default function Categories() {
         prevCategories.filter((category) => category.id !== categoryId)
       );
       fetchCategories();
-    } catch (error) {
-      console.error("Erro ao deletar categoria:", error);
+    // eslint-disable-next-line no-unused-vars
+    } catch (_) {
+      console.error("Erro ao deletar categoria:");
     }
   };
 
@@ -96,8 +97,7 @@ export default function Categories() {
 
     if (name === "name" && value.length > 15) return;
     if (name === "description" && value.length > 30) return;
-    
-    console.log(`${name} - ${value}`)
+
     setNewCategory(prev => ({
       ...prev,
       [name]: value
@@ -120,7 +120,6 @@ export default function Categories() {
       handleCloseModal();
       fetchCategories();
     } catch (error) {
-      console.error(editingCategory ? "Erro ao atualizar categoria:" : "Erro ao criar categoria:", error);
       alert(editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
     }
   };
