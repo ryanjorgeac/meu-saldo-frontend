@@ -191,22 +191,6 @@
   color: var(--gray-900);
 }
 
-/* Color Variants */
-/* .category-card[style*="#ef4444"], 
-.category-card[style*="red"] {
-  background: #ef4444;
-}
-
-.category-card[style*="#3b82f6"], 
-.category-card[style*="blue"] {
-  background: #3b82f6;
-}
-
-.category-card[style*="#10b981"], 
-.category-card[style*="green"] {
-  background: #10b981;
-} */
-
 .category-budget {
   font-size: 0.875rem;
   color: #000000 !important;

@@ -101,7 +101,8 @@ button {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+  transform: scale(1.02);
 }
 
 @media (prefers-color-scheme: light) {
