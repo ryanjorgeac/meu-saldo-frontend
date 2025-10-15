@@ -22,9 +22,10 @@ export default function Categories() {
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
-    budget: 0,
+    budgetAmount: 0,
     icon: "happyface",
-    color: DEFAULT_CATEGORY_COLOR
+    color: DEFAULT_CATEGORY_COLOR,
+    isActive: true,
   });
 
   async function fetchCategories(){
@@ -48,13 +49,12 @@ export default function Categories() {
 
   const handleEditCategory = (categoryId) => {
     const categoryToEdit = categories.find(cat => cat.id === categoryId);
-    console.log(`Category Budget: ${categoryToEdit.budgetAmount}`);
     if (categoryToEdit) {
       setEditingCategory(categoryToEdit);
       setNewCategory({
         name: categoryToEdit.name,
         description: categoryToEdit.description || "",
-        budget: typeof categoryToEdit.budgetAmount === 'string' ? parseCurrency(categoryToEdit.budgetAmount) : categoryToEdit.budgetAmount || 0,
+        budgetAmount: typeof categoryToEdit.budgetAmount === 'string' ? parseCurrency(categoryToEdit.budgetAmount) : categoryToEdit.budgetAmount || 0,
         icon: categoryToEdit.icon,
         color: categoryToEdit.color
       });
@@ -84,9 +84,10 @@ export default function Categories() {
     setNewCategory({
       name: "",
       description: "",
-      budget: 0,
+      budgetAmount: 0,
       icon: "happyface",
-      color: DEFAULT_CATEGORY_COLOR
+      color: DEFAULT_CATEGORY_COLOR,
+      isActive: true,
     });
   };
 

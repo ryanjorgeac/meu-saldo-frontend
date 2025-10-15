@@ -31,7 +31,7 @@ export const mockCategoryService = {
         description: categoryData.description?.trim() || "",
         icon: categoryData.icon || "wallet",
         color: categoryData.color || "#6200EE",
-        budgetAmount: formatCurrencyFromCents(categoryData.budget || 0),
+        budgetAmount: formatCurrencyFromCents(categoryData.budgetAmount || 0),
         userId: "6fedcba",
         isActive: true,
         createdAt: new Date().toISOString(),
@@ -80,7 +80,7 @@ export const mockCategoryService = {
         type: categoryData.type || categories[categoryIndex].type,
         icon: categoryData.icon || categories[categoryIndex].icon,
         color: categoryData.color || categories[categoryIndex].color,
-        budgetAmount: formatCurrencyFromCents(categoryData.budget || 0),
+        budgetAmount: formatCurrencyFromCents(categoryData.budgetAmount || 0),
         placeholder: categoryData.placeholder || categories[categoryIndex].placeholder,
         updatedAt: new Date().toISOString()
       };

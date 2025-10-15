@@ -57,7 +57,7 @@ function FormSection({ onAddCategory }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="budget">Orçamento</label>
+          <label htmlFor="budgetAmount">Orçamento</label>
           <input
             type="text"
             id="budgetAmount"

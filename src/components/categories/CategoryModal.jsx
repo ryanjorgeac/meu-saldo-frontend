@@ -25,12 +25,12 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
         }
         setCategory(prev => ({
             ...prev,
-            budget: cents
+            budgetAmount: cents
         }));
     };
 
-    const displayBudgetValue = formatBudgetDisplay(category.budget);
-        
+    const displayBudgetValue = formatBudgetDisplay(category.budgetAmount);
+
     return (
         <Modal onClose={onClose}>
             <div className="category-modal">
@@ -48,11 +48,11 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                         name="name"
                         value={category.name}
                         onChange={onChange}
-                        maxLength={15}
+                        maxLength={20}
                         placeholder="Ex: Alimentação"
                         required
                         />
-                        {/* <small>{category.name.length}/15</small> */}
+                        {/* <small>{category.name.length}/20</small> */}
                     </div>
                     
                     <div className="category-form-group">
@@ -63,18 +63,18 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                         name="description"
                         value={category.description}
                         onChange={onChange}
-                        maxLength={30}
+                        maxLength={48}
                         placeholder="Breve descrição"
                         />
-                        {/* <small>{category.description.length}/30</small> */}
+                        {/* <small>{category.description.length}/48</small> */}
                     </div>
 
                     <div className="category-form-group">
-                        <label htmlFor="budget">Orçamento (R$)</label>
+                        <label htmlFor="budgetAmount">Orçamento (R$)</label>
                         <input
                             type="text"
-                            id="budget"
-                            name="budget"
+                            id="budgetAmount"
+                            name="budgetAmount"
                             value={displayBudgetValue}
                             onChange={handleBudgetChange}
                             placeholder="0,00"
