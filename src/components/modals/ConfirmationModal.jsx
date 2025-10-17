@@ -31,14 +31,14 @@ const ConfirmationModal = ({ onClose, title, message, description, onConfirm, co
 					<div className="confirmation-modal-footer">
 						<button 
 							type="button" 
-							className="btn btn-secondary"
+							className="confirmation-modal-btn confirmation-modal-cancel-btn"
 							onClick={onClose}
 						>
 							{cancelText}
 						</button>
 						<button 
 							type="button" 
-							className={`btn ${isDangerous ? 'btn-danger' : 'btn-primary'}`}
+							className={`confirmation-modal-confirm-btn ${isDangerous ? 'confirmation-modal-danger' : ''}`}
 							onClick={onConfirm}
 						>
 							{confirmText}

@@ -78,7 +78,7 @@
   gap: 12px;
 }
 
-.btn {
+.confirmation-modal-btn {
   min-width: 80px;
   padding: 10px 18px;
   font-size: 16px;
@@ -89,33 +89,33 @@
   transition: all 0.2s;
 }
 
-.confirmation-modal-footer .btn-secondary {
+.confirmation-modal-cancel-btn {
   background: #f0f0f0;
   color: #333;
 }
 
-.confirmation-modal-footer .btn-secondary:hover {
+.confirmation-modal-cancel-btn:hover {
   background: #e0e0e0;
 }
 
-.confirmation-modal-footer .btn-primary {
+.confirmation-modal-confirm-btn {
   background: var(--green-600);
   color: white;
 }
 
-.confirmation-modal-footer .btn-primary:hover {
+.confirmation-modal-confirm-btn:hover {
   background: var(--green-700);
 }
 
-.btn-danger {
+.confirmation-modal-danger {
   background: var(--red-600);
   color: white;
 }
 
-.btn-danger:hover {
+.confirmation-modal-danger:hover {
   background: var(--red-700);
 }
 
-.confirmation-modal-footer .btn:active {
+.confirmation-modal-footer .confirmation-modal-btn:active {
   transform: translateY(0);
 }
