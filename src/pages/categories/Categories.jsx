@@ -5,7 +5,8 @@ import CategoryList from "../../components/CategoryList/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
-import ErrorModal from "../../components/common/ErrorModal";
+import ErrorModal from "../../components/modals/ErrorModal";
+import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
 import { parseCurrency } from "../../utils/money";
 
@@ -21,6 +22,7 @@ export default function Categories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
@@ -64,16 +66,25 @@ export default function Categories() {
     }
   };
 
-  const handleDeleteCategory = async (categoryId) => {
+  const handleDeleteCategory = (categoryId) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    setCategoryToDelete(category);
+  };
+
+  const confirmDeleteCategory = async () => {
+    if (!categoryToDelete) return;
+    
     try {
-      await categoryService.deleteCategory(categoryId);
+      await categoryService.deleteCategory(categoryToDelete.id);
       setCategories((prevCategories) =>
-        prevCategories.filter((category) => category.id !== categoryId)
+        prevCategories.filter((category) => category.id !== categoryToDelete.id)
       );
+      setCategoryToDelete(null);
       fetchCategories();
     } catch (error) {
       const errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
       setErrorMessage({ title: "Erro ao Deletar Categoria", message: errorMsg });
+      setCategoryToDelete(null);
     }
   };
 
@@ -174,6 +185,18 @@ export default function Categories() {
           title={errorMessage.title}
           message={errorMessage.message}
           onClose={() => setErrorMessage(null)}
+        />
+      )}
+      {categoryToDelete && (
+        <ConfirmationModal
+          title="Deletar Categoria"
+          message={`Tem certeza que deseja deletar a categoria "${categoryToDelete.name}"?`}
+          description="Esta ação não pode ser desfeita. Todas as transações associadas a esta categoria serão afetadas."
+          onClose={() => setCategoryToDelete(null)}
+          onConfirm={confirmDeleteCategory}
+          confirmText="Deletar"
+          cancelText="Cancelar"
+          isDangerous={true}
         />
       )}
     </main>
