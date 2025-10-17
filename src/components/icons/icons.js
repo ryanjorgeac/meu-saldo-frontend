@@ -10,7 +10,8 @@ import {
   FaShieldAlt,
   RiShoppingBag4Fill,
   FiTool,
-  FaTrash
+  FaTrash,
+  FaFileCirclePlus
 } from "./index";
 
 export const iconMap = {
@@ -20,10 +21,11 @@ export const iconMap = {
   edit: MdOutlineEdit,
   gift: FaGift,
   graph: GoGraph,
-  happyface: FaRegFaceGrin,
+  happyFace: FaRegFaceGrin,
   map: FaRegMap,
   shield: FaShieldAlt,
-  shoppingbag: RiShoppingBag4Fill,
+  shoppingBag: RiShoppingBag4Fill,
   tool: FiTool,
-  trash: FaTrash
+  trash: FaTrash,
+  creation: FaFileCirclePlus
 };

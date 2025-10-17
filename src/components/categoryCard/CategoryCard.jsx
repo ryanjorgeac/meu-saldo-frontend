@@ -51,7 +51,7 @@ const CategoryCard = ({
       <div className="category-card__identification" style={{ '--category-color': color }}>
         <div className="category-card__header">
           <div className="category-card__icon">
-            <Icon fontSize="22" color="rgba(0, 0, 0, 0.6)" icon={icon || 'happyface'} />
+            <Icon fontSize="22" color="rgba(0, 0, 0, 0.6)" icon={icon || 'happyFace'} />
           </div>
           <div className="category-card__actions">
             <button 

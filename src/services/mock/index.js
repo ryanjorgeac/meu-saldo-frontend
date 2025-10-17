@@ -1,5 +1,5 @@
 // Development configuration
-export const USE_MOCK_SERVICES = false; // Set to false to use real backend
+export const USE_MOCK_SERVICES = true; // Set to false to use real backend
 
 // Mock services
 export { mockCategoryService } from './mockCategoryService';

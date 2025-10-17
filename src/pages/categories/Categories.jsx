@@ -5,6 +5,7 @@ import CategoryList from "../../components/CategoryList/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
+import ErrorModal from "../../components/common/ErrorModal";
 import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
 import { parseCurrency } from "../../utils/money";
 
@@ -19,11 +20,12 @@ export default function Categories() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
     budgetAmount: 0,
-    icon: "happyface",
+    icon: "happyFace",
     color: DEFAULT_CATEGORY_COLOR,
     isActive: true,
   });
@@ -69,9 +71,9 @@ export default function Categories() {
         prevCategories.filter((category) => category.id !== categoryId)
       );
       fetchCategories();
-    // eslint-disable-next-line no-unused-vars
-    } catch (_) {
-      console.error("Erro ao deletar categoria:");
+    } catch (error) {
+      const errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
+      setErrorMessage({ title: "Erro ao Deletar Categoria", message: errorMsg });
     }
   };
 
@@ -120,7 +122,9 @@ export default function Categories() {
       handleCloseModal();
       fetchCategories();
     } catch (error) {
-      alert(editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
+      const errorMsg = error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
+      const titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      setErrorMessage({ title: titleMsg, message: errorMsg });
     }
   };
    
@@ -163,6 +167,13 @@ export default function Categories() {
           onSave={handleCreateCategory}
           setCategory={setNewCategory}
           isEditing={!!editingCategory}
+        />
+      )}
+      {errorMessage && (
+        <ErrorModal
+          title={errorMessage.title}
+          message={errorMessage.message}
+          onClose={() => setErrorMessage(null)}
         />
       )}
     </main>

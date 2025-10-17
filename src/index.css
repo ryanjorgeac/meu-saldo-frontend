@@ -32,6 +32,9 @@
   --gray-700: #494c52;
   --gray-800: #242c3b;
   --gray-900: #181D27;
+
+  --red-600: #D92D20;
+  --red-700: #B42318;
 }
 
 :root::-webkit-scrollbar {

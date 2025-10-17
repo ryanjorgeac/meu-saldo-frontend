@@ -1,10 +1,10 @@
 import React from "react";
-import { iconMap } from "./"
+import { iconMap } from "./icons"
 
 const defaultColor = "#9c9c9c"
 
 const Icon = ({ icon, ...props }) => {
-  const IconComponent = iconMap[icon?.toLowerCase()] || iconMap["happyface"];
+  const IconComponent = iconMap[icon] || iconMap["happyFace"];
   
   return (
     <IconComponent color={defaultColor} {...props} />

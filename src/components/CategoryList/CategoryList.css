@@ -78,7 +78,6 @@
 .category-list__grid {
   display: grid;
   width: 100%;
-  /* justify-items: center; */
   grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
   justify-content: start;
   row-gap: 1rem;

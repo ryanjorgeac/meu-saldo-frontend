@@ -1,0 +1,15 @@
+.close-x-button {
+    background: none;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.1s;
+}
+
+.close-x-button:hover {
+    color: #333;
+}
+
+.close-x-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+}

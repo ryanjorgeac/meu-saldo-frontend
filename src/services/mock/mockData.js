@@ -58,7 +58,7 @@ export const mockCategories = [
     name: "Salário",
     description: "Renda mensal principal",
     color: "#96CEB4",
-    icon: "happy-face",
+    icon: "happyFace",
     budgetAmount: "5.000,00",
     userId: "4fedcba",
     isActive: true,
