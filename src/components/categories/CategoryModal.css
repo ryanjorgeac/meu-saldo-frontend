@@ -118,7 +118,7 @@
 }
 
 .color-option:hover {
-  transform: translateY(2px);
+  transform: translateY(1px);
 }
 
 .color-option:focus {
@@ -134,7 +134,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  padding: 20px 24px 24px 24px;
+  padding: 20px 20px 0px 20px;
 }
 
 .btn {

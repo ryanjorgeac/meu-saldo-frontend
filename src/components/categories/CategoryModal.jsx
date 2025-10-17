@@ -6,7 +6,7 @@ import './CategoryModal.css';
 
 const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEditing = false }) => {
     const getAvailableIcons = () => {
-        const excludedIcons = ['edit', 'trash'];
+        const excludedIcons = ['edit', 'trash', 'creation'];
         return Object.keys(iconMap).filter(icon => !excludedIcons.includes(icon));
     };
 
