@@ -61,12 +61,10 @@
   background-color: #0055aa;
 }
 
-/* Hover and Interactive States */
 .category-item:hover {
   background-color: #f0f0f0;
 }
 
-/* #-- Responsive Design Adjustments */
 @media (max-width: 768px) {
   .crud-section {
     grid-template-columns: 1fr;

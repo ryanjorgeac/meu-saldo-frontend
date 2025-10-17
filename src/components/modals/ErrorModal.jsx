@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IoAlertCircleOutline } from '../icons'
+import { AlertCircle } from '../icons'
 import CloseX from '../common/CloseX'
 import './ErrorModal.css';
 
@@ -17,7 +17,7 @@ const ErrorModal = ({ title, message, onClose }) => {
         <div className="error-modal">
           <div className="error-modal-header">
             <div className="error-modal-header-content">
-              <IoAlertCircleOutline fontSize="22" color="red" />
+              <AlertCircle fontSize="22" color="red" />
               <h2>{title}</h2>
             </div>
             <CloseX onClick={onClose} />

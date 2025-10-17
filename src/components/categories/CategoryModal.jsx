@@ -1,4 +1,4 @@
-import Modal from '../common/Modal';
+import FormModal from '../modals/FormModal';
 import { formatCurrencyFromCents } from '../../utils/money'
 import { Icon, iconMap } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
@@ -32,7 +32,7 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
     const displayBudgetValue = formatBudgetDisplay(category.budgetAmount);
 
     return (
-        <Modal onClose={onClose}>
+        <FormModal onClose={onClose}>
             <div className="category-modal">
                 <div className="category-modal-header">
                     <h2>{isEditing ? 'Editar Categoria' : 'Nova Categoria'}</h2>
@@ -131,7 +131,7 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                     </button>
                 </div>
             </div>
-        </Modal>
+        </FormModal>
     );
 }
 

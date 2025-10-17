@@ -1,4 +1,4 @@
-.error-modal-overlay {
+.confirmation-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,18 +11,18 @@
   z-index: 1000;
 }
 
-.error-modal-content {
+.confirmation-modal-content {
   background-color: white;
   padding: 24px;
   border-radius: 8px;
-  width: 30%;
+  width: 20%;
   max-width: 30rem;
   max-height: 45rem;
   overflow-y: auto;
   position: relative;
 }
 
-.error-modal {
+.confirmation-modal {
   background: white;
   border-radius: 12px;
   width: 100%;
@@ -30,7 +30,7 @@
   padding: 0;
 }
 
-.error-modal-header {
+.confirmation-modal-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,38 +40,24 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.error-modal-header-content {
+.confirmation-modal-header-content {
   display: flex;
   align-items: center;
   gap: 0.8rem;
 }
 
-.error-modal-close-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #999;
-  transition: color 0.2s;
-}
-
-.error-modal-icon {
-  font-size: 48px;
-  line-height: 1;
-}
-
-.error-modal-header h2 {
+.confirmation-modal-header h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
 }
 
-.error-modal-body {
+.confirmation-modal-body {
   padding: 24px 0px 24px 0px;
   border-bottom: 1px solid #f0f0f0;
 }
 
-.error-modal-body p {
+.confirmation-modal-body > p:not(.confirmation-modal-description) {
   margin: 0px 0px 10px 0px;
   font-size: 16px;
   line-height: 1.5;
@@ -79,15 +65,20 @@
   text-align: left;
 }
 
-.error-modal-footer {
+.confirmation-modal-description {
+  font-size: 14px;
+  color: #999;
+  line-height: 1.4;
+}
+
+.confirmation-modal-footer {
   padding-top: 20px;
   display: flex;
   justify-content: flex-end;
+  gap: 12px;
 }
 
-.error-modal-close-button {
-  background: var(--red-600);
-  color: white;
+.btn {
   min-width: 80px;
   padding: 10px 18px;
   font-size: 16px;
@@ -98,10 +89,33 @@
   transition: all 0.2s;
 }
 
-.error-modal-close-button:hover {
+.confirmation-modal-footer .btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.confirmation-modal-footer .btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.confirmation-modal-footer .btn-primary {
+  background: var(--green-600);
+  color: white;
+}
+
+.confirmation-modal-footer .btn-primary:hover {
+  background: var(--green-700);
+}
+
+.btn-danger {
+  background: var(--red-600);
+  color: white;
+}
+
+.btn-danger:hover {
   background: var(--red-700);
 }
 
-.error-modal-footer .btn-primary:active {
+.confirmation-modal-footer .btn:active {
   transform: translateY(0);
 }

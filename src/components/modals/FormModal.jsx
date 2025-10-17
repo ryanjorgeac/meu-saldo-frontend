@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import './Modal.css';
+import './FormModal.css';
 
-const Modal = ({ onClose, children }) => {
+const FormModal = ({ onClose, children }) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -21,4 +21,4 @@ const Modal = ({ onClose, children }) => {
   );
 };
 
-export default Modal;
+export default FormModal;
