@@ -3,7 +3,7 @@
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   font-weight: 400;
   color: #f5f5f7;
-  background-color:  var(--gray-100) /* #FAFAFA */;
+  background-color:  var(--gray-100);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -35,6 +35,8 @@
 
   --red-600: #D92D20;
   --red-700: #B42318;
+
+  --icon-default-color: #9c9c9c;
 }
 
 :root::-webkit-scrollbar {

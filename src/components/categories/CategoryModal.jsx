@@ -52,7 +52,6 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                         placeholder="Ex: Alimentação"
                         required
                         />
-                        {/* <small>{category.name.length}/20</small> */}
                     </div>
                     
                     <div className="category-form-group">
@@ -66,7 +65,6 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                         maxLength={48}
                         placeholder="Breve descrição"
                         />
-                        {/* <small>{category.description.length}/48</small> */}
                     </div>
 
                     <div className="category-form-group">

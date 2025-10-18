@@ -108,8 +108,8 @@ export default function Categories() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "name" && value.length > 15) return;
-    if (name === "description" && value.length > 30) return;
+    if (name === "name" && value.length > 20) return;
+    if (name === "description" && value.length > 48) return;
 
     setNewCategory(prev => ({
       ...prev,

@@ -36,18 +36,22 @@ export const categoryService = {
       return response.data;
     } catch (error) {
       if (error.response?.status === 401) {
-        return [];
+        return { 
+          totalBudget: "0,00",
+          totalSpent: "0,00",
+          remainingBudget: "0,00"
+        };
       }
 
       if (error.response) {
         switch (error.response.status) {
           case 503:
             throw new Error(
-              "Erro no servidor. Por favor, tente novamente mais tarde."
+              error.response.data.message || "Erro ao buscar resumo do orçamento."
             );
           default:
             throw new Error(
-              error.response.data.message || "Erro ao buscar categorias."
+              error.response.data.message || "Erro ao buscar resumo do orçamento."  
             );
         }
       } else if (error.request) {
