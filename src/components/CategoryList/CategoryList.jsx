@@ -1,34 +1,47 @@
-import React from "react";
+import CategoryCard from "../categoryCard/CategoryCard";
 import "./CategoryList.css";
 
-function CategoryList({ categories, onDelete }) {
+const CategoryList = ({
+  categories = [],
+  onEdit,
+  onDelete,
+  loading = false,
+}) => {
+  if (loading) {
+    return (
+      <div className="category-list__loading">
+        <p>Carregando categorias...</p>
+      </div>
+    );
+  }
+
+  if (categories.length === 0) {
+    return (
+      <div className="category-list__empty">
+        <div className="category-list__empty-content">
+          <h3>Nenhuma categoria encontrada</h3>
+          <p>
+            Crie sua primeira categoria para começar a organizar seus gastos.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="list-section">
-      <h3>Categorias Existentes</h3>
-      <div className="categories-list">
-        {categories.map((category, index) => (
-          <div className="category-item" key={index}>
-            <div
-              className="category-color-indicator"
-              style={{ backgroundColor: category.color }}
-            ></div>
-            <div className="category-details">
-              <div className="category-name">{category.name}</div>
-              <div className="category-budget">{category.budgetAmount}</div>
-            </div>
-            <div className="category-actions">
-              <button
-                className="btn delete-btn"
-                onClick={() => onDelete(category.id)}
-              >
-                Excluir
-              </button>
-            </div>
-          </div>
+    <div className="category-list">
+      <div className="category-list__grid">
+        {categories.map((category) => (
+          <CategoryCard
+            key={category.id}
+            category={category}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </div>
   );
-}
+};
 
 export default CategoryList;

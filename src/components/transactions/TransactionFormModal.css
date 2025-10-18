@@ -24,7 +24,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
   border-bottom: 1px solid #eee;
 }
 
@@ -120,9 +119,7 @@
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 16px 20px;
   border-top: 1px solid #eee;
-  gap: 12px;
 }
 
 .cancel-button {

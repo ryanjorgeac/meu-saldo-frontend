@@ -1,13 +1,42 @@
 :root {
-  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, "system-ui", sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   font-weight: 400;
   color: #f5f5f7;
-  background-color: #f5f5f7;
+  background-color:  var(--gray-100);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: none;
+
+  --lima-50: #ceffc4;
+  --lima-100: #7efb4a;
+  --lima-200: #6fdd41;
+  --lima-300: #68ce3c;
+  --lima-400: #5db936;
+  --lima-500: #51a32e;
+  --lima-600: #448a26;
+  --lima-700: #36701e;
+  --lima-800: #285615;
+  --lima-900: #1a3c0c;
+  --lima-1000: #132f07;
+  --lima-1100: #0c2204;
+  --lima-1200: #061502;
+
+  --gray-25: #FDFDFD;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-300: #D5D7DA;
+  --gray-500: #717680;
+  --gray-700: #494c52;
+  --gray-800: #242c3b;
+  --gray-900: #181D27;
+
+  --red-600: #D92D20;
+  --red-700: #B42318;
+
+  --icon-default-color: #9c9c9c;
 }
 
 :root::-webkit-scrollbar {
@@ -50,7 +79,6 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #eeeeee;
 }
 
 main {
@@ -74,16 +102,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+  transform: scale(1.02);
 }
 
 @media (prefers-color-scheme: light) {
@@ -96,5 +120,11 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@supports (font-variation-settings: semibold) {
+  :root {
+    font-family: InterVariable, sans-serif; 
   }
 }

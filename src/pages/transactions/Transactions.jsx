@@ -7,8 +7,7 @@ import SearchInput from "../../components/transactions/SearchInput";
 import AmountInput from "../../components/transactions/AmountInput";
 import TransactionsTable from "../../components/transactions/TransactionsTable";
 import TransactionFormModal from "../../components/transactions/TransactionFormModal";
-import { transactionService } from "../../services/transactionService";
-import { categoryService } from "../../services/categoryService";
+import { transactionService, categoryService } from "../../services";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 

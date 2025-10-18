@@ -1,0 +1,121 @@
+.confirmation-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-modal-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 20%;
+  max-width: 30rem;
+  max-height: 45rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.confirmation-modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  padding: 0;
+}
+
+.confirmation-modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.confirmation-modal-header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.confirmation-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.confirmation-modal-body {
+  padding: 24px 0px 24px 0px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.confirmation-modal-body > p:not(.confirmation-modal-description) {
+  margin: 0px 0px 10px 0px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  text-align: left;
+}
+
+.confirmation-modal-description {
+  font-size: 14px;
+  color: #999;
+  line-height: 1.4;
+}
+
+.confirmation-modal-footer {
+  padding-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirmation-modal-btn {
+  min-width: 80px;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirmation-modal-cancel-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.confirmation-modal-cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.confirmation-modal-confirm-btn {
+  background: var(--green-600);
+  color: white;
+}
+
+.confirmation-modal-confirm-btn:hover {
+  background: var(--green-700);
+}
+
+.confirmation-modal-danger {
+  background: var(--red-600);
+  color: white;
+}
+
+.confirmation-modal-danger:hover {
+  background: var(--red-700);
+}
+
+.confirmation-modal-footer .confirmation-modal-btn:active {
+  transform: translateY(0);
+}

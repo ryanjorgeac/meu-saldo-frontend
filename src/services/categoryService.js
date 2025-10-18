@@ -30,6 +30,39 @@ export const categoryService = {
       }
     }
   },
+  getSummary: async () => {
+    try {
+      const response = await api.get("/api/v1/categories/summary");
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        return { 
+          totalBudget: "0,00",
+          totalSpent: "0,00",
+          remainingBudget: "0,00"
+        };
+      }
+
+      if (error.response) {
+        switch (error.response.status) {
+          case 503:
+            throw new Error(
+              error.response.data.message || "Erro ao buscar resumo do orçamento."
+            );
+          default:
+            throw new Error(
+              error.response.data.message || "Erro ao buscar resumo do orçamento."  
+            );
+        }
+      } else if (error.request) {
+        throw new Error(
+          "Não foi possível conectar ao servidor. Verifique sua conexão."
+        );
+      } else {
+        throw new Error("Erro ao processar a solicitação.");
+      }
+    }
+  },
   createCategory: async (categoryData) => {
     try {
       const response = await api.post("/api/v1/categories", categoryData);
@@ -65,8 +98,46 @@ export const categoryService = {
   },
   deleteCategory: async (categoryId) => {
     const response = await api.delete(`/api/v1/categories/${categoryId}`);
-    if (!response.ok) {
+    if (!response.status || response.status !== 204) {
       throw new Error("Erro ao deletar categoria");
+    }
+  },
+  updateCategory: async (categoryId, categoryData) => {
+    try {
+      const response = await api.patch(`/api/v1/categories/${categoryId}`, categoryData);
+      
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            throw new Error(
+              "Erro ao atualizar categoria. Verifique os dados enviados."
+            );
+          case 403:
+            throw new Error(
+              "Acesso negado. Você não tem permissão para atualizar esta categoria."
+            );
+          case 404:
+            throw new Error(
+              "Categoria não encontrada."
+            );
+          case 503:
+            throw new Error(
+              "Erro no servidor. Por favor, tente novamente mais tarde."
+            );
+          default:
+            throw new Error(
+              error.response.data.message || "Erro ao atualizar categoria."
+            );
+        }
+      } else if (error.request) {
+        throw new Error(
+          "Não foi possível conectar ao servidor. Verifique sua conexão."
+        );
+      } else {
+        throw new Error("Erro ao processar a solicitação.");
+      }
     }
   },
 };

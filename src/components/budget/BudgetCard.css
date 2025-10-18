@@ -1,0 +1,93 @@
+.budget-card {
+  background: var(--gray-50);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.budget-card__header {
+  margin-bottom: 0.3rem;
+}
+
+.budget-card__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.budget-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.budget-card__amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.budget-card--default .budget-card__amount {
+  color: #252B37;
+}
+
+.budget-card--default {
+  border-left: 6px solid #6b7280;
+}
+
+.budget-card--spent .budget-card__amount {
+  color: #ef4444;
+}
+
+.budget-card--spent {
+  border-left: 6px solid #ef4444;
+}
+
+.budget-card--remaining .budget-card__amount {
+  color: var(--lima-400);
+}
+
+.budget-card--remaining {
+  border-left: 6px solid var(--lima-400);
+}
+
+.budget-card__subtitle {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 0rem 0 0 0;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .budget-card {
+    padding: 1rem;
+    min-height: 100px;
+  }
+
+  .budget-card__amount {
+    font-size: 1.5rem;
+  }
+
+  .budget-card__title {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-card__amount {
+    font-size: 1.25rem;
+  }
+}

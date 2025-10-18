@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./dashboard.module.css";
 import Carteira from "../../components/Carteira/Carteira";
-import Categoria from "../../components/category/Category";
 import Transacoes from "../../components/Transacoes/Transacoes";
-import { categoryService } from "../../services/categoryService";
+import { categoryService } from "../../services";
+import { useAuth } from "../../hooks/useAuth";
 
 function Dashboard() {
   const [categories, setCategories] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -21,11 +22,12 @@ function Dashboard() {
     fetchCategories();
   }, []);
 
+  const username = user?.name || user?.username || user?.email?.split('@')[0] || 'Usuário';
+
   return (
     <div className={styles.dashboard}>
-      <h1 className={styles.greeting}>Olá, usuário!</h1>
+      <h1 className={styles.greeting}>Olá, {username}!</h1>
       <Carteira />
-      <Categoria categorias={categories} />
       <Transacoes />
     </div>
   );

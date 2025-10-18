@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import authService from "../../services/authService";
+import { authService } from "../../services";
 import { validateField, hasValidationErrors, authValidation } from "../../utils/validation";
 
 import AuthLayout from "../../components/auth/AuthLayout";
