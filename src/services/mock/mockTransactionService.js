@@ -38,10 +38,13 @@ export const mockTransactionService = {
       
       if (filters.search) {
         const searchTerm = filters.search.toLowerCase();
-        filteredTransactions = filteredTransactions.filter(
-          t => t.description.toLowerCase().includes(searchTerm) ||
-               t.categoryName.toLowerCase().includes(searchTerm)
-        );
+        filteredTransactions = filteredTransactions.filter((transaction) => {
+          const category = categories.find((item) => item.id === transaction.categoryId);
+          const categoryName = category?.name?.toLowerCase() || "";
+
+          return transaction.description.toLowerCase().includes(searchTerm) ||
+            categoryName.includes(searchTerm);
+        });
       }
 
       filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));

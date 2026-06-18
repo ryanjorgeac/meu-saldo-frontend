@@ -7,7 +7,6 @@ import { categoryService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
-import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
 import { parseMoneyInputToCents } from "../../utils/money";
 
 export default function Categories() {
@@ -28,8 +27,8 @@ export default function Categories() {
     description: "",
     budgetAmountInput: "",
     budgetAmountDisplay: "",
-    icon: "happyFace",
-    color: DEFAULT_CATEGORY_COLOR,
+    icon: null,
+    color: null,
     isActive: true,
   });
 
@@ -103,8 +102,8 @@ export default function Categories() {
       description: "",
       budgetAmountInput: "",
       budgetAmountDisplay: "",
-      icon: "happyFace",
-      color: DEFAULT_CATEGORY_COLOR,
+      icon: null,
+      color: null,
       isActive: true,
     });
   };
