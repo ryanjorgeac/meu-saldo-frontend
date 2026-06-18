@@ -1,30 +1,38 @@
 import React, { useState } from "react";
+import { parseMoneyInputToCents } from "../../utils/money";
 import "./TransactionForm.css";
 
 function TransactionForm({ onAddTransaction }) {
   const [formData, setFormData] = useState({
     description: "",
-    amount: "",
-    type: "expense",
+    amountInput: "",
+    type: "EXPENSE",
     category: "1",
     date: "",
   });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    const field = id === "amount" ? "amountInput" : id;
     setFormData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [field]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddTransaction(formData);
+    onAddTransaction({
+      description: formData.description,
+      amountCents: parseMoneyInputToCents(formData.amountInput),
+      type: formData.type,
+      categoryId: formData.category,
+      date: formData.date,
+    });
     setFormData({
       description: "",
-      amount: "",
-      type: "expense",
+      amountInput: "",
+      type: "EXPENSE",
       category: "1",
       date: "",
     });
@@ -50,7 +58,7 @@ function TransactionForm({ onAddTransaction }) {
           <input
             type="text"
             id="amount"
-            value={formData.amount}
+            value={formData.amountInput}
             onChange={handleChange}
             placeholder="Ex: 150,00"
           />

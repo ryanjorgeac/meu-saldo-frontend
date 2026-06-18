@@ -1,5 +1,5 @@
 import FormModal from '../modals/FormModal';
-import { formatCurrencyFromCents } from '../../utils/money'
+import { formatMoneyInput } from '../../utils/money'
 import { Icon, iconMap } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
 import './CategoryModal.css';
@@ -10,26 +10,20 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
         return Object.keys(iconMap).filter(icon => !excludedIcons.includes(icon));
     };
 
-    const formatBudgetDisplay = (cents) => {
-        if (!cents || cents === 0) return '0,00';
-        return formatCurrencyFromCents(cents);
-    };
-
     const handleBudgetChange = (e) => {
-        const inputValue = e.target.value;
-        const digits = inputValue.replace(/\D/g, '');
-        const cents = digits === '' ? 0 : parseInt(digits, 10);
-        const MAX_CENTS = 9999999999999;
-        if (cents > MAX_CENTS) {
+        const formattedValue = formatMoneyInput(e.target.value);
+        const digits = formattedValue.replace(/\D/g, '');
+        const MAX_CENTS_LENGTH = 13;
+
+        if (digits.length > MAX_CENTS_LENGTH) {
             return;
         }
+
         setCategory(prev => ({
             ...prev,
-            budgetAmount: cents
+            budgetAmountInput: formattedValue
         }));
     };
-
-    const displayBudgetValue = formatBudgetDisplay(category.budgetAmount);
 
     return (
         <FormModal onClose={onClose}>
@@ -73,9 +67,9 @@ const CategoryModal = ({ onClose, category, onChange, onSave, setCategory, isEdi
                             type="text"
                             id="budgetAmount"
                             name="budgetAmount"
-                            value={displayBudgetValue}
+                            value={category.budgetAmountInput}
                             onChange={handleBudgetChange}
-                            placeholder="0,00"
+                            placeholder={category.budgetAmountDisplay || "0,00"}
                         />
                     </div>
 

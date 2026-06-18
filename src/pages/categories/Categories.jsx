@@ -8,7 +8,7 @@ import CategoryModal from "../../components/categories/CategoryModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import { DEFAULT_CATEGORY_COLOR } from "../../utils/colors";
-import { parseCurrency } from "../../utils/money";
+import { parseMoneyInputToCents } from "../../utils/money";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -26,7 +26,8 @@ export default function Categories() {
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
-    budgetAmount: 0,
+    budgetAmountInput: "",
+    budgetAmountDisplay: "",
     icon: "happyFace",
     color: DEFAULT_CATEGORY_COLOR,
     isActive: true,
@@ -58,9 +59,11 @@ export default function Categories() {
       setNewCategory({
         name: categoryToEdit.name,
         description: categoryToEdit.description || "",
-        budgetAmount: typeof categoryToEdit.budgetAmount === 'string' ? parseCurrency(categoryToEdit.budgetAmount) : categoryToEdit.budgetAmount || 0,
+        budgetAmountInput: "",
+        budgetAmountDisplay: categoryToEdit.budgetAmount || "",
         icon: categoryToEdit.icon,
-        color: categoryToEdit.color
+        color: categoryToEdit.color,
+        isActive: categoryToEdit.isActive ?? true,
       });
       setIsModalOpen(true);
     }
@@ -98,8 +101,9 @@ export default function Categories() {
     setNewCategory({
       name: "",
       description: "",
-      budgetAmount: 0,
-      icon: "happyface",
+      budgetAmountInput: "",
+      budgetAmountDisplay: "",
+      icon: "happyFace",
       color: DEFAULT_CATEGORY_COLOR,
       isActive: true,
     });
@@ -124,16 +128,32 @@ export default function Categories() {
         return;
       }
 
+      const categoryPayload = {
+        name: newCategory.name.trim(),
+        description: newCategory.description.trim(),
+        icon: newCategory.icon ?? null,
+        color: newCategory.color ?? null,
+        isActive: newCategory.isActive ?? true,
+      };
+
       if (editingCategory) {
-        await categoryService.updateCategory(editingCategory.id, newCategory);
+        if (newCategory.budgetAmountInput.trim()) {
+          categoryPayload.budgetAmount = parseMoneyInputToCents(newCategory.budgetAmountInput);
+        }
+        await categoryService.updateCategory(editingCategory.id, categoryPayload);
       } else {
-        await categoryService.createCategory(newCategory);
+        categoryPayload.budgetAmount = newCategory.budgetAmountInput
+          ? parseMoneyInputToCents(newCategory.budgetAmountInput)
+          : 0;
+        await categoryService.createCategory(categoryPayload);
       }
 
       handleCloseModal();
       fetchCategories();
     } catch (error) {
-      const errorMsg = error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
+      const errorMsg = error.message === "Invalid money input"
+        ? "Informe um orcamento valido com ate duas casas decimais."
+        : error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
       const titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
       setErrorMessage({ title: titleMsg, message: errorMsg });
     }

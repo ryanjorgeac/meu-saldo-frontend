@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineAttachMoney } from "react-icons/md";
+import { formatMoneyInput } from "../../utils/money";
 import "./AmountInput.css";
 
 function AmountInput({
@@ -9,25 +10,10 @@ function AmountInput({
   placeholder = "0,00"
 }) {
   const [displayValue, setDisplayValue] = useState("");
-  
-  const formatCurrency = (value) => {
-    const cents = Math.floor(parseFloat(value) * 100);
-    if (isNaN(cents)) return "";
-
-    const reaisValue = (cents / 100).toFixed(2);
-    
-    const [integerPart, decimalPart] = reaisValue.split('.');
-    let formattedInteger = integerPart;
-    if (integerPart.length > 3) {
-      formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-
-    return `${formattedInteger},${decimalPart}`;
-  };
 
   useEffect(() => {
     if (value !== undefined && value !== "") {
-      setDisplayValue(formatCurrency(value));
+      setDisplayValue(formatMoneyInput(value));
     } else {
       setDisplayValue("");
     }
@@ -41,12 +27,11 @@ function AmountInput({
       onChange({ target: { name, value: "" } });
       return;
     }
-    const cents = parseInt(numericInput, 10);
-    const reais = cents / 100;
-    const formattedValue = formatCurrency(reais);
+
+    const formattedValue = formatMoneyInput(numericInput);
     setDisplayValue(formattedValue);
 
-    onChange({ target: { name, value: reais } });
+    onChange({ target: { name, value: formattedValue } });
   };
 
   const handleFocus = (e) => {

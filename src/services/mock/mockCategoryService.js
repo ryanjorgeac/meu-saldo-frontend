@@ -78,9 +78,11 @@ export const mockCategoryService = {
         name: categoryData.name.trim(),
         description: categoryData.description?.trim() || "",
         type: categoryData.type || categories[categoryIndex].type,
-        icon: categoryData.icon || categories[categoryIndex].icon,
-        color: categoryData.color || categories[categoryIndex].color,
-        budgetAmount: formatCurrencyFromCents(categoryData.budgetAmount || 0),
+        icon: categoryData.icon ?? categories[categoryIndex].icon,
+        color: categoryData.color ?? categories[categoryIndex].color,
+        budgetAmount: categoryData.budgetAmount !== undefined
+          ? formatCurrencyFromCents(categoryData.budgetAmount)
+          : categories[categoryIndex].budgetAmount,
         placeholder: categoryData.placeholder || categories[categoryIndex].placeholder,
         updatedAt: new Date().toISOString()
       };

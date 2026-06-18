@@ -29,12 +29,7 @@ function TransactionsTable({ transactions, onEditTransaction, onDeleteTransactio
               className={transaction.type === "EXPENSE" ? "expense" : "income"}
             >
               <td>{transaction.description}</td>
-              <td className="amount">
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(transaction.value)}
-              </td>
+              <td className="amount">R${transaction.amount}</td>
               <td>
               	<CategoryChip categoryName={transaction.categoryName} />
             	</td>

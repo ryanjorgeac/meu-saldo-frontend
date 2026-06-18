@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { parseMoneyInputToCents } from "../../utils/money";
 import "./FormSection.css";
 
 function FormSection({ onAddCategory }) {
@@ -6,36 +7,35 @@ function FormSection({ onAddCategory }) {
     name: "",
     description: "teste",
     icon: "teste",
-    budgetAmount: "",
+    budgetAmountInput: "",
     color: "#4CAF50",
     isActive: true,
   });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    const field = id === "budgetAmount" ? "budgetAmountInput" : id;
     setFormData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [field]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddCategory(formData);
+    const payload = {
+      ...formData,
+      budgetAmount: formData.budgetAmountInput
+        ? parseMoneyInputToCents(formData.budgetAmountInput)
+        : 0,
+    };
+
+    onAddCategory(payload);
     setFormData({
       name: "",
       description: "",
       icon: "",
-      budgetAmount: "",
-      color: "#4CAF50",
-      isActive: true,
-    }); 
-    onAddCategory(formData); // Envia os dados para o componente pai
-    setFormData({
-      name: "",
-      description: "",
-      icon: "",
-      budgetAmount: "",
+      budgetAmountInput: "",
       color: "#4CAF50",
       isActive: true,
     }); 
@@ -61,7 +61,7 @@ function FormSection({ onAddCategory }) {
           <input
             type="text"
             id="budgetAmount"
-            value={formData.budgetAmount}
+            value={formData.budgetAmountInput}
             onChange={handleChange}
             placeholder="Ex: 100,00"
           />
