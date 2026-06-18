@@ -88,12 +88,18 @@ export default function Login() {
         password: password,
       };
       const response = await authService.login(credentials);
+      const userData = response?.user;
+      const token = response?.token || response?.refreshToken || response?.accessToken;
       
-      if (!response || !response.user) {
+      if (!userData) {
         throw new Error("Resposta inválida do servidor. Dados do usuário não recebidos.");
       }
 
-      login(response.user, response.refreshToken);
+      if (!token || typeof token !== "string" || !token.trim()) {
+        throw new Error("Resposta inválida do servidor. Token não recebido.");
+      }
+
+      login(userData, token);
       navigate(from);
     } catch (err) {
       console.error("Login error:", err);
