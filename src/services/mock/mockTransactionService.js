@@ -1,3 +1,4 @@
+import { formatCurrencyFromCents } from '../../utils/money';
 import { mockTransactions, mockCategories, simulateDelay, generateId } from './mockData';
 
 let transactions = [...mockTransactions];
@@ -11,8 +12,9 @@ export const mockTransactionService = {
       let filteredTransactions = [...transactions];
 
       if (filters.categoryId) {
+        const categoryIds = filters.categoryId.split(',');
         filteredTransactions = filteredTransactions.filter(
-          t => t.categoryId === parseInt(filters.categoryId)
+          t => categoryIds.includes(t.categoryId)
         );
       }
       
@@ -36,10 +38,13 @@ export const mockTransactionService = {
       
       if (filters.search) {
         const searchTerm = filters.search.toLowerCase();
-        filteredTransactions = filteredTransactions.filter(
-          t => t.description.toLowerCase().includes(searchTerm) ||
-               t.categoryName.toLowerCase().includes(searchTerm)
-        );
+        filteredTransactions = filteredTransactions.filter((transaction) => {
+          const category = categories.find((item) => item.id === transaction.categoryId);
+          const categoryName = category?.name?.toLowerCase() || "";
+
+          return transaction.description.toLowerCase().includes(searchTerm) ||
+            categoryName.includes(searchTerm);
+        });
       }
 
       filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -49,12 +54,13 @@ export const mockTransactionService = {
       const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
       
       return {
-        transactions: paginatedTransactions,
-        totalCount: filteredTransactions.length,
+        data: paginatedTransactions,
+        total: filteredTransactions.length,
+        page,
+        limit,
         totalPages: Math.ceil(filteredTransactions.length / limit),
-        currentPage: page,
-        hasNext: endIndex < filteredTransactions.length,
-        hasPrev: page > 1
+        hasNextPage: endIndex < filteredTransactions.length,
+        hasPreviousPage: page > 1
       };
     } catch {
       throw new Error('Erro ao buscar transações.');
@@ -69,7 +75,7 @@ export const mockTransactionService = {
         throw new Error("Descrição é obrigatória");
       }
       
-      if (!transactionData.amount || transactionData.amount <= 0) {
+      if (!Number.isInteger(transactionData.amountCents) || transactionData.amountCents <= 0) {
         throw new Error("Valor deve ser maior que zero");
       }
       
@@ -77,7 +83,7 @@ export const mockTransactionService = {
         throw new Error("Categoria é obrigatória");
       }
 
-      const category = categories.find(cat => cat.id === parseInt(transactionData.categoryId));
+      const category = categories.find(cat => cat.id === transactionData.categoryId);
       if (!category) {
         throw new Error("Categoria não encontrada");
       }
@@ -85,12 +91,12 @@ export const mockTransactionService = {
       const newTransaction = {
         id: generateId(),
         description: transactionData.description.trim(),
-        amount: parseFloat(transactionData.amount),
-        type: transactionData.type || "expense",
-        categoryId: parseInt(transactionData.categoryId),
-        categoryName: category.name,
-        date: transactionData.date || new Date().toISOString().split('T')[0],
-        createdAt: new Date().toISOString()
+        amount: formatCurrencyFromCents(transactionData.amountCents),
+        type: transactionData.type || "EXPENSE",
+        categoryId: transactionData.categoryId,
+        date: transactionData.date || new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
       
       transactions.push(newTransaction);
@@ -109,7 +115,7 @@ export const mockTransactionService = {
     await simulateDelay(400);
     
     try {
-      const transactionIndex = transactions.findIndex(t => t.id === parseInt(id));
+      const transactionIndex = transactions.findIndex(t => t.id === id);
       
       if (transactionIndex === -1) {
         throw new Error("Transação não encontrada");
@@ -119,7 +125,10 @@ export const mockTransactionService = {
         throw new Error("Descrição é obrigatória");
       }
       
-      if (!transactionData.amount || transactionData.amount <= 0) {
+      if (
+        transactionData.amountCents !== undefined &&
+        (!Number.isInteger(transactionData.amountCents) || transactionData.amountCents <= 0)
+      ) {
         throw new Error("Valor deve ser maior que zero");
       }
       
@@ -127,7 +136,7 @@ export const mockTransactionService = {
         throw new Error("Categoria é obrigatória");
       }
 
-      const category = categories.find(cat => cat.id === parseInt(transactionData.categoryId));
+      const category = categories.find(cat => cat.id === transactionData.categoryId);
       if (!category) {
         throw new Error("Categoria não encontrada");
       }
@@ -135,10 +144,11 @@ export const mockTransactionService = {
       const updatedTransaction = {
         ...transactions[transactionIndex],
         description: transactionData.description.trim(),
-        amount: parseFloat(transactionData.amount),
+        amount: transactionData.amountCents !== undefined
+          ? formatCurrencyFromCents(transactionData.amountCents)
+          : transactions[transactionIndex].amount,
         type: transactionData.type || transactions[transactionIndex].type,
-        categoryId: parseInt(transactionData.categoryId),
-        categoryName: category.name,
+        categoryId: transactionData.categoryId,
         date: transactionData.date || transactions[transactionIndex].date,
         updatedAt: new Date().toISOString()
       };
@@ -160,7 +170,7 @@ export const mockTransactionService = {
     await simulateDelay(300);
     
     try {
-      const transactionIndex = transactions.findIndex(t => t.id === parseInt(id));
+      const transactionIndex = transactions.findIndex(t => t.id === id);
       
       if (transactionIndex === -1) {
         throw new Error("Transação não encontrada");
@@ -180,7 +190,7 @@ export const mockTransactionService = {
     await simulateDelay(200);
     
     try {
-      const transaction = transactions.find(t => t.id === parseInt(id));
+      const transaction = transactions.find(t => t.id === id);
       
       if (!transaction) {
         throw new Error("Transação não encontrada");

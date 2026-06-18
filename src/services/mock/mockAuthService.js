@@ -3,6 +3,19 @@ import { mockUser, simulateDelay } from './mockData';
 let currentUser = null;
 let isAuthenticated = false;
 
+const mockUsers = [
+  {
+    ...mockUser,
+    email: 'teste@teste.com',
+    password: 'Teste@123'
+  }
+];
+
+const getSanitizedUser = (user) => {
+  const { password, ...sanitizedUser } = user;
+  return sanitizedUser;
+};
+
 export const mockAuthService = {
   register: async (userData) => {
     await simulateDelay(800);
@@ -28,23 +41,32 @@ export const mockAuthService = {
     throw new Error("Não foi possível cadastrar o usuário com esse e-mail.");
     }
 
+    const normalizedEmail = userData.email.trim().toLowerCase();
+    if (mockUsers.some((user) => user.email === normalizedEmail)) {
+      throw new Error('Não foi possível cadastrar o usuário com esse e-mail.');
+    }
+
     const newUser = {
     id: Date.now(),
     name: userData.name.trim(),
-    email: userData.email.trim().toLowerCase(),
+    email: normalizedEmail,
+    password: userData.password,
     createdAt: new Date().toISOString()
     };
 
     const token = `mock-jwt-token-${Date.now()}`;
+    const sanitizedUser = getSanitizedUser(newUser);
 
-    currentUser = newUser;
+    mockUsers.push(newUser);
+
+    currentUser = sanitizedUser;
     isAuthenticated = true;
 
     localStorage.setItem('authToken', token);
-    localStorage.setItem('user', JSON.stringify(newUser));
+    localStorage.setItem('user', JSON.stringify(sanitizedUser));
     
     return {
-    user: newUser,
+    user: sanitizedUser,
     token,
     message: "Usuário cadastrado com sucesso"
     };
@@ -61,14 +83,18 @@ export const mockAuthService = {
     throw new Error("Senha é obrigatória");
     }
 
-    if (credentials.email === "invalid@example.com") {
+    const normalizedEmail = credentials.email.trim().toLowerCase();
+    const matchedUser = mockUsers.find(
+      (user) =>
+        user.email === normalizedEmail &&
+        user.password === credentials.password
+    );
+
+    if (!matchedUser) {
     throw new Error("E-mail ou senha inválidos.");
     }
 
-    const user = {
-    ...mockUser,
-    email: credentials.email.trim().toLowerCase()
-    };
+    const user = getSanitizedUser(matchedUser);
 
     const token = `mock-jwt-token-${Date.now()}`;
     
@@ -94,6 +120,7 @@ export const mockAuthService = {
       
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
+      localStorage.removeItem('refreshToken');
       
       return {
         message: "Logout realizado com sucesso"

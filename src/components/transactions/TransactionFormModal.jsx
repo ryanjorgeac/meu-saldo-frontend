@@ -14,8 +14,9 @@ function TransactionFormModal({
 }) {
   const [form, setForm] = useState({
     description: '',
-    type: 'expense',
-    value: '',
+    type: 'EXPENSE',
+    amountInput: '',
+    amountDisplay: '',
     date: '',
     category: ''
   });
@@ -25,7 +26,8 @@ function TransactionFormModal({
       setForm({
         description: transaction.description || '',
         type: transaction.type || 'EXPENSE',
-        value: transaction.value || '',
+        amountInput: '',
+        amountDisplay: transaction.amount || '',
         date: transaction.date || '',
         category: transaction.category || ''
       });
@@ -33,7 +35,8 @@ function TransactionFormModal({
       setForm({
         description: '',
         type: 'EXPENSE',
-        value: '',
+        amountInput: '',
+        amountDisplay: '',
         date: '',
         category: ''
       });
@@ -45,7 +48,7 @@ function TransactionFormModal({
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const updatedTransaction = {
@@ -53,7 +56,7 @@ function TransactionFormModal({
       id: transaction ? transaction.id : undefined,
     };
     
-    onSave(updatedTransaction);
+    await onSave(updatedTransaction);
     onClose();
   };
 
@@ -112,9 +115,10 @@ function TransactionFormModal({
           <div className="form-group">
             <label>Valor</label>
             <AmountInput
-              name="value"
-              value={form.value}
+              name="amountInput"
+              value={form.amountInput}
               onChange={handleChange}
+              placeholder={form.amountDisplay || "0,00"}
               className="paddingLeft 30px"
             />
           </div>

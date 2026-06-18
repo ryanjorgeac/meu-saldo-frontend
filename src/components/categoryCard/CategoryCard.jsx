@@ -2,6 +2,7 @@ import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
 import { Icon } from '../icons';
 import "./CategoryCard.css";
 import { parseCurrency } from '../../utils/money';
+import { resolveCategoryStyle } from '../../utils/colors';
 
 const CategoryCard = ({ 
   category, 
@@ -23,6 +24,7 @@ const CategoryCard = ({
 
   const budget = parseCurrency(budgetAmount);
   const spent = parseCurrency(spentAmount);
+  const categoryStyle = resolveCategoryStyle({ color, icon });
 
   const progressPercentage = budget > 0 ? Math.min((spent / budget) * 100, 100) : 0;
 
@@ -32,7 +34,10 @@ const CategoryCard = ({
     return 'category-card__progress-bar--danger';
   };
 
-  const rightSizeDescription = description.length > 38 ? `${description.substring(0, 37)}...` : description;
+  const normalizedDescription = description || '';
+  const rightSizeDescription = normalizedDescription.length > 38
+    ? `${normalizedDescription.substring(0, 37)}...`
+    : normalizedDescription;
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -48,10 +53,10 @@ const CategoryCard = ({
     <div 
       className={`category-card ${!isActive ? 'category-card--inactive' : ''}`}
     >
-      <div className="category-card__identification" style={{ '--category-color': color }}>
+      <div className="category-card__identification" style={{ '--category-color': categoryStyle.color }}>
         <div className="category-card__header">
           <div className="category-card__icon">
-            <Icon fontSize="22" color="rgba(0, 0, 0, 0.6)" icon={icon || 'happyFace'} />
+            <Icon fontSize="22" color="rgba(0, 0, 0, 0.6)" icon={categoryStyle.icon} />
           </div>
           <div className="category-card__actions">
             <button 

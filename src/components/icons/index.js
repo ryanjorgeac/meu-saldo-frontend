@@ -1,4 +1,4 @@
-export { FaBus, FaBookOpen, FaCoffee, FaRegMap, FaTrash, FaShieldAlt } from "react-icons/fa";
+export { FaBus, FaBookOpen, FaCoffee, FaRegMap, FaTag, FaTrash, FaShieldAlt } from "react-icons/fa";
 export { MdOutlineEdit } from "react-icons/md";
 export { FaGift, FaRegFaceGrin, FaFileCirclePlus } from "react-icons/fa6";
 export { GoGraph } from "react-icons/go";

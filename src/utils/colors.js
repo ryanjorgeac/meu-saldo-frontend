@@ -11,4 +11,21 @@ export const CATEGORY_COLORS = [
   '#F7DC6F'  // Gold
 ];
 
-export const DEFAULT_CATEGORY_COLOR = CATEGORY_COLORS[0];
+export const DEFAULT_CATEGORY_STYLE = {
+  color: '#9CA3AF',
+  icon: 'tag',
+};
+
+export const DEFAULT_CATEGORY_COLOR = DEFAULT_CATEGORY_STYLE.color;
+export const DEFAULT_CATEGORY_ICON = DEFAULT_CATEGORY_STYLE.icon;
+
+const isBlank = (value) => value == null || value.trim() === '';
+
+export const resolveCategoryStyle = (category = {}) => ({
+  color: isBlank(category.color)
+    ? DEFAULT_CATEGORY_STYLE.color
+    : category.color,
+  icon: isBlank(category.icon)
+    ? DEFAULT_CATEGORY_STYLE.icon
+    : category.icon,
+});

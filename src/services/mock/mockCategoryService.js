@@ -1,7 +1,30 @@
-import { formatCurrencyFromCents } from '../../utils/money';
-import { mockCategories, simulateDelay, generateId, mockSummary } from './mockData';
+import { formatCurrencyFromCents, parseCurrency } from '../../utils/money';
+import { mockCategories, simulateDelay, generateId } from './mockData';
 
 let categories = [...mockCategories];
+
+const calculateRemainingAmountCents = (budgetAmount, spentAmount) => {
+  const budgetCents = parseCurrency(budgetAmount);
+  const spentCents = parseCurrency(spentAmount);
+
+  return Math.max(budgetCents - spentCents, 0);
+};
+
+const buildSummary = () => {
+  const totals = categories.reduce((accumulator, category) => {
+    accumulator.totalBudget += parseCurrency(category.budgetAmount);
+    accumulator.totalSpent += parseCurrency(category.spentAmount);
+    accumulator.remainingBudget += parseCurrency(category.remainingAmount);
+
+    return accumulator;
+  }, { totalBudget: 0, totalSpent: 0, remainingBudget: 0 });
+
+  return {
+    totalBudget: formatCurrencyFromCents(totals.totalBudget),
+    totalSpent: formatCurrencyFromCents(totals.totalSpent),
+    remainingBudget: formatCurrencyFromCents(totals.remainingBudget),
+  };
+};
 
 export const mockCategoryService = {
   getCategories: async () => {
@@ -9,7 +32,8 @@ export const mockCategoryService = {
     return JSON.parse(JSON.stringify(categories));
   },
   getSummary: async () => {
-    return mockSummary;
+    await simulateDelay(150);
+    return buildSummary();
   },
   createCategory: async (categoryData) => {
     await simulateDelay(500);
@@ -25,20 +49,21 @@ export const mockCategoryService = {
         throw new Error("Já existe uma categoria com este nome");
       }
 
+      const budgetAmount = formatCurrencyFromCents(categoryData.budgetAmount || 0);
       const newCategory = {
         id: generateId(),
         name: categoryData.name.trim(),
         description: categoryData.description?.trim() || "",
-        icon: categoryData.icon || "wallet",
-        color: categoryData.color || "#6200EE",
-        budgetAmount: formatCurrencyFromCents(categoryData.budgetAmount || 0),
+        icon: categoryData.icon ?? null,
+        color: categoryData.color ?? null,
+        budgetAmount,
         userId: "6fedcba",
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         spentAmount: "0,00",
         incomeAmount: "0,00",
-        remainingAmount: "0,00",
+        remainingAmount: budgetAmount,
         transactionCount: 0
       };
 
@@ -73,14 +98,20 @@ export const mockCategoryService = {
         throw new Error("Já existe uma categoria com este nome");
       }
 
+      const budgetAmount = categoryData.budgetAmount !== undefined
+        ? formatCurrencyFromCents(categoryData.budgetAmount)
+        : categories[categoryIndex].budgetAmount;
+      const spentAmount = categories[categoryIndex].spentAmount;
+
       const updatedCategory = {
         ...categories[categoryIndex],
         name: categoryData.name.trim(),
         description: categoryData.description?.trim() || "",
         type: categoryData.type || categories[categoryIndex].type,
-        icon: categoryData.icon || categories[categoryIndex].icon,
-        color: categoryData.color || categories[categoryIndex].color,
-        budgetAmount: formatCurrencyFromCents(categoryData.budgetAmount || 0),
+        icon: categoryData.icon ?? categories[categoryIndex].icon,
+        color: categoryData.color ?? categories[categoryIndex].color,
+        budgetAmount,
+        remainingAmount: formatCurrencyFromCents(calculateRemainingAmountCents(budgetAmount, spentAmount)),
         placeholder: categoryData.placeholder || categories[categoryIndex].placeholder,
         updatedAt: new Date().toISOString()
       };

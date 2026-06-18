@@ -15,15 +15,21 @@ export function AuthProvider({ children }) {
     loading: true
   });
 
-  const handleUnauthorized = useCallback(() => {
+  const clearAuthStorage = useCallback(() => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+  }, []);
+
+  const handleUnauthorized = useCallback(() => {
+    clearAuthStorage();
     api.defaults.headers.common['Authorization'] = null;
     setAuthState({ user: null, loading: false });
 
     if (window.location.pathname !== '/login') {
       window.location.href = '/login';
     }
-  }, []);
+  }, [clearAuthStorage]);
 
   useEffect(() => {
     window.addEventListener('auth:unauthorized', handleUnauthorized);
@@ -49,14 +55,14 @@ export function AuthProvider({ children }) {
           loading: false 
         });
       } catch (error) {
-        localStorage.removeItem('authToken');
+        clearAuthStorage();
         api.defaults.headers.common['Authorization'] = null;
         setAuthState({ user: null, loading: false });
       }
     };
 
     verifyAuth();
-  }, []);
+  }, [clearAuthStorage]);
 
   useEffect(() => {
     const handleStorageChange = (e) => {
@@ -83,12 +89,13 @@ export function AuthProvider({ children }) {
 
   const login = (userData, token) => {
     localStorage.setItem('authToken', token);
+    localStorage.setItem('user', JSON.stringify(userData));
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setAuthState({ user: userData, loading: false });
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    clearAuthStorage();
     api.defaults.headers.common['Authorization'] = null;
     setAuthState({ user: null, loading: false });
   };

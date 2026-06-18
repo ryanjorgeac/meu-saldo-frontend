@@ -10,6 +10,7 @@ import TransactionFormModal from "../../components/transactions/TransactionFormM
 import { transactionService, categoryService } from "../../services";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { parseMoneyInputToCents } from "../../utils/money";
 
 function Transactions() {
   const [categories, setCategories] = useState([]);
@@ -59,22 +60,9 @@ function Transactions() {
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
-    } catch (e) {
+    } catch {
       return dateString;
     }
-  };
-
-  const transformTransaction = (transaction) => {
-    const category = categories.find(cat => cat.value === transaction.categoryId);
-    return {
-      id: transaction.id,
-      description: transaction.description,
-      value: transaction.amount,
-      category: transaction.categoryId,
-      categoryName: category ? category.label : 'Não categorizado',
-      date: formatDate(transaction.date),
-      type: transaction.type
-    };
   };
 
   const formatDateForBackend = (dateString) => {
@@ -105,14 +93,19 @@ function Transactions() {
     }
   };
 
-  const transformTransactionForBackend = (transaction) => {
-    return {
-      description: transaction.description,
-      amount: `${Math.abs(transaction.value)}`,
+  const transformTransactionForBackend = (transaction, { isEditing = false } = {}) => {
+    const payload = {
+      description: transaction.description.trim(),
       type: transaction.type,
       categoryId: transaction.category,
       date: formatDateForBackend(transaction.date)
     };
+
+    if (!isEditing || transaction.amountInput?.trim()) {
+      payload.amountCents = parseMoneyInputToCents(transaction.amountInput);
+    }
+
+    return payload;
   };
 
   const fetchTransactions = useCallback(async () => {
@@ -132,7 +125,19 @@ function Transactions() {
       
       const response = await transactionService.getTransactions(currentPage, 10, filterParams);
       
-      const transformedTransactions = response.data.map(transaction => transformTransaction(transaction));
+      const transformedTransactions = response.data.map((transaction) => {
+        const category = categories.find((cat) => cat.value === transaction.categoryId);
+
+        return {
+          id: transaction.id,
+          description: transaction.description,
+          amount: transaction.amount,
+          category: transaction.categoryId,
+          categoryName: category ? category.label : 'Não categorizado',
+          date: formatDate(transaction.date),
+          type: transaction.type
+        };
+      });
       setTransactions(transformedTransactions);
       
       setPagination({
@@ -172,8 +177,25 @@ function Transactions() {
   };
 
   const handleSaveTransaction = async (formData) => {
+    const isEditing = Boolean(formData.id);
+
+    if (!formData.description?.trim()) {
+      alert("Descrição é obrigatória.");
+      return;
+    }
+
+    if (!isEditing && !formData.amountInput?.trim()) {
+      alert("Valor é obrigatório.");
+      return;
+    }
+
+    if (!formData.category) {
+      alert("Categoria é obrigatória.");
+      return;
+    }
+
     try {
-      const backendData = transformTransactionForBackend(formData);
+      const backendData = transformTransactionForBackend(formData, { isEditing });
       
       if (formData.id) {
         await transactionService.updateTransaction(formData.id, backendData);
@@ -185,7 +207,11 @@ function Transactions() {
       setIsModalOpen(false);
     } catch (err) {
       console.error("Error saving transaction:", err);
-      alert(`Error: ${err.message}`);
+      const message = err.message === "Invalid money input"
+        ? "Informe um valor valido com ate duas casas decimais."
+        : err.message;
+
+      alert(`Error: ${message}`);
     }
   };
 
