@@ -2,7 +2,6 @@ import {
   Categories,
   Login,
   Register,
-  Profile,
   Transactions
 } from "../pages";
 import ForgotPassword from "../pages/auth/ForgotPassword";
@@ -24,11 +23,6 @@ export const ROUTES = {
     element: <Register />,
     hideHeader: true,
     isProtected: false,
-  },
-  profile: {
-    path: "/profile",
-    element: <Profile />,
-    isProtected: true,
   },
   transactions: {
     path: "/transactions",
