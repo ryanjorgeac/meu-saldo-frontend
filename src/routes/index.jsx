@@ -1,5 +1,4 @@
 import {
-  Dashboard,
   Categories,
   Login,
   Register,
@@ -10,11 +9,6 @@ import {
 import ForgotPassword from "../pages/auth/ForgotPassword";
 
 export const ROUTES = {
-  dashboard: {
-    path: "/dashboard",
-    element: <Dashboard />,
-    isProtected: true,
-  },
   categories: {
     path: "/categories",
     element: <Categories />,

@@ -28,7 +28,7 @@ function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        <Link to="/dashboard" className="logo-title-link">
+        <Link to="/categories" className="logo-title-link">
           <div className="logo-title">
             <img src="/src/assets/logo.svg" alt="Logo" className="logo" />
             <h1 className="title">Meu Saldo</h1>
@@ -37,9 +37,6 @@ function Header() {
 
         <div className="nav-container">
           <nav className="nav-buttons" ref={navContainerRef}>
-            <NavLink to="/dashboard" className="nav-link">
-              Dashboard
-            </NavLink>
             <NavLink to="/categories" className="nav-link">
               Categorias
             </NavLink>
