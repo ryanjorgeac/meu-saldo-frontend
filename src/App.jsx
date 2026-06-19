@@ -4,10 +4,11 @@ import "./App.css";
 import { ROUTES } from "./routes";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
+import NotFound from "./pages/notfound/NotFound";
 
 function App() {
   const location = useLocation();
-  const { loading: authLoading } = useAuth();
+  const { loading: authLoading, user } = useAuth();
   const currentPath = location.pathname;
   
   if (authLoading && Object.values(ROUTES).some(
@@ -42,7 +43,8 @@ function App() {
             ) : element} 
           />
         ))}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<Navigate to="/categories" replace />} />
+        <Route path="*" element={user ? <NotFound /> : <Navigate to="/login" replace /> } />
       </Route>
     </Routes>
   );

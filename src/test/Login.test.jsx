@@ -64,7 +64,7 @@ describe('Login Component Validation', () => {
         { id: 1, email: 'teste@teste.com' },
         'jwt-token'
       )
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard')
+      expect(mockNavigate).toHaveBeenCalledWith('/categories')
     })
 
     it('should show error and not login on wrong credentials', async () => {
