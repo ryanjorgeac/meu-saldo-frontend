@@ -3,8 +3,7 @@ import {
   Login,
   Register,
   Profile,
-  Transactions,
-  Analytics,
+  Transactions
 } from "../pages";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 
@@ -34,11 +33,6 @@ export const ROUTES = {
   transactions: {
     path: "/transactions",
     element: <Transactions />,
-    isProtected: true,
-  },
-  analytics: {
-    path: "/analytics",
-    element: <Analytics />,
     isProtected: true,
   },
   forgotPassword: {

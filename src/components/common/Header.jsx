@@ -43,10 +43,6 @@ function Header() {
             <NavLink to="/transactions" className="nav-link">
               Transações
             </NavLink>
-            <NavLink to="/analytics" className="nav-link">
-              Análises
-            </NavLink>
-
             <div className="active-indicator" ref={activeIndicatorRef}></div>
           </nav>
         </div>
