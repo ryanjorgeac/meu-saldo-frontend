@@ -1,88 +1,122 @@
-import React from 'react';
-import { useState } from 'react';
-import './DateInput.css';
+import DatePicker, { registerLocale } from "react-datepicker";
+import { getMonth, getYear } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
+import "./DateInput.css";
 
-const DateInput = ({
+registerLocale("pt-BR", ptBR);
+
+const MONTHS = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
+const YEARS = Array.from(
+  { length: getYear(new Date()) - 1989 },
+  (_, index) => 1990 + index
+);
+
+function CustomHeader({
+  date,
+  changeYear,
+  changeMonth,
+  decreaseMonth,
+  increaseMonth,
+  prevMonthButtonDisabled,
+  nextMonthButtonDisabled,
+}) {
+  return (
+    <div className="datepicker-header">
+      <button
+        type="button"
+        className="datepicker-nav-button"
+        onClick={decreaseMonth}
+        disabled={prevMonthButtonDisabled}
+      >
+        {"<"}
+      </button>
+
+      <select
+        className="datepicker-select"
+        value={getYear(date)}
+        onChange={({ target: { value } }) => changeYear(Number(value))}
+      >
+        {YEARS.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+
+      <select
+        className="datepicker-select"
+        value={MONTHS[getMonth(date)]}
+        onChange={({ target: { value } }) => changeMonth(MONTHS.indexOf(value))}
+      >
+        {MONTHS.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+
+      <button
+        type="button"
+        className="datepicker-nav-button"
+        onClick={increaseMonth}
+        disabled={nextMonthButtonDisabled}
+      >
+        {">"}
+      </button>
+    </div>
+  );
+}
+
+function DateInput({
   name,
   value,
   onChange,
   placeholder,
-  className = '',
+  className = "",
+  minDate,
+  maxDate,
   ...props
-}) => {
-	const [isValid, setIsValid] = useState(true);
-	const currentYear = new Date().getFullYear();
-
-  const validateDate = (dateStr) => {
-    if (!dateStr || dateStr.trim() === '') return true;
-    if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) return false;
-    
-    const [day, month, year] = dateStr.split('/').map(num => parseInt(num, 10));
-    if (day < 1 || day > 31) return false;
-    if (month < 1 || month > 12) return false;
-    if (year < 1000 || year > currentYear) return false;
-
-    const daysInMonth = new Date(year, month, 0).getDate();
-    if (day > daysInMonth) return false;
-    
-    return true;
-  };
-
-  const handleChange = (e) => {
-    const inputValue = e.target.value;
-
-    if (!inputValue.trim()) {
-      setIsValid(true);
-      onChange({
-        target: {
-          name: e.target.name,
-          value: ''
-        }
-      });
-      return;
-    }
-    
-    const digitsOnly = inputValue.replace(/\D/g, '');
-    let formattedValue = '';
-
-    if (digitsOnly.length <= 2) {
-      formattedValue = digitsOnly;
-    } else if (digitsOnly.length <= 4) {
-      formattedValue = `${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2)}`;
-    } else {
-      formattedValue = `${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2, 4)}/${digitsOnly.slice(4, 8)}`;
-    }
-    const valid = validateDate(formattedValue);
-    setIsValid(valid);
-  
-    const syntheticEvent = {
-      target: {
-        name: e.target.name,
-        value: formattedValue
-      }
-    };
-  
-    onChange(syntheticEvent);
-  };
-
-  const handleBlur = () => {
-    setIsValid(validateDate(value));
-  };
+}) {
+  const selectedDate = value ? new Date(value) : null;
 
   return (
-    <input
-      type="text"
-      name={name}
-      value={value}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      placeholder={placeholder}
-      className={`date-input ${className} ${isValid ? '' : 'date-input-error'}`}
-      maxLength={10}
+    <DatePicker
+      selected={selectedDate}
+      onChange={(date) => {
+        onChange({
+          target: {
+            name,
+            value: date ? date.toISOString() : "",
+          },
+        });
+      }}
+      placeholderText={placeholder}
+      dateFormat="dd/MM/yyyy"
+      locale="pt-BR"
+      calendarStartDay={0}
+      renderCustomHeader={(headerProps) => <CustomHeader {...headerProps} />}
+      className={`date-input ${className}`}
+      minDate={minDate ? new Date(minDate) : undefined}
+      maxDate={maxDate ? new Date(maxDate) : undefined}
+      isClearable
       {...props}
     />
   );
-};
-
+}
 
 export default DateInput;

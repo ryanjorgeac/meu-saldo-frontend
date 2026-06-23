@@ -7,7 +7,8 @@ import { FaTimes } from 'react-icons/fa';
 function TransactionFormModal({ 
   isOpen, 
   onClose, 
-  onSave, 
+  onSave,
+  onDelete,
   transaction = null, 
   title = "Editar Transação",
   categories
@@ -28,7 +29,7 @@ function TransactionFormModal({
         type: transaction.type || 'EXPENSE',
         amountInput: '',
         amountDisplay: transaction.amount || '',
-        date: transaction.date || '',
+        date: transaction.rawDate || transaction.date || '',
         category: transaction.category || ''
       });
     } else {
@@ -129,7 +130,8 @@ function TransactionFormModal({
               name="date"
               value={form.date}
               onChange={handleChange}
-              placeholder="DD/MM/AAAA"
+              placeholder="Selecionar data"
+              maxDate={new Date().toISOString()}
             />
           </div>
           
@@ -152,12 +154,19 @@ function TransactionFormModal({
           </div>
           
           <div className="modal-actions">
-            <button type="button" className="cancel-button" onClick={onClose}>
-              Cancelar
-            </button>
-            <button type="submit" className="save-button">
-              Salvar
-            </button>
+            {transaction && (
+              <button type="button" className="delete-button" onClick={() => onDelete(transaction.id)}>
+                Excluir
+              </button>
+            )}
+            <div className="modal-actions-right">
+              <button type="button" className="cancel-button" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="save-button">
+                Salvar
+              </button>
+            </div>
           </div>
         </form>
       </div>

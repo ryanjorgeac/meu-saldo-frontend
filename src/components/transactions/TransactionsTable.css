@@ -13,27 +13,64 @@
   border-bottom: 1px solid #eee;
   color: #666;
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .transactions-table td {
-  padding: 12px 16px;
+  padding: 5px 16px;
   border-bottom: 1px solid #eee;
+}
+
+.transactions-table-header {
+  background-color: var(--gray-100);
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable-header:hover {
+  color: #333;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sort-arrows {
+  display: inline-flex;
+  flex-direction: column;
+  font-size: 0.7rem;
+  line-height: 0.7;
+  color: #ccc;
+}
+
+.sort-arrow {
+  transition: color 0.15s;
+}
+
+.sort-arrow.active {
+  color: #333;
+  font-weight: bold;
 }
 
 .transaction-description {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .transaction-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  font-weight: bold;
+  flex-shrink: 0;
 }
 
 .expense-icon {
@@ -46,6 +83,21 @@
   color: #43a047;
 }
 
+.transaction-desc-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-title {
+  font-weight: 500;
+  color: #1f2328;
+}
+
+.transaction-type-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
 .expense-value {
   color: #e53935;
   font-weight: 600;
@@ -56,23 +108,22 @@
   font-weight: 600;
 }
 
-.category-pill {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  background-color: #e0e0e0;
-}
-
 .edit-transaction-btn {
   background: none;
   border: none;
   color: #666;
   cursor: pointer;
   padding: 5px;
+  border-radius: 4px;
+  transition: color 0.2s;
 }
 
 .edit-transaction-btn:hover {
-  color: #42a5f5;
+  color: #333;
+}
+
+.no-transactions {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
 }

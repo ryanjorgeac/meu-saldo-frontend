@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, "system-ui", sans-serif;
+  font-family: "inter", "system-ui", sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
   font-weight: 400;
   color: #f5f5f7;
