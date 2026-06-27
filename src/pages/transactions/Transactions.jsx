@@ -453,15 +453,15 @@ function Transactions() {
         </button>
       </div>
 
-      <TransactionFormModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveTransaction}
-        onDelete={handleDeleteTransaction}
-        transaction={currentTransaction}
-        title={currentTransaction ? "Editar Transação" : "Nova Transação"}
-        categories={categories}
-      />
+      {isModalOpen && (
+        <TransactionFormModal
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSaveTransaction}
+          onDelete={handleDeleteTransaction}
+          transaction={currentTransaction}
+          categories={categories}
+        />
+      )}
     </div>
   );
 }

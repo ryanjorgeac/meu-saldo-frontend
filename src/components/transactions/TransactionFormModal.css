@@ -1,172 +1,175 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.transaction-modal-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.transaction-modal {
-  background-color: var(--gray-25);
-  border-radius: 12px;
-  width: 95%;
-  max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 18px;
+.transaction-modal-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
   font-weight: 600;
+  color: #1a1a1a;
 }
 
-.close-button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+.transaction-modal-header p {
   color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  font-size: 14px;
 }
 
-.transaction-form {
-    padding: 0 20px;
-  }
-
-.form-group {
-    margin: 16px 20px;
-    /* margin-bottom: 16px; */
-    display: flex;
-    flex-direction: column;
+.modal-body {
+  padding-top: 15px;
 }
 
-.form-group label {
+.transaction-form-group {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.transaction-form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
+  margin-bottom: 4px;
+  font-weight: 400;
+  color: var(--gray-800);
   font-size: 14px;
-  color: #333;
 }
 
-.form-input,
-.form-select {
-  width: 92%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-  background-color: #fff;
-}
-
-.form-group input[type="text"],
-.form-group select {
-  width: 92%;
-  padding: 10px;
-  border: 1px solid #ddd;
+.transaction-form-group input,
+.transaction-form-group select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--gray-300);
   border-radius: 8px;
-  font-size: 14px;
+  color: var(--gray-800);
+  font-size: 15px;
+  font-family: Inter, "system-ui", sans-serif;
+  background: white;
+  transition: border-color 0.1s ease;
   box-sizing: border-box;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
-.form-group .amount-input-container {
-    width: 100%;
-  }
-  
-  .form-group .amount-input {
-    width: 100%;
-    height: 38px;
-    border-radius: 4px;
-    padding: 10px 30px !important;
-  }
-  
-  .form-group .amount-icon {
-    left: 10px;
-    z-index: 1;
-  }
+.transaction-form-group input:focus,
+.transaction-form-group select:focus {
+  outline: none;
+  border-color: #4caf50;
+}
 
-.radio-group {
-  display: flex;
-  gap: 20px;
+/* AmountInput full-width override inside modal */
+.transaction-form-group .amount-input-container {
   width: 100%;
 }
 
-.radio-label {
-  display: flex;
-  align-items: center;
+.transaction-form-group .amount-input-container input {
+  padding: 11px 12px 11px 30px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* DateInput full-width override inside modal */
+.transaction-form-group .date-input {
+  max-width: 100%;
+  border-radius: 8px;
+  padding: 11px 12px;
+  font-size: 15px;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Type toggle — replaces radio buttons */
+.type-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.type-option {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  background: #f8f9fa;
+  color: var(--gray-800);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
 }
 
-.radio-label input {
-  margin-right: 8px;
+.type-option:hover {
+  transform: translateY(2px);
+  box-shadow: none;
 }
 
-.modal-actions {
+.type-option:focus {
+  outline: none;
+}
+
+.type-option--expense {
+  border-color: #e53935;
+  background-color: #ffebee;
+  color: #c62828;
+  box-shadow: 0 0 0 1px #e53935;
+}
+
+.type-option--income {
+  border-color: #4caf50;
+  background-color: #e8f5e8;
+  color: #2e7d32;
+  box-shadow: 0 0 0 1px #4caf50;
+}
+
+/* Modal footer actions */
+.transaction-modal-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #eee;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 20px 20px 0 20px;
 }
 
-.modal-actions-right {
+.transaction-modal-actions-right {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  margin-left: auto;
 }
 
-.delete-button {
-  background: none;
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid #e0e0e0;
+  color: #666;
+}
+
+.btn-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #ccc;
+}
+
+.btn-danger {
+  background-color: transparent;
   border: 1px solid #e53935;
   color: #e53935;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s;
 }
 
-.delete-button:hover {
+.btn-danger:hover {
   background-color: #ffebee;
 }
-
-.cancel-button {
-  background: #f5f5f5;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.save-button {
-  background: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.form-group .date-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
