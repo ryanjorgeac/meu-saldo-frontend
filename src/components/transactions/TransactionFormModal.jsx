@@ -1,176 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import './TransactionFormModal.css';
-import DateInput from './DateInput';
+import { useState, useEffect } from 'react';
+import FormModal from '../modals/FormModal';
 import AmountInput from './AmountInput';
-import { FaTimes } from 'react-icons/fa';
+import DateInput from './DateInput';
+import './TransactionFormModal.css';
 
-function TransactionFormModal({ 
-  isOpen, 
-  onClose, 
-  onSave,
-  onDelete,
-  transaction = null, 
-  title = "Editar Transação",
-  categories
-}) {
-  const [form, setForm] = useState({
-    description: '',
-    type: 'EXPENSE',
-    amountInput: '',
-    amountDisplay: '',
-    date: '',
-    category: ''
-  });
+const today = () => new Date().toISOString();
 
+const EMPTY_FORM = {
+  description: '',
+  type: 'EXPENSE',
+  amountInput: '',
+  amountDisplay: '',
+  date: today(),
+  category: '',
+};
+
+function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, categories }) {
+  const isEditing = Boolean(transaction);
+
+  const [form, setForm] = useState(EMPTY_FORM);
+
+  // Reset form whenever the modal is opened for a different transaction (or new)
   useEffect(() => {
-    if (transaction) {
-      setForm({
-        description: transaction.description || '',
-        type: transaction.type || 'EXPENSE',
-        amountInput: '',
-        amountDisplay: transaction.amount || '',
-        date: transaction.rawDate || transaction.date || '',
-        category: transaction.category || ''
-      });
-    } else {
-      setForm({
-        description: '',
-        type: 'EXPENSE',
-        amountInput: '',
-        amountDisplay: '',
-        date: '',
-        category: ''
-      });
-    }
-  }, [transaction, isOpen]);
+    setForm(
+      transaction
+        ? {
+            description: transaction.description || '',
+            type: transaction.type || 'EXPENSE',
+            amountInput: '',
+            amountDisplay: transaction.amount || '',
+            date: transaction.rawDate || transaction.date || today(),
+            category: transaction.category || '',
+          }
+        : { ...EMPTY_FORM, date: today() }
+    );
+  }, [transaction]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedTransaction = {
-      ...form,
-      id: transaction ? transaction.id : undefined,
-    };
-    
-    await onSave(updatedTransaction);
-    onClose();
+    await onSave({ ...form, id: transaction?.id });
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
+    <FormModal onClose={onClose}>
       <div className="transaction-modal">
-        <div className="modal-header">
-          <h2>{title}</h2>
-          <button className="close-button" onClick={onClose}>
-            <FaTimes />
-          </button>
+        <div className="transaction-modal-header">
+          <h2>{isEditing ? 'Editar Transação' : 'Nova Transação'}</h2>
+          <p>{isEditing ? 'Altere os dados da transação' : 'Preencha os dados para registrar uma nova transação'}</p>
         </div>
-        
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Descrição</label>
+
+        <form className="modal-body" onSubmit={handleSubmit}>
+          <div className="transaction-form-group">
+            <label htmlFor="description">Descrição</label>
             <input
               type="text"
+              id="description"
               name="description"
               value={form.description}
               onChange={handleChange}
-              placeholder="Descrição da transação"
+              maxLength={60}
+              placeholder="Ex: Almoço no restaurante"
               required
-              className="form-input"
             />
           </div>
-          
-          <div className="form-group">
+
+          <div className="transaction-form-group">
             <label>Tipo</label>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="EXPENSE"
-                  checked={form.type === 'EXPENSE'}
-                  onChange={handleChange}
-                />
-                <span>Despesa</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="INCOME"
-                  checked={form.type === 'INCOME'}
-                  onChange={handleChange}
-                />
-                <span>Receita</span>
-              </label>
+            <div className="type-toggle">
+              <button
+                type="button"
+                className={`type-option ${form.type === 'EXPENSE' ? 'type-option--expense' : ''}`}
+                onClick={() => setForm((prev) => ({ ...prev, type: 'EXPENSE' }))}
+              >
+                Despesa
+              </button>
+              <button
+                type="button"
+                className={`type-option ${form.type === 'INCOME' ? 'type-option--income' : ''}`}
+                onClick={() => setForm((prev) => ({ ...prev, type: 'INCOME' }))}
+              >
+                Receita
+              </button>
             </div>
           </div>
-          
-          <div className="form-group">
-            <label>Valor</label>
+
+          <div className="transaction-form-group">
+            <label>Valor (R$)</label>
             <AmountInput
               name="amountInput"
               value={form.amountInput}
               onChange={handleChange}
-              placeholder={form.amountDisplay || "0,00"}
-              className="paddingLeft 30px"
+              placeholder={form.amountDisplay || '0,00'}
             />
           </div>
-          
-          <div className="form-group">
+
+          <div className="transaction-form-group">
             <label>Data</label>
             <DateInput
               name="date"
               value={form.date}
               onChange={handleChange}
               placeholder="Selecionar data"
-              maxDate={new Date().toISOString()}
+              maxDate={today()}
             />
           </div>
-          
-          <div className="form-group">
-            <label>Categoria</label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              required
-              className="form-select"
-            >
-              <option value="" disabled>Selecione uma categoria</option>
-              {categories.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
+
+          <div className="transaction-form-group">
+            <label htmlFor="category">Categoria</label>
+            <select id="category" name="category" value={form.category} onChange={handleChange}>
+              <option value="">Sem categoria</option>
+              {categories.map((cat) => (
+                <option key={cat.value} value={cat.value}>{cat.label}</option>
               ))}
             </select>
           </div>
-          
-          <div className="modal-actions">
-            {transaction && (
-              <button type="button" className="delete-button" onClick={() => onDelete(transaction.id)}>
+
+          <div className="transaction-modal-actions">
+            {isEditing && (
+              <button type="button" className="btn btn-danger" onClick={() => onDelete(transaction.id)}>
                 Excluir
               </button>
             )}
-            <div className="modal-actions-right">
-              <button type="button" className="cancel-button" onClick={onClose}>
+            <div className="transaction-modal-actions-right">
+              <button type="button" className="btn btn-secondary" onClick={onClose}>
                 Cancelar
               </button>
-              <button type="submit" className="save-button">
-                Salvar
+              <button type="submit" className="btn btn-primary">
+                {isEditing ? 'Salvar' : 'Criar'}
               </button>
             </div>
           </div>
         </form>
       </div>
-    </div>
+    </FormModal>
   );
 }
 
