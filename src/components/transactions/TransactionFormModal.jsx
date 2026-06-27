@@ -112,7 +112,6 @@ function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, c
           <div className="transaction-form-group">
             <label htmlFor="category">Categoria</label>
             <select id="category" name="category" value={form.category} onChange={handleChange}>
-              <option value="">Sem categoria</option>
               {categories.map((cat) => (
                 <option key={cat.value} value={cat.value}>{cat.label}</option>
               ))}

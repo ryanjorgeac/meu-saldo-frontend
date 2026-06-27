@@ -1,5 +1,6 @@
 .transactions-table-container {
   overflow-x: auto;
+  border-radius: 20px;
 }
 
 .transactions-table {
@@ -56,6 +57,11 @@
 .sort-arrow.active {
   color: #333;
   font-weight: bold;
+}
+
+.actions-header {
+  text-align: right;
+  width: 60px;
 }
 
 .transaction-description {

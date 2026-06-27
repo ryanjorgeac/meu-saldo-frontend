@@ -29,7 +29,7 @@ function TransactionsTable({ transactions, onEditTransaction, sortField, sortDir
           <SortableHeader label="Valor" field="amount" sortField={sortField} sortDirection={sortDirection} onSort={onSort} />
           <SortableHeader label="Categoria" field="categoryName" sortField={sortField} sortDirection={sortDirection} onSort={onSort} />
           <SortableHeader label="Data" field="date" sortField={sortField} sortDirection={sortDirection} onSort={onSort} />
-          <th></th>
+          <th className="actions-header">Ações</th>
         </tr>
       </thead>
       <tbody>
