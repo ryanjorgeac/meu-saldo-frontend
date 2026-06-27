@@ -12,7 +12,7 @@
 }
 
 .transaction-modal {
-  background-color: white;
+  background-color: var(--gray-25);
   border-radius: 12px;
   width: 95%;
   max-width: 500px;
