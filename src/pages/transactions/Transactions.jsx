@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
-import { endOfDay, format, isAfter, isBefore, parseISO, startOfDay, subDays } from "date-fns";
+import { endOfDay, format, isAfter, isBefore, parseISO, startOfDay } from "date-fns";
 import "./Transactions.css";
 import CategorySelect from "../../components/transactions/CategorySelect";
 import DateInput from "../../components/transactions/DateInput";
@@ -24,15 +24,6 @@ function toRangeDate(value) {
   return value ? parseISO(value) : null;
 }
 
-function buildDefaultRange() {
-  const today = new Date();
-
-  return {
-    startDate: startOfDay(subDays(today, 6)).toISOString(),
-    endDate: endOfDay(today).toISOString(),
-  };
-}
-
 function Transactions() {
   const { transactionsCache, setTransactionsCache } = useTransactionsCache();
   const [categories, setCategories] = useState([]);
@@ -50,11 +41,10 @@ function Transactions() {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const defaultRange = useMemo(() => buildDefaultRange(), []);
   const [filters, setFilters] = useState({
     search: "",
-    startDate: defaultRange.startDate,
-    endDate: defaultRange.endDate,
+    startDate: "",
+    endDate: "",
     minValue: "",
     maxValue: "",
   });
@@ -84,11 +74,6 @@ function Transactions() {
   useEffect(() => {
     if (!didHydrateCache && transactionsCache.items.length > 0) {
       setDidHydrateCache(true);
-      setFilters((prev) => ({
-        ...prev,
-        startDate: transactionsCache.rangeStart || prev.startDate,
-        endDate: transactionsCache.rangeEnd || prev.endDate,
-      }));
     }
   }, [didHydrateCache, transactionsCache]);
 
@@ -122,7 +107,7 @@ function Transactions() {
     const payload = {
       description: transaction.description.trim(),
       type: transaction.type,
-      categoryId: transaction.category,
+      categoryId: transaction.category || null,
       date: formatDateForBackend(transaction.date)
     };
 
@@ -147,8 +132,6 @@ function Transactions() {
 
     try {
       const response = await transactionService.getTransactions(1, CACHE_LIMIT, {
-        startDate: defaultRange.startDate,
-        endDate: defaultRange.endDate,
         order: "desc",
       });
 
@@ -161,7 +144,7 @@ function Transactions() {
           amount: transaction.amount,
           amountValue: parseAmountToNumber(transaction.amount),
           category: transaction.categoryId,
-          categoryName: category ? category.label : "Não categorizado",
+          categoryName: category ? category.label : "Sem categoria",
           date: formatDate(transaction.date),
           rawDate: transaction.date,
           type: transaction.type,
@@ -171,8 +154,6 @@ function Transactions() {
       setTransactionsCache({
         items: transformedTransactions,
         fetchedAt: Date.now(),
-        rangeStart: defaultRange.startDate,
-        rangeEnd: defaultRange.endDate,
       });
     } catch (err) {
       setError(err.message);
@@ -180,7 +161,7 @@ function Transactions() {
     } finally {
       setLoading(false);
     }
-  }, [categories, defaultRange.endDate, defaultRange.startDate, setTransactionsCache, transactionsCache.items.length]);
+  }, [categories, setTransactionsCache, transactionsCache.items.length]);
 
   useEffect(() => {
     fetchTransactions();
@@ -312,11 +293,6 @@ function Transactions() {
       return;
     }
 
-    if (!formData.category) {
-      alert("Categoria é obrigatória.");
-      return;
-    }
-
     try {
       const backendData = transformTransactionForBackend(formData, { isEditing });
       
@@ -383,7 +359,7 @@ function Transactions() {
             value={filters.startDate}
             onChange={handleFilterChange}
             placeholder="Data início"
-            maxDate={filters.endDate || defaultRange.endDate}
+            maxDate={filters.endDate || new Date().toISOString()}
           />
         </div>
 
@@ -393,7 +369,7 @@ function Transactions() {
             value={filters.endDate}
             onChange={handleFilterChange}
             placeholder="Data fim"
-            minDate={filters.startDate || defaultRange.startDate}
+            minDate={filters.startDate || undefined}
             maxDate={new Date().toISOString()}
           />
         </div>

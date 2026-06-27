@@ -20,7 +20,6 @@ function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, c
 
   const [form, setForm] = useState(EMPTY_FORM);
 
-  // Reset form whenever the modal is opened for a different transaction (or new)
   useEffect(() => {
     setForm(
       transaction
