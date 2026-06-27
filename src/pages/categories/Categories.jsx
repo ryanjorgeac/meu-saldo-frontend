@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./Categories.css";
 import AddButton from "../../components/common/AddButton";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
-import { categoryService } from "../../services";
+import { categoryService, transactionService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
+import Toast from "../../components/common/Toast";
 import { parseMoneyInputToCents } from "../../utils/money";
 
 export default function Categories() {
@@ -22,6 +23,8 @@ export default function Categories() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [refillingCategoryId, setRefillingCategoryId] = useState(null);
+  const [toast, setToast] = useState(null);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
@@ -114,6 +117,29 @@ export default function Categories() {
       setCategoryToDelete(null);
     }
   };
+
+  const handleRefillCategory = useCallback(async (categoryId) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    if (!category) return;
+    setRefillingCategoryId(categoryId);
+    try {
+      const today = new Date().toISOString();
+      const payload = {
+        categoryId: category.id,
+        amountCents: parseMoneyInputToCents(category.budgetAmount),
+        type: 'INCOME',
+        description: `Reabastecimento: ${category.name}`,
+        date: today,
+      }
+      await transactionService.createTransaction(payload);
+      setToast({ message: `Categoria "${category.name}" reabastecida com sucesso!`, type: 'success' });
+      fetchCategories();
+    } catch (error) {
+      setToast({ message: error.message || 'Erro ao reabastecer categoria. Tente novamente.', type: 'error' });
+    } finally {
+      setRefillingCategoryId(null);
+    }
+  }, [categories]);
 
   const handleAddCategory = () => {
     setIsModalOpen(true);
@@ -222,7 +248,9 @@ export default function Categories() {
           categories={categories} 
           loading={loading}
           onEdit={handleEditCategory}
-          onDelete={handleDeleteCategory} 
+          onDelete={handleDeleteCategory}
+          onRefill={handleRefillCategory}
+          refillingCategoryId={refillingCategoryId}
         />
       </section>
       {isModalOpen && (
@@ -233,6 +261,13 @@ export default function Categories() {
           onSave={handleCreateCategory}
           setCategory={setNewCategory}
           isEditing={!!editingCategory}
+        />
+      )}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
       {errorMessage && (

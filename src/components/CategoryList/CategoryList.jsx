@@ -5,6 +5,8 @@ const CategoryList = ({
   categories = [],
   onEdit,
   onDelete,
+  onRefill,
+  refillingCategoryId = null,
   loading = false,
 }) => {
   if (loading) {
@@ -37,6 +39,8 @@ const CategoryList = ({
             category={category}
             onEdit={onEdit}
             onDelete={onDelete}
+            onRefill={onRefill}
+            isRefilling={refillingCategoryId === category.id}
           />
         ))}
       </div>

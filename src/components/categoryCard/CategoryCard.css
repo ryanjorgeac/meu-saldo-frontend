@@ -129,6 +129,26 @@
   cursor: not-allowed;
 }
 
+.category-card__action-btn--refill:hover {
+  background: rgba(52, 211, 153, 0.2);
+}
+
+.category-card__action-btn--loading {
+  opacity: 0.5;
+  cursor: wait;
+  animation: btn-spin 1s linear infinite;
+}
+
+.category-card__action-btn--loading:hover {
+  background: none;
+  transform: none;
+}
+
+@keyframes btn-spin {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
 .category-card__info {
   flex: 1;
   min-width: 0;

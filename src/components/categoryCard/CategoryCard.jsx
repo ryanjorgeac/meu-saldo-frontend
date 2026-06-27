@@ -1,5 +1,5 @@
 import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
-import { FaLock } from 'react-icons/fa';
+import { FaLock, FaCoins } from 'react-icons/fa';
 import { Icon } from '../icons';
 import "./CategoryCard.css";
 import { parseCurrency } from '../../utils/money';
@@ -8,7 +8,9 @@ import { resolveCategoryStyle } from '../../utils/colors';
 const CategoryCard = ({ 
   category, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onRefill,
+  isRefilling = false,
 }) => {
   const {
     id,
@@ -51,6 +53,11 @@ const CategoryCard = ({
     if (onDelete) onDelete(id);
   };
 
+  const handleRefill = (e) => {
+    e.stopPropagation();
+    if (onRefill) onRefill(id);
+  };
+
   return (
     <div 
       className={`category-card ${!isActive ? 'category-card--inactive' : ''} ${isDefault ? 'category-card--default' : ''}`}
@@ -70,13 +77,23 @@ const CategoryCard = ({
               <EditIcon fontSize="20" />
             </button>
             {!isDefault && (
-              <button 
-                className="category-card__action-btn category-card__action-btn--delete"
-                onClick={handleDelete}
-                title="Excluir categoria"
-              >
-                <TrashIcon fontSize="20" />
-              </button>
+              <>
+                <button 
+                  className={`category-card__action-btn category-card__action-btn--refill ${isRefilling ? 'category-card__action-btn--loading' : ''}`}
+                  onClick={handleRefill}
+                  disabled={isRefilling}
+                  title={isRefilling ? 'Reabastecendo...' : 'Reabastecer categoria'}
+                >
+                  <FaCoins fontSize="20" />
+                </button>
+                <button 
+                  className="category-card__action-btn category-card__action-btn--delete"
+                  onClick={handleDelete}
+                  title="Excluir categoria"
+                >
+                  <TrashIcon fontSize="20" />
+                </button>
+              </>
             )}
           </div>
         </div>
