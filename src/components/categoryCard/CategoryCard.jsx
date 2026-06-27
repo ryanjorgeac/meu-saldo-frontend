@@ -1,4 +1,5 @@
 import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
+import { FaLock } from 'react-icons/fa';
 import { Icon } from '../icons';
 import "./CategoryCard.css";
 import { parseCurrency } from '../../utils/money';
@@ -52,7 +53,7 @@ const CategoryCard = ({
 
   return (
     <div 
-      className={`category-card ${!isActive ? 'category-card--inactive' : ''}`}
+      className={`category-card ${!isActive ? 'category-card--inactive' : ''} ${isDefault ? 'category-card--default' : ''}`}
     >
       <div className="category-card__identification" style={{ '--category-color': categoryStyle.color }}>
         <div className="category-card__header">
@@ -83,7 +84,12 @@ const CategoryCard = ({
         <div className="category-card__info">
           <div className="category-card__title">
             {name}
-            {isDefault && <span className="category-card__badge">Padrão</span>}
+            {isDefault && (
+              <span className="category-card__badge">
+                <FaLock size={10} />
+                Padrão
+              </span>
+            )}
           </div>
           <div className="category-card__symbol">R$</div>
           <div className="category-card__amount">{remainingAmount}</div>

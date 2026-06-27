@@ -23,10 +23,28 @@
   opacity: 0.6;
 }
 
+.category-card--default {
+  position: relative;
+}
+
+.category-card--default::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 .category-card__identification {
   padding: 1.5rem;
   background-color: var(--category-color, --lima-400);
   border-radius: 20px;
+  position: relative;
 }
 
 .category-card__header {
@@ -93,11 +111,22 @@
 .category-card__action-btn--disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  position: relative;
 }
 
 .category-card__action-btn--disabled:hover {
   background: none;
   transform: none;
+}
+
+.category-card__action-btn--disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: not-allowed;
 }
 
 .category-card__info {
@@ -117,15 +146,17 @@
 .category-card__badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.6rem;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
   font-size: 0.7rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--gray-500);
+  border: 1.5px solid var(--gray-500);
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   backdrop-filter: blur(10px);
+  animation: badge-pulse 2s ease-in-out infinite;
 }
 
 .category-card__symbol {
@@ -172,7 +203,6 @@
   font-weight: 500;
 }
 
-/* Progress Bar */
 .category-card__progress {
   background: var(--gray-300);
   border-radius: 4px;
