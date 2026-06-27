@@ -97,9 +97,38 @@ export const categoryService = {
     }
   },
   deleteCategory: async (categoryId) => {
-    const response = await api.delete(`/api/v1/categories/${categoryId}`);
-    if (!response.status || response.status !== 204) {
-      throw new Error("Erro ao deletar categoria");
+    try {
+      const response = await api.delete(`/api/v1/categories/${categoryId}`);
+      if (!response.status || response.status !== 204) {
+        throw new Error("Erro ao deletar categoria");
+      }
+    } catch (error) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 403:
+            throw new Error(
+              error.response.data.message || "Categorias padrão não podem ser modificadas."
+            );
+          case 404:
+            throw new Error(
+              "Categoria não encontrada."
+            );
+          case 503:
+            throw new Error(
+              "Erro no servidor. Por favor, tente novamente mais tarde."
+            );
+          default:
+            throw new Error(
+              error.response.data.message || "Erro ao deletar categoria."
+            );
+        }
+      } else if (error.request) {
+        throw new Error(
+          "Não foi possível conectar ao servidor. Verifique sua conexão."
+        );
+      } else {
+        throw new Error("Erro ao processar a solicitação.");
+      }
     }
   },
   updateCategory: async (categoryId, categoryData) => {
@@ -116,7 +145,7 @@ export const categoryService = {
             );
           case 403:
             throw new Error(
-              "Acesso negado. Você não tem permissão para atualizar esta categoria."
+              error.response.data.message || "Categorias padrão não podem ser modificadas."
             );
           case 404:
             throw new Error(

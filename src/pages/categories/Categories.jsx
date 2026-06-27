@@ -30,6 +30,7 @@ export default function Categories() {
     icon: null,
     color: null,
     isActive: true,
+    isDefault: false,
   });
 
   async function fetchCategories(){
@@ -54,6 +55,14 @@ export default function Categories() {
   const handleEditCategory = (categoryId) => {
     const categoryToEdit = categories.find(cat => cat.id === categoryId);
     if (categoryToEdit) {
+      if (categoryToEdit.isDefault) {
+        setErrorMessage({ 
+          title: "Categoria Padrão", 
+          message: "Categorias padrão não podem ser editadas. Estas categorias são essenciais para o funcionamento do sistema." 
+        });
+        return;
+      }
+
       setEditingCategory(categoryToEdit);
       setNewCategory({
         name: categoryToEdit.name,
@@ -63,6 +72,7 @@ export default function Categories() {
         icon: categoryToEdit.icon,
         color: categoryToEdit.color,
         isActive: categoryToEdit.isActive ?? true,
+        isDefault: categoryToEdit.isDefault ?? false,
       });
       setIsModalOpen(true);
     }
@@ -70,6 +80,15 @@ export default function Categories() {
 
   const handleDeleteCategory = (categoryId) => {
     const category = categories.find(cat => cat.id === categoryId);
+    
+    if (category?.isDefault) {
+      setErrorMessage({ 
+        title: "Categoria Padrão", 
+        message: "Categorias padrão não podem ser deletadas. Estas categorias são essenciais para o funcionamento do sistema." 
+      });
+      return;
+    }
+    
     setCategoryToDelete(category);
   };
 
@@ -84,8 +103,14 @@ export default function Categories() {
       setCategoryToDelete(null);
       fetchCategories();
     } catch (error) {
-      const errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
-      setErrorMessage({ title: "Erro ao Deletar Categoria", message: errorMsg });
+      let errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
+      let titleMsg = "Erro ao Deletar Categoria";
+      
+      if (error.message && error.message.toLowerCase().includes("padrão")) {
+        titleMsg = "Categoria Padrão";
+      }
+      
+      setErrorMessage({ title: titleMsg, message: errorMsg });
       setCategoryToDelete(null);
     }
   };
@@ -105,6 +130,7 @@ export default function Categories() {
       icon: null,
       color: null,
       isActive: true,
+      isDefault: false,
     });
   };
 
@@ -150,10 +176,20 @@ export default function Categories() {
       handleCloseModal();
       fetchCategories();
     } catch (error) {
-      const errorMsg = error.message === "Invalid money input"
-        ? "Informe um orcamento valido com ate duas casas decimais."
-        : error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
-      const titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      let errorMsg;
+      let titleMsg;
+      
+      if (error.message === "Invalid money input") {
+        errorMsg = "Informe um orçamento válido com até duas casas decimais.";
+        titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      } else if (error.message && error.message.toLowerCase().includes("padrão")) {
+        errorMsg = error.message;
+        titleMsg = "Categoria Padrão";
+      } else {
+        errorMsg = error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
+        titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      }
+      
       setErrorMessage({ title: titleMsg, message: errorMsg });
     }
   };

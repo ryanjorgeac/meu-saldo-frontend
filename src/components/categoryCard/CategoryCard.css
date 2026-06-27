@@ -90,6 +90,16 @@
   transform: scale(1.05);
 }
 
+.category-card__action-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.category-card__action-btn--disabled:hover {
+  background: none;
+  transform: none;
+}
+
 .category-card__info {
   flex: 1;
   min-width: 0;
@@ -98,6 +108,24 @@
 .category-card__title {
   font-size: 1.3rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.category-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
 }
 
 .category-card__symbol {
