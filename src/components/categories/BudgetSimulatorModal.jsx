@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { FaPlus, FaTrash, FaPercent, FaDollarSign } from 'react-icons/fa';
-import FormModal from '../modals/FormModal';
+import { FaPlus, FaTrash, FaDollarSign, FaPercent, FaCheck } from 'react-icons/fa';
+import { FaMoneyBillWave } from 'react-icons/fa6';
 import { Icon, iconMap } from '../icons';
 import { CATEGORY_COLORS } from '../../utils/colors';
 import { formatMoneyInput, parseMoneyInputToCents, formatCurrencyFromCents } from '../../utils/money';
@@ -42,10 +42,15 @@ function BudgetSimulatorModal({ onClose, onSave }) {
   const pickerRefs = useRef({});
 
   const incomeCents = incomeInput ? safeparse(incomeInput) : 0;
-  const totalCents  = rows.reduce((s, r) => s + rowToCents(r, incomeCents), 0);
-  const totalPct    = incomeCents > 0 ? (totalCents / incomeCents) * 100 : 0;
-  const isOver      = totalCents > incomeCents && incomeCents > 0;
-  const isBalanced  = incomeCents > 0 && Math.abs(totalCents - incomeCents) < 1;
+  const totalCents = rows.reduce((s, r) => s + rowToCents(r, incomeCents), 0);
+  const remainingCents = incomeCents - totalCents;
+  const totalPct = incomeCents > 0 ? (totalCents / incomeCents) * 100 : 0;
+  const isOver = totalCents > incomeCents && incomeCents > 0;
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = 'auto'; };
+  }, []);
 
   useEffect(() => {
     if (!openDropdown) return;
@@ -83,10 +88,10 @@ function BudgetSimulatorModal({ onClose, onSave }) {
     });
   };
 
-  const handleIconSelect  = (rowId, icon)  => { setField(rowId, 'icon', icon);  setOpenDropdown(null); };
+  const handleIconSelect = (rowId, icon) => { setField(rowId, 'icon', icon); setOpenDropdown(null); };
   const handleColorSelect = (rowId, color) => { setField(rowId, 'color', color); setOpenDropdown(null); };
 
-  const handleAddRow    = () => setRows((prev) => [...prev, newRow()]);
+  const handleAddRow = () => setRows((prev) => [...prev, newRow()]);
   const handleRemoveRow = (id) => setRows((prev) => prev.filter((r) => r.id !== id));
 
   const handleSubmit = () => {
@@ -107,58 +112,95 @@ function BudgetSimulatorModal({ onClose, onSave }) {
   const canSave = rows.length > 0 && incomeCents > 0 && namedRows > 0 && !isOver;
 
   return (
-    <FormModal onClose={onClose}>
-      <div className="bsm">
+    <div className="bsm-overlay" onClick={onClose}>
+      <div className="bsm-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
         <div className="bsm__header">
-          <h2>Simulador de Or&#231;amento</h2>
-          <p>Defina sua renda e distribua entre categorias</p>
+          <div className="bsm__header-icon">
+            <FaMoneyBillWave size={18} />
+          </div>
+          <div className="bsm__header-text">
+            <h2>Simulador de Orçamento</h2>
+            <p>Divida sua renda em categorias rapidamente</p>
+          </div>
+          <button type="button" className="bsm__close" onClick={onClose}>&times;</button>
         </div>
 
-        {/* Income */}
-        <div className="bsm__income-row">
-          <label htmlFor="bsm-income">Renda Total (R$)</label>
-          <input
-            id="bsm-income"
-            type="text"
-            className="bsm__input bsm__input--income"
-            value={incomeInput}
-            onChange={handleIncomeChange}
-            placeholder="0,00"
-          />
-        </div>
-
-        {/* Rows */}
-        <div className="bsm__rows">
-          {rows.length === 0 && (
-            <div className="bsm__empty">
-              Nenhuma categoria adicionada. Clique em "Adicionar categoria" para come&#231;ar.
+        {/* Body */}
+        <div className="bsm__body">
+          {/* Income card */}
+          <div className="bsm__income-card">
+            <label htmlFor="bsm-income">Qual é a sua renda total a ser dividida?</label>
+            <div className="bsm__income-input-wrap">
+              <span className="bsm__income-prefix">R$</span>
+              <input
+                id="bsm-income"
+                type="text"
+                className="bsm__income-input"
+                value={incomeInput}
+                onChange={handleIncomeChange}
+                placeholder="0,00"
+              />
             </div>
-          )}
-          {rows.map((row) => {
-            const cents = rowToCents(row, incomeCents);
+          </div>
 
-            return (
-              <div key={row.id} className="bsm__row">
-                {/* Name */}
-                <input
-                  type="text"
-                  className="bsm__input bsm__input--name"
-                  value={row.name}
-                  onChange={(e) => setField(row.id, 'name', e.target.value)}
-                  maxLength={20}
-                  placeholder="Nome da Categoria"
-                />
+          {/* Categories section */}
+          <div className="bsm__section-header">
+            <h3>Suas Categorias</h3>
+            <button type="button" className="bsm__add-link" onClick={handleAddRow}>
+              <FaPlus size={10} /> Adicionar
+            </button>
+          </div>
 
-                {/* Icon picker */}
-                <div className="bsm__picker-wrap">
+          <div className="bsm__rows">
+            {rows.length === 0 && (
+              <div className="bsm__empty">
+                Nenhuma categoria adicionada. Clique em "+ Adicionar" para começar.
+              </div>
+            )}
+            {rows.map((row) => {
+              const cents = rowToCents(row, incomeCents);
+              const rowPct = incomeCents > 0 ? ((cents / incomeCents) * 100).toFixed(0) : 0;
+
+              return (
+                <div key={row.id} className="bsm__row">
+                  {/* Color picker */}
+                  <button
+                    ref={(el) => { pickerRefs.current[`${row.id}-color`] = el; }}
+                    type="button"
+                    className="bsm__color-circle"
+                    style={{ background: row.color }}
+                    onClick={(e) => { e.stopPropagation(); toggleDropdown(row.id, 'color'); }}
+                    title="Selecionar cor"
+                  />
+                  {openDropdown?.rowId === row.id && openDropdown?.type === 'color' && createPortal(
+                    <div
+                      className="bsm__dropdown bsm__dropdown--color"
+                      style={{ position: 'fixed', top: openDropdown.top, left: openDropdown.left }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {CATEGORY_COLORS.map((c) => (
+                        <button
+                          key={c}
+                          type="button"
+                          className={`bsm__color-dot${row.color === c ? ' bsm__color-dot--selected' : ''}`}
+                          style={{ background: c }}
+                          onClick={() => handleColorSelect(row.id, c)}
+                        />
+                      ))}
+                    </div>,
+                    document.body
+                  )}
+
+                  {/* Icon picker */}
                   <button
                     ref={(el) => { pickerRefs.current[`${row.id}-icon`] = el; }}
                     type="button"
-                    className="bsm__picker-trigger bsm__picker-trigger--icon"
+                    className="bsm__icon-btn"
                     onClick={(e) => { e.stopPropagation(); toggleDropdown(row.id, 'icon'); }}
-                    title="Selecionar icone"
+                    title="Selecionar ícone"
                   >
-                    <Icon icon={row.icon} fontSize="13" />
+                    <Icon icon={row.icon} fontSize="14" />
                   </button>
                   {openDropdown?.rowId === row.id && openDropdown?.type === 'icon' && createPortal(
                     <div
@@ -180,130 +222,99 @@ function BudgetSimulatorModal({ onClose, onSave }) {
                     </div>,
                     document.body
                   )}
-                </div>
 
-                {/* Color picker */}
-                <div className="bsm__picker-wrap">
-                  <button
-                    ref={(el) => { pickerRefs.current[`${row.id}-color`] = el; }}
-                    type="button"
-                    className="bsm__picker-trigger bsm__picker-trigger--color"
-                    style={{ background: row.color, borderColor: 'transparent' }}
-                    onClick={(e) => { e.stopPropagation(); toggleDropdown(row.id, 'color'); }}
-                    title="Selecionar cor"
-                  />
-                  {openDropdown?.rowId === row.id && openDropdown?.type === 'color' && createPortal(
-                    <div
-                      className="bsm__dropdown bsm__dropdown--color"
-                      style={{ position: 'fixed', top: openDropdown.top, left: openDropdown.left }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {CATEGORY_COLORS.map((c) => (
-                        <button
-                          key={c}
-                          type="button"
-                          className={`bsm__color-dot${row.color === c ? ' bsm__color-dot--selected' : ''}`}
-                          style={{ background: c }}
-                          onClick={() => handleColorSelect(row.id, c)}
-                          title={c}
-                        />
-                      ))}
-                    </div>,
-                    document.body
-                  )}
-                </div>
-
-                {/* Type toggle */}
-                <div className="bsm__type-toggle">
-                  <button
-                    type="button"
-                    className={`bsm__type-btn${row.mode === 'percent' ? ' bsm__type-btn--active' : ''}`}
-                    onClick={() => handleModeChange(row.id, 'percent')}
-                    title="Percentual"
-                  >
-                    <FaPercent size={9} />
-                  </button>
-                  <button
-                    type="button"
-                    className={`bsm__type-btn${row.mode === 'fixed' ? ' bsm__type-btn--active' : ''}`}
-                    onClick={() => handleModeChange(row.id, 'fixed')}
-                    title="Valor Fixo"
-                  >
-                    <FaDollarSign size={9} />
-                  </button>
-                </div>
-
-                {/* Value input + calculated badge */}
-                <div className="bsm__value-group">
+                  {/* Name */}
                   <input
                     type="text"
-                    className="bsm__input bsm__input--value"
+                    className="bsm__name-input"
+                    value={row.name}
+                    onChange={(e) => setField(row.id, 'name', e.target.value)}
+                    maxLength={20}
+                    placeholder="Nome da Categoria"
+                  />
+
+                  {/* Type toggle */}
+                  <div className="bsm__toggle">
+                    <button
+                      type="button"
+                      className={`bsm__toggle-btn${row.mode === 'fixed' ? ' bsm__toggle-btn--active' : ''}`}
+                      onClick={() => handleModeChange(row.id, 'fixed')}
+                    >
+                      $
+                    </button>
+                    <button
+                      type="button"
+                      className={`bsm__toggle-btn${row.mode === 'percent' ? ' bsm__toggle-btn--active' : ''}`}
+                      onClick={() => handleModeChange(row.id, 'percent')}
+                    >
+                      %
+                    </button>
+                  </div>
+
+                  {/* Value */}
+                  <input
+                    type="text"
+                    className="bsm__value-input"
                     value={row.value}
                     onChange={(e) => handleValueChange(row.id, e.target.value, row.mode)}
                     placeholder={row.mode === 'percent' ? '0' : '0,00'}
                   />
-                  {row.mode === 'percent' && cents > 0 && (
-                    <span className="bsm__calc-badge">
-                      R$ {formatCurrencyFromCents(cents)}
-                    </span>
-                  )}
+
+                  {/* Calculated display */}
+                  <div className="bsm__calc">
+                    <span className="bsm__calc-amount">R$ {formatCurrencyFromCents(cents)}</span>
+                    {row.mode === 'percent' && <span className="bsm__calc-pct">{rowPct}%</span>}
+                  </div>
+
+                  {/* Delete */}
+                  <button
+                    type="button"
+                    className="bsm__delete-btn"
+                    onClick={() => handleRemoveRow(row.id)}
+                    title="Remover"
+                  >
+                    <FaTrash size={12} />
+                  </button>
                 </div>
-
-                {/* Delete */}
-                <button
-                  type="button"
-                  className="bsm__remove-btn"
-                  onClick={() => handleRemoveRow(row.id)}
-                  title="Remover"
-                >
-                  <FaTrash size={11} />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Add row */}
-        <button type="button" className="bsm__add-row-btn" onClick={handleAddRow}>
-          <FaPlus size={11} /> Adicionar categoria
-        </button>
-
-        {/* Progress bar */}
-        {incomeCents > 0 && (
-          <div className="bsm__progress-wrap">
-            <div className="bsm__progress-info">
-              <span className="bsm__progress-text">
-                Alocado: R$ {formatCurrencyFromCents(totalCents)}
-              </span>
-              <span className={`bsm__progress-text${isOver ? ' bsm__progress-text--over' : isBalanced ? ' bsm__progress-text--ok' : ''}`}>
-                {totalPct.toFixed(1)}%{isOver && ' — excede!'}{isBalanced && ' ✓'}
-              </span>
-            </div>
-            <div className="bsm__progress">
-              <div
-                className={`bsm__progress-fill${isOver ? ' bsm__progress-fill--over' : isBalanced ? ' bsm__progress-fill--ok' : ''}`}
-                style={{ width: `${Math.min(totalPct, 100)}%` }}
-              />
-            </div>
-            {isOver && (
-              <p className="bsm__progress-warning">
-                Voce planejou mais do que sua renda disponivel!
-              </p>
-            )}
+              );
+            })}
           </div>
-        )}
+
+          {/* Progress */}
+          {incomeCents > 0 && (
+            <div className="bsm__progress-section">
+              <div className="bsm__progress-labels">
+                <span>Alocado: R$ {formatCurrencyFromCents(totalCents)}</span>
+                <span className={isOver ? 'bsm__progress-labels--over' : ''}>
+                  Restante: R$ {formatCurrencyFromCents(Math.max(remainingCents, 0))}
+                </span>
+              </div>
+              <div className="bsm__progress-bar">
+                <div
+                  className={`bsm__progress-fill${isOver ? ' bsm__progress-fill--over' : ''}`}
+                  style={{ width: `${Math.min(totalPct, 100)}%` }}
+                />
+              </div>
+              {isOver && (
+                <p className="bsm__progress-warning">
+                  Você planejou mais do que sua renda disponível!
+                </p>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Actions */}
         <div className="bsm__actions">
-          <button type="button" className="btn btn-secondary" onClick={onClose}>
+          <button type="button" className="bsm__btn-cancel" onClick={onClose}>
             Cancelar
           </button>
-          <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={!canSave}>
-            Criar {namedRows} Categoria{namedRows !== 1 ? 's' : ''}
+          <button type="button" className="bsm__btn-save" onClick={handleSubmit} disabled={!canSave}>
+            <FaCheck size={12} /> Criar {namedRows} Categoria{namedRows !== 1 ? 's' : ''}
           </button>
         </div>
       </div>
-    </FormModal>
+    </div>
   );
 }
 
