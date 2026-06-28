@@ -1,0 +1,289 @@
+.bsm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.bsm__header h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.bsm__header p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Income */
+.bsm__income-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bsm__income-row label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+  white-space: nowrap;
+}
+
+/* Shared input */
+.bsm__input {
+  padding: 7px 10px;
+  border: 1px solid var(--gray-300, #d5d7da);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--gray-800);
+  box-sizing: border-box;
+  font-family: inherit;
+  background: white;
+  transition: border-color 0.15s;
+}
+.bsm__input:focus {
+  outline: none;
+  border-color: var(--lima-400, #5db936);
+}
+.bsm__input--income { width: 130px; }
+.bsm__input--name   { flex: 1; min-width: 60px; }
+.bsm__input--value  { width: 72px; text-align: right; }
+
+/* Rows list */
+.bsm__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.bsm__empty {
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+  border: 1px dashed #e0e0e0;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+/* Row */
+.bsm__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+}
+
+/* Picker wrapper */
+.bsm__picker-wrap {
+  flex-shrink: 0;
+}
+
+/* Picker trigger buttons */
+.bsm__picker-trigger {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--gray-300, #d5d7da);
+  color: var(--gray-700, #424242);
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.bsm__picker-trigger:hover { opacity: 0.78; }
+
+/* Portal dropdowns — position: fixed set via inline style top/left */
+.bsm__dropdown {
+  position: fixed;
+  z-index: 9999;
+  background: white;
+  border: 1px solid var(--gray-300, #d5d7da);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  width: 168px;
+}
+.bsm__dropdown--color {
+  width: 136px;
+}
+
+/* Icon items inside dropdown */
+.bsm__dropdown-item {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #e8e8e8;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #555;
+  transition: background 0.1s, border-color 0.1s;
+}
+.bsm__dropdown-item:hover { background: #f5f5f5; border-color: #bbb; }
+.bsm__dropdown-item--selected {
+  background: var(--lima-50, #ceffc4);
+  border-color: var(--lima-400, #5db936);
+  color: var(--lima-700, #36701e);
+}
+
+/* Color dots */
+.bsm__color-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: transform 0.1s, border-color 0.1s;
+}
+.bsm__color-dot--selected {
+  border-color: #1a1a1a;
+  transform: scale(1.18);
+}
+
+/* Per-row type toggle */
+.bsm__type-toggle {
+  display: flex;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.bsm__type-btn {
+  width: 26px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  padding: 0;
+  transition: background 0.12s, color 0.12s;
+}
+.bsm__type-btn--active {
+  background: var(--lima-300, #68ce3c);
+  color: #fff;
+}
+
+/* Value group — input + calc badge stacked */
+.bsm__value-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.bsm__calc-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: #3b6cb7;
+  white-space: nowrap;
+}
+
+/* Delete button — matches sidebar style */
+.bsm__remove-btn {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  transition: color 0.15s, background 0.15s;
+}
+.bsm__remove-btn:hover { color: #e53935; background: #ffebee; }
+
+/* Add row button */
+.bsm__add-row-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px dashed #d9d9d9;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.bsm__add-row-btn:hover { border-color: var(--lima-300, #68ce3c); color: #1a1a1a; }
+
+/* Progress section — bottom, before actions */
+.bsm__progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+.bsm__progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bsm__progress-text {
+  font-size: 12px;
+  color: #888;
+}
+.bsm__progress-text--over { color: #e53935; font-weight: 600; }
+.bsm__progress-text--ok   { color: #2e7d32; font-weight: 600; }
+.bsm__progress {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bsm__progress-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 99px;
+  transition: width 0.2s, background 0.2s;
+}
+.bsm__progress-fill--over { background: #e53935; }
+.bsm__progress-fill--ok   { background: #2e7d32; }
+.bsm__progress-warning {
+  font-size: 11px;
+  color: #e53935;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Actions */
+.bsm__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid #f0f0f0;
+}

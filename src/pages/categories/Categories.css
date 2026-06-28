@@ -1,3 +1,56 @@
+.category-page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.simulator-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 20px;
+  min-width: 36px;
+  max-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  color: #f5c518;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: max-width 0.3s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.simulator-btn:hover {
+  max-width: 160px;
+  border-radius: 20px;
+  border-color: #f5c518;
+  background: #fffde7;
+}
+
+.simulator-btn__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.simulator-btn__text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d4a017;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.3s ease, opacity 0.2s ease 0.1s;
+}
+
+.simulator-btn:hover .simulator-btn__text {
+  max-width: 80px;
+  opacity: 1;
+}
+
 .category-page-header {
   display: flex;
   justify-content: space-between;

@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import "./Categories.css";
+import { FaMoneyBillWave } from 'react-icons/fa6';
 import AddButton from "../../components/common/AddButton";
 import CategoryList from "../../components/categories/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService, transactionService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
+import BudgetSimulatorModal from "../../components/categories/BudgetSimulatorModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import Toast from "../../components/common/Toast";
@@ -22,6 +24,7 @@ export default function Categories() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
@@ -149,6 +152,17 @@ export default function Categories() {
     setIsModalOpen(true);
   };
 
+  const handleBulkSave = async (categories) => {
+    try {
+      await categoryService.bulkCreateCategories(categories);
+      setIsSimulatorOpen(false);
+      await fetchCategories();
+      setToast({ message: `${categories.length} categoria(s) criada(s) com sucesso!`, type: 'success' });
+    } catch (error) {
+      setToast({ message: error.message || 'Erro ao criar categorias.', type: 'error' });
+    }
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingCategory(null);
@@ -236,10 +250,22 @@ export default function Categories() {
           <h2>Categorias</h2>
           <p>Gerencie suas categorias de despesas e receitas</p>
         </div>
-        <AddButton
-          text="Nova Categoria"
-          onClick={handleAddCategory}
-        />
+        <div className="category-page-header-actions">
+          <button
+            className="simulator-btn"
+            onClick={() => setIsSimulatorOpen(true)}
+            title="Simulador de Orçamento"
+          >
+            <span className="simulator-btn__icon">
+              <FaMoneyBillWave size={15} />
+            </span>
+            <span className="simulator-btn__text">Simulador</span>
+          </button>
+          <AddButton
+            text="Nova Categoria"
+            onClick={handleAddCategory}
+          />
+        </div>
       </div>
 
       <BudgetSummary 
@@ -258,6 +284,12 @@ export default function Categories() {
           refillingCategoryId={refillingCategoryId}
         />
       </section>
+      {isSimulatorOpen && (
+        <BudgetSimulatorModal
+          onClose={() => setIsSimulatorOpen(false)}
+          onSave={handleBulkSave}
+        />
+      )}
       {isModalOpen && (
         <CategoryModal
           onClose={handleCloseModal}

@@ -131,6 +131,22 @@ export const categoryService = {
       }
     }
   },
+  bulkCreateCategories: async (categories) => {
+    try {
+      const response = await api.post('/api/v1/categories/bulk', { categories });
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        throw new Error(
+          error.response.data?.message || 'Erro ao criar categorias em lote.'
+        );
+      } else if (error.request) {
+        throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
+      } else {
+        throw new Error('Erro ao processar a solicitação.');
+      }
+    }
+  },
   updateCategory: async (categoryId, categoryData) => {
     try {
       const response = await api.patch(`/api/v1/categories/${categoryId}`, categoryData);
