@@ -1,6 +1,6 @@
 .search-box {
     position: relative;
-    width: 250px;
+    width: 100%;
     display: flex;
     box-sizing: border-box;
   }

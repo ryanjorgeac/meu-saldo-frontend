@@ -1,3 +1,16 @@
+.transactions-page {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .transactions-page {
+    grid-template-columns: 1fr;
+  }
+}
+
 .transactions-container {
 padding: 20px;
 background-color: white;
@@ -39,11 +52,38 @@ display: flex;
 gap: 10px;
 margin-bottom: 20px;
 flex-wrap: wrap;
+align-items: center;
 }
 
+/* Search grows to fill remaining space */
 .transaction-filter-item {
-min-width: 120px;
-display: flex;
+  flex: 1 1 200px;
+  min-width: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Category, dates — fixed ~150px */
+.transaction-filter-item--fixed {
+  flex: 0 0 150px;
+  width: 150px;
+  overflow: visible;
+}
+
+/* Min/max value — slightly narrower */
+.transaction-filter-item--amount {
+  flex: 0 0 110px;
+  width: 110px;
+}
+
+/* On small screens all filters go full width */
+@media (max-width: 640px) {
+  .transaction-filter-item,
+  .transaction-filter-item--fixed,
+  .transaction-filter-item--amount {
+    flex: 1 1 100%;
+    width: 100%;
+  }
 }
 
 .transaction-filter-item select,

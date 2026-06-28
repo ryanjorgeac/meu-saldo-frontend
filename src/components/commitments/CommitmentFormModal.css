@@ -1,0 +1,85 @@
+.commitment-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.commitment-modal-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.commitment-modal-header p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.commitment-form-group {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.commitment-form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+  margin-bottom: 6px;
+}
+
+.commitment-form-group input,
+.commitment-form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--gray-800);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.commitment-form-group input:focus,
+.commitment-form-group select:focus {
+  outline: none;
+  border-color: var(--lima-400, #6dd265);
+}
+
+.type-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.type-option {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.type-option--expense {
+  background: #ffebee;
+  border-color: #ef9a9a;
+  color: #c62828;
+}
+
+.type-option--income {
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+  color: #2e7d32;
+}
+
+.commitment-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}

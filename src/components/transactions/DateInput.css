@@ -1,5 +1,6 @@
 .date-input {
-  max-width: 150px;
+  width: 100%;
+  max-width: 100%;
   cursor: pointer;
   border: 1px solid #d9d9d9;
   border-radius: 15px;
@@ -8,6 +9,7 @@
   padding: 8px 36px 8px 12px;
   font-family: "inter";
   color: var(--gray-900);
+  box-sizing: border-box;
 }
 
 .date-input:focus {

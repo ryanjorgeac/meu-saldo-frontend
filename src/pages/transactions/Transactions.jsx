@@ -5,14 +5,15 @@ import "./Transactions.css";
 import CategorySelect from "../../components/transactions/CategorySelect";
 import DateInput from "../../components/transactions/DateInput";
 import SearchInput from "../../components/transactions/SearchInput";
-import AmountInput from "../../components/transactions/AmountInput";
 import TransactionsTable from "../../components/transactions/TransactionsTable";
 import TransactionFormModal from "../../components/transactions/TransactionFormModal";
+import CommitmentFormModal from "../../components/commitments/CommitmentFormModal";
+import CommitmentsSidebar from "../../components/commitments/CommitmentsSidebar";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import Toast from "../../components/common/Toast";
-import { transactionService, categoryService } from "../../services";
+import { transactionService, categoryService, commitmentService } from "../../services";
 import ptBR from "date-fns/locale/pt-BR";
-import { parseMoneyInputToCents } from "../../utils/money";
+import { parseMoneyInputToCents, formatMoneyInput } from "../../utils/money";
 import { useTransactionsCache } from "../../context/TransactionsContext.jsx";
 
 const PAGE_SIZE = 10;
@@ -58,6 +59,14 @@ function Transactions() {
   const [sortField, setSortField] = useState("date");
   const [sortDirection, setSortDirection] = useState("desc");
 
+  // Commitments state
+  const [commitments, setCommitments] = useState([]);
+  const [commitmentsLoading, setCommitmentsLoading] = useState(false);
+  const [isCommitmentModalOpen, setIsCommitmentModalOpen] = useState(false);
+  const [editingCommitment, setEditingCommitment] = useState(null);
+  const [commitmentToDelete, setCommitmentToDelete] = useState(null);
+  const [loggingCommitmentId, setLoggingCommitmentId] = useState(null);
+
   const fetchCategories = useCallback(async () => {
     try {
       const response = await categoryService.getCategories();
@@ -71,9 +80,22 @@ function Transactions() {
     }
   }, []);
 
+  const fetchCommitments = useCallback(async () => {
+    setCommitmentsLoading(true);
+    try {
+      const data = await commitmentService.getCommitments();
+      setCommitments(data);
+    } catch (err) {
+      console.error("Error fetching commitments:", err);
+    } finally {
+      setCommitmentsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchCategories();
-  }, [fetchCategories]);
+    fetchCommitments();
+  }, [fetchCategories, fetchCommitments]);
 
   useEffect(() => {
     if (!didHydrateCache && transactionsCache.items.length > 0) {
@@ -290,6 +312,12 @@ function Transactions() {
     setCurrentPage(1);
   };
 
+  const handleAmountFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: formatMoneyInput(value) }));
+    setCurrentPage(1);
+  };
+
   const handleSaveTransaction = async (formData) => {
     const isEditing = Boolean(formData.id);
 
@@ -342,8 +370,82 @@ function Transactions() {
     }
   };
 
+  const handleSaveCommitment = async (formData) => {
+    const isEditing = Boolean(formData.id);
+    if (!formData.description?.trim()) {
+      setToast({ message: 'Descrição é obrigatória.', type: 'error' });
+      return;
+    }
+    if (!isEditing && !formData.amountInput?.trim()) {
+      setToast({ message: 'Valor é obrigatório.', type: 'error' });
+      return;
+    }
+    try {
+      const payload = {
+        description: formData.description.trim(),
+        type: formData.type,
+        frequency: formData.frequency,
+        date: formData.date,
+        categoryId: formData.category || null,
+      };
+      if (!isEditing || formData.amountInput?.trim()) {
+        payload.amountCents = parseMoneyInputToCents(formData.amountInput);
+      }
+      if (isEditing) {
+        await commitmentService.updateCommitment(formData.id, payload);
+      } else {
+        await commitmentService.createCommitment(payload);
+      }
+      setIsCommitmentModalOpen(false);
+      setEditingCommitment(null);
+      await fetchCommitments();
+      setToast({ message: isEditing ? 'Compromisso atualizado com sucesso!' : 'Compromisso criado com sucesso!', type: 'success' });
+    } catch (err) {
+      const message = err.message === 'Invalid money input'
+        ? 'Informe um valor válido com até duas casas decimais.'
+        : err.message;
+      setToast({ message, type: 'error' });
+    }
+  };
+
+  const handleEditCommitment = (commitment) => {
+    setEditingCommitment(commitment);
+    setIsCommitmentModalOpen(true);
+  };
+
+  const handleDeleteCommitment = (commitment) => {
+    setCommitmentToDelete(commitment);
+  };
+
+  const confirmDeleteCommitment = async () => {
+    try {
+      await commitmentService.deleteCommitment(commitmentToDelete.id);
+      setCommitmentToDelete(null);
+      await fetchCommitments();
+      setToast({ message: `Compromisso "${commitmentToDelete.description}" excluído com sucesso!`, type: 'success' });
+    } catch (err) {
+      setToast({ message: err.message || 'Erro ao excluir compromisso.', type: 'error' });
+      setCommitmentToDelete(null);
+    }
+  };
+
+  const handleLogCommitment = useCallback(async (id) => {
+    setLoggingCommitmentId(id);
+    try {
+      await commitmentService.logCommitment(id);
+      setTransactionsCache({ items: [], fetchedAt: null });
+      await fetchTransactions({ force: true });
+      setToast({ message: 'Transação lançada com sucesso!', type: 'success' });
+    } catch (err) {
+      setToast({ message: err.message || 'Erro ao lançar compromisso.', type: 'error' });
+    } finally {
+      setLoggingCommitmentId(null);
+    }
+  }, [fetchTransactions, setTransactionsCache]);
+
   return (
-    <div className="transactions-container">
+    <div className="transactions-page">
+      <div className="transactions-container">
       <div className="transactions-header">
         <h1>Histórico de Transações</h1>
         <button className="new-transaction-btn" onClick={handleNewTransaction}>
@@ -360,7 +462,7 @@ function Transactions() {
           />
         </div>
 
-        <div className="transaction-filter-item">
+        <div className="transaction-filter-item transaction-filter-item--fixed">
           <CategorySelect
             selectedCategories={selectedCategories}
             onChange={setSelectCategories}
@@ -368,7 +470,7 @@ function Transactions() {
           />
         </div>
 
-        <div className="transaction-filter-item">
+        <div className="transaction-filter-item transaction-filter-item--fixed">
           <DateInput
             name="startDate"
             value={filters.startDate}
@@ -378,7 +480,7 @@ function Transactions() {
           />
         </div>
 
-        <div className="transaction-filter-item">
+        <div className="transaction-filter-item transaction-filter-item--fixed">
           <DateInput
             name="endDate"
             value={filters.endDate}
@@ -389,22 +491,24 @@ function Transactions() {
           />
         </div>
 
-        <div className="transaction-filter-item">
-          <AmountInput
+        <div className="transaction-filter-item transaction-filter-item--amount">
+          <input
+            type="text"
             name="minValue"
             value={filters.minValue}
-            onChange={handleFilterChange}
-            placeholder="Valor mínimo $"
+            onChange={handleAmountFilterChange}
+            placeholder="Mín. R$"
           />
         </div>
 
-        <div className="transaction-filter-item">
-          <AmountInput
-              name="maxValue"
-              value={filters.maxValue}
-              onChange={handleFilterChange}
-              placeholder="Valor máximo $"
-            />
+        <div className="transaction-filter-item transaction-filter-item--amount">
+          <input
+            type="text"
+            name="maxValue"
+            value={filters.maxValue}
+            onChange={handleAmountFilterChange}
+            placeholder="Máx. R$"
+          />
         </div>
       </div>
 
@@ -470,6 +574,39 @@ function Transactions() {
           message={toast.message}
           type={toast.type}
           onClose={() => setToast(null)}
+        />
+      )}
+    </div>
+
+      <CommitmentsSidebar
+        commitments={commitments}
+        loading={commitmentsLoading}
+        categories={categories}
+        onAdd={() => { setEditingCommitment(null); setIsCommitmentModalOpen(true); }}
+        onEdit={handleEditCommitment}
+        onDelete={handleDeleteCommitment}
+        onLog={handleLogCommitment}
+        loggingCommitmentId={loggingCommitmentId}
+      />
+
+      {isCommitmentModalOpen && (
+        <CommitmentFormModal
+          onClose={() => { setIsCommitmentModalOpen(false); setEditingCommitment(null); }}
+          onSave={handleSaveCommitment}
+          commitment={editingCommitment}
+          categories={categories}
+        />
+      )}
+      {commitmentToDelete && (
+        <ConfirmationModal
+          title="Excluir Compromisso"
+          message={`Tem certeza que deseja excluir "${commitmentToDelete.description}"?`}
+          description="Esta ação não pode ser desfeita."
+          onClose={() => setCommitmentToDelete(null)}
+          onConfirm={confirmDeleteCommitment}
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          isDangerous={true}
         />
       )}
     </div>

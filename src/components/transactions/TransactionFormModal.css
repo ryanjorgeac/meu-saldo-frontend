@@ -55,18 +55,6 @@
   border-color: #4caf50;
 }
 
-/* AmountInput full-width override inside modal */
-.transaction-form-group .amount-input-container {
-  width: 100%;
-}
-
-.transaction-form-group .amount-input-container input {
-  padding: 11px 12px 11px 30px;
-  border: 1px solid var(--gray-300);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
-}
-
 /* DateInput full-width override inside modal */
 .transaction-form-group .date-input {
   max-width: 100%;

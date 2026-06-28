@@ -122,35 +122,21 @@
   gap: 4px;
 }
 
-.edit-transaction-btn {
+.transaction-action-btn {
   background: none;
   border: none;
-  color: var(--gray-500);
+  border-radius: 6px;
+  padding: 5px 6px;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  transition: color 0.15s, background 0.15s;
 }
 
-.edit-transaction-btn:hover {
-  color: var(--lima-600);
-  transform: scale(1.1);
-}
-
-.delete-transaction-btn {
-  background: none;
-  border: none;
-  color: var(--gray-500);
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: color 0.2s;
-}
-
-.delete-transaction-btn:hover {
-  color: #e53935;
-  transform: scale(1.1);
-}
+.transaction-action-btn--edit:hover   { color: #1565c0; background: #e3f2fd; }
+.transaction-action-btn--delete:hover { color: #e53935; background: #ffebee; }
 
 .no-transactions {
   text-align: center;

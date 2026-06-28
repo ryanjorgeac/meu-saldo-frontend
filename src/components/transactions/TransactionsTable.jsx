@@ -66,18 +66,20 @@ function TransactionsTable({ transactions, onEditTransaction, onDeleteTransactio
                 <td>
                   <div className="transaction-actions">
                     <button
-                      className="edit-transaction-btn"
+                      className="transaction-action-btn transaction-action-btn--edit"
                       onClick={() => onEditTransaction(transaction)}
+                      title="Editar"
                       aria-label="Editar transação"
                     >
-                      <FaPencilAlt />
+                      <FaPencilAlt size={14} />
                     </button>
                     <button
-                      className="delete-transaction-btn"
+                      className="transaction-action-btn transaction-action-btn--delete"
                       onClick={() => onDeleteTransaction(transaction)}
+                      title="Excluir"
                       aria-label="Excluir transação"
                     >
-                      <FaTrash />
+                      <FaTrash size={14} />
                     </button>
                   </div>
                 </td>
