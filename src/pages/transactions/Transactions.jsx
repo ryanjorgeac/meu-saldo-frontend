@@ -17,7 +17,7 @@ import { parseMoneyInputToCents, formatMoneyInput } from "../../utils/money";
 import { useTransactionsCache } from "../../context/TransactionsContext.jsx";
 
 const PAGE_SIZE = 10;
-const CACHE_LIMIT = 100;
+const FETCH_PAGE_SIZE = 100;
 
 function parseAmountToNumber(amount) {
   return Number.parseFloat(String(amount).replace(/\./g, "").replace(",", "."));
@@ -157,11 +157,21 @@ function Transactions() {
     setError(null);
 
     try {
-      const response = await transactionService.getTransactions(1, CACHE_LIMIT, {
-        order: "desc",
-      });
+      let allData = [];
+      let page = 1;
+      let hasMore = true;
 
-      const transformedTransactions = response.data.map((transaction) => {
+      while (hasMore) {
+        const response = await transactionService.getTransactions(page, FETCH_PAGE_SIZE, {
+          order: "desc",
+        });
+
+        allData = allData.concat(response.data);
+        hasMore = response.data.length === FETCH_PAGE_SIZE;
+        page++;
+      }
+
+      const transformedTransactions = allData.map((transaction) => {
         const category = categories.find((cat) => cat.value === transaction.categoryId);
 
         return {

@@ -7,8 +7,21 @@ import "./TransactionsTable.css";
 function SortableHeader({ label, field, sortField, sortDirection, onSort }) {
   const isActive = sortField === field;
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onSort(field);
+    }
+  };
+
   return (
-    <th className="sortable-header" onClick={() => onSort(field)}>
+    <th
+      className="sortable-header"
+      onClick={() => onSort(field)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      aria-sort={isActive ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+    >
       <span className="header-content">
         {label}
         <span className="sort-arrows">

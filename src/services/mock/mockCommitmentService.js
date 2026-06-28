@@ -62,9 +62,10 @@ export const mockCommitmentService = {
     commitments[index] = {
       ...commitments[index],
       ...data,
-      amount: data.amountCents
-        ? formatCurrencyFromCents(data.amountCents)
-        : commitments[index].amount,
+      amount:
+         data.amountCents !== undefined && data.amountCents !== null
+           ? formatCurrencyFromCents(data.amountCents)
+           : commitments[index].amount,
       updatedAt: new Date().toISOString(),
     };
     return JSON.parse(JSON.stringify(commitments[index]));
