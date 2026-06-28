@@ -1,5 +1,5 @@
 import React from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 import CategoryChip from "./CategoryChip";
 import "./TransactionsTable.css";
@@ -20,7 +20,7 @@ function SortableHeader({ label, field, sortField, sortDirection, onSort }) {
   );
 }
 
-function TransactionsTable({ transactions, onEditTransaction, sortField, sortDirection, onSort }) {
+function TransactionsTable({ transactions, onEditTransaction, onDeleteTransaction, sortField, sortDirection, onSort }) {
   return (
     <table className="transactions-table">
       <thead className="transactions-table-header">
@@ -64,13 +64,22 @@ function TransactionsTable({ transactions, onEditTransaction, sortField, sortDir
                 </td>
                 <td>{transaction.date}</td>
                 <td>
-                  <button
-                    className="edit-transaction-btn"
-                    onClick={() => onEditTransaction(transaction)}
-                    aria-label="Editar transação"
-                  >
-                    <FaPencilAlt />
-                  </button>
+                  <div className="transaction-actions">
+                    <button
+                      className="edit-transaction-btn"
+                      onClick={() => onEditTransaction(transaction)}
+                      aria-label="Editar transação"
+                    >
+                      <FaPencilAlt />
+                    </button>
+                    <button
+                      className="delete-transaction-btn"
+                      onClick={() => onDeleteTransaction(transaction)}
+                      aria-label="Excluir transação"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </td>
               </tr>
             );

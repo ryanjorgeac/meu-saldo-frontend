@@ -9,8 +9,10 @@ import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import Toast from "../../components/common/Toast";
 import { parseMoneyInputToCents } from "../../utils/money";
+import { useTransactionsCache } from "../../context/TransactionsContext";
 
 export default function Categories() {
+  const { setTransactionsCache } = useTransactionsCache();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [budgetData, setBudgetData] = useState({
@@ -105,6 +107,7 @@ export default function Categories() {
       );
       setCategoryToDelete(null);
       fetchCategories();
+      setToast({ message: `Categoria "${categoryToDelete.name}" excluída com sucesso!`, type: 'success' });
     } catch (error) {
       let errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
       let titleMsg = "Erro ao Deletar Categoria";
@@ -133,13 +136,14 @@ export default function Categories() {
       }
       await transactionService.createTransaction(payload);
       setToast({ message: `Categoria "${category.name}" reabastecida com sucesso!`, type: 'success' });
+      setTransactionsCache({ items: [], fetchedAt: null });
       fetchCategories();
     } catch (error) {
       setToast({ message: error.message || 'Erro ao reabastecer categoria. Tente novamente.', type: 'error' });
     } finally {
       setRefillingCategoryId(null);
     }
-  }, [categories]);
+  }, [categories, setTransactionsCache]);
 
   const handleAddCategory = () => {
     setIsModalOpen(true);
@@ -201,6 +205,7 @@ export default function Categories() {
 
       handleCloseModal();
       fetchCategories();
+      setToast({ message: editingCategory ? 'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', type: 'success' });
     } catch (error) {
       let errorMsg;
       let titleMsg;

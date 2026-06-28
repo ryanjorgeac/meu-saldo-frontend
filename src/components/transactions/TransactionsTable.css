@@ -115,10 +115,17 @@
   font-weight: 600;
 }
 
+.transaction-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
 .edit-transaction-btn {
   background: none;
   border: none;
-  color: #666;
+  color: var(--gray-500);
   cursor: pointer;
   padding: 5px;
   border-radius: 4px;
@@ -126,7 +133,23 @@
 }
 
 .edit-transaction-btn:hover {
-  color: #333;
+  color: var(--lima-600);
+  transform: scale(1.1);
+}
+
+.delete-transaction-btn {
+  background: none;
+  border: none;
+  color: var(--gray-500);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.delete-transaction-btn:hover {
+  color: #e53935;
+  transform: scale(1.1);
 }
 
 .no-transactions {

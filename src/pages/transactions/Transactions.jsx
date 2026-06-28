@@ -8,6 +8,8 @@ import SearchInput from "../../components/transactions/SearchInput";
 import AmountInput from "../../components/transactions/AmountInput";
 import TransactionsTable from "../../components/transactions/TransactionsTable";
 import TransactionFormModal from "../../components/transactions/TransactionFormModal";
+import ConfirmationModal from "../../components/modals/ConfirmationModal";
+import Toast from "../../components/common/Toast";
 import { transactionService, categoryService } from "../../services";
 import ptBR from "date-fns/locale/pt-BR";
 import { parseMoneyInputToCents } from "../../utils/money";
@@ -51,6 +53,8 @@ function Transactions() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState(null);
+  const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [toast, setToast] = useState(null);
   const [sortField, setSortField] = useState("date");
   const [sortDirection, setSortDirection] = useState("desc");
 
@@ -147,6 +151,7 @@ function Transactions() {
           categoryName: category ? category.label : "Sem categoria",
           date: formatDate(transaction.date),
           rawDate: transaction.date,
+          createdAt: transaction.createdAt,
           type: transaction.type,
         };
       });
@@ -247,6 +252,11 @@ function Transactions() {
         case "date":
           valA = new Date(a.rawDate).getTime();
           valB = new Date(b.rawDate).getTime();
+
+          if (valA === valB && a.createdAt && b.createdAt) {
+            valA = new Date(a.createdAt).getTime();
+            valB = new Date(b.createdAt).getTime();
+          }
           break;
         default:
           valA = (a[sortField] || "").toLowerCase();
@@ -284,12 +294,12 @@ function Transactions() {
     const isEditing = Boolean(formData.id);
 
     if (!formData.description?.trim()) {
-      alert("Descrição é obrigatória.");
+      setToast({ message: 'Descrição é obrigatória.', type: 'error' });
       return;
     }
 
     if (!isEditing && !formData.amountInput?.trim()) {
-      alert("Valor é obrigatório.");
+      setToast({ message: 'Valor é obrigatório.', type: 'error' });
       return;
     }
 
@@ -304,26 +314,31 @@ function Transactions() {
 
       await fetchTransactions({ force: true });
       setIsModalOpen(false);
+      setToast({ message: isEditing ? 'Transação atualizada com sucesso!' : 'Transação criada com sucesso!', type: 'success' });
     } catch (err) {
       console.error("Error saving transaction:", err);
       const message = err.message === "Invalid money input"
-        ? "Informe um valor valido com ate duas casas decimais."
+        ? "Informe um valor válido com até duas casas decimais."
         : err.message;
-
-      alert(`Error: ${message}`);
+      setToast({ message, type: 'error' });
     }
   };
 
-  const handleDeleteTransaction = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir esta transação?")) {
-      try {
-        await transactionService.deleteTransaction(id);
-        setIsModalOpen(false);
-        await fetchTransactions({ force: true });
-      } catch (err) {
-        console.error("Error deleting transaction:", err);
-        alert(`Error: ${err.message}`);
-      }
+  const handleDeleteTransaction = (transaction) => {
+    setTransactionToDelete(transaction);
+  };
+
+  const confirmDeleteTransaction = async () => {
+    try {
+      await transactionService.deleteTransaction(transactionToDelete.id);
+      setTransactionToDelete(null);
+      setIsModalOpen(false);
+      await fetchTransactions({ force: true });
+      setToast({ message: 'Transação excluída com sucesso!', type: 'success' });
+    } catch (err) {
+      console.error("Error deleting transaction:", err);
+      setToast({ message: err.message || 'Erro ao excluir transação.', type: 'error' });
+      setTransactionToDelete(null);
     }
   };
 
@@ -402,6 +417,7 @@ function Transactions() {
           <TransactionsTable 
             transactions={paginatedTransactions} 
             onEditTransaction={handleEditTransaction}
+            onDeleteTransaction={handleDeleteTransaction}
             sortField={sortField}
             sortDirection={sortDirection}
             onSort={handleSort}
@@ -433,9 +449,27 @@ function Transactions() {
         <TransactionFormModal
           onClose={() => setIsModalOpen(false)}
           onSave={handleSaveTransaction}
-          onDelete={handleDeleteTransaction}
           transaction={currentTransaction}
           categories={categories}
+        />
+      )}
+      {transactionToDelete && (
+        <ConfirmationModal
+          title="Excluir Transação"
+          message={`Tem certeza que deseja excluir "${transactionToDelete.description}"?`}
+          description="Esta ação não pode ser desfeita."
+          onClose={() => setTransactionToDelete(null)}
+          onConfirm={confirmDeleteTransaction}
+          confirmText="Excluir"
+          cancelText="Cancelar"
+          isDangerous={true}
+        />
+      )}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </div>

@@ -15,7 +15,7 @@ const EMPTY_FORM = {
   category: '',
 };
 
-function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, categories }) {
+function TransactionFormModal({ onClose, onSave, transaction = null, categories }) {
   const isEditing = Boolean(transaction);
 
   const [form, setForm] = useState(EMPTY_FORM);
@@ -31,9 +31,9 @@ function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, c
             date: transaction.rawDate || transaction.date || today(),
             category: transaction.category || '',
           }
-        : { ...EMPTY_FORM, date: today() }
+        : { ...EMPTY_FORM, date: today(), category: categories[0]?.value ?? '' }
     );
-  }, [transaction]);
+  }, [transaction, categories]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,11 +119,6 @@ function TransactionFormModal({ onClose, onSave, onDelete, transaction = null, c
           </div>
 
           <div className="transaction-modal-actions">
-            {isEditing && (
-              <button type="button" className="btn btn-danger" onClick={() => onDelete(transaction.id)}>
-                Excluir
-              </button>
-            )}
             <div className="transaction-modal-actions-right">
               <button type="button" className="btn btn-secondary" onClick={onClose}>
                 Cancelar
