@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import "./Categories.css";
 import AddButton from "../../components/common/AddButton";
-import CategoryList from "../../components/CategoryList/CategoryList";
+import CategoryList from "../../components/categories/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
 import { categoryService, transactionService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";

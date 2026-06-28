@@ -19,8 +19,3 @@ export const commitmentService = USE_MOCK_SERVICES ? mockCommitmentService : rea
 
 // Helper function to check if we're using mocks
 export const isUsingMocks = () => USE_MOCK_SERVICES;
-
-// Helper function to log current service mode
-export const logServiceMode = () => {
-  console.log(`🔧 Services: ${USE_MOCK_SERVICES ? 'MOCK MODE' : 'REAL BACKEND'}`);
-};

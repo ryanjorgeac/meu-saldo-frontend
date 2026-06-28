@@ -1,4 +1,4 @@
-import CategoryCard from "../categoryCard/CategoryCard";
+import CategoryCard from "./CategoryCard";
 import "./CategoryList.css";
 
 const CategoryList = ({

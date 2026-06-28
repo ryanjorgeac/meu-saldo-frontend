@@ -55,7 +55,6 @@ flex-wrap: wrap;
 align-items: center;
 }
 
-/* Search grows to fill remaining space */
 .transaction-filter-item {
   flex: 1 1 200px;
   min-width: 0;
@@ -63,20 +62,17 @@ align-items: center;
   overflow: hidden;
 }
 
-/* Category, dates — fixed ~150px */
 .transaction-filter-item--fixed {
   flex: 0 0 150px;
   width: 150px;
   overflow: visible;
 }
 
-/* Min/max value — slightly narrower */
 .transaction-filter-item--amount {
   flex: 0 0 110px;
   width: 110px;
 }
 
-/* On small screens all filters go full width */
 @media (max-width: 640px) {
   .transaction-filter-item,
   .transaction-filter-item--fixed,
