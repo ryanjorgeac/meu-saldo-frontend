@@ -10,7 +10,7 @@ function SearchInput({
 }) {
   return (
     <div className="search-box">
-      <FaSearch className="search-icon" />
+      <FaSearch className="search-icon" style={{ width: "12px" }} />
       <input
         type="text"
         placeholder={placeholder}

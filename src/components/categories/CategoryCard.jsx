@@ -1,4 +1,5 @@
 import { MdOutlineEdit as EditIcon, FaTrash as TrashIcon  } from '../icons';
+import { FaLock, FaCoins } from 'react-icons/fa';
 import { Icon } from '../icons';
 import "./CategoryCard.css";
 import { parseCurrency } from '../../utils/money';
@@ -7,7 +8,9 @@ import { resolveCategoryStyle } from '../../utils/colors';
 const CategoryCard = ({ 
   category, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onRefill,
+  isRefilling = false,
 }) => {
   const {
     id,
@@ -19,7 +22,8 @@ const CategoryCard = ({
     spentAmount,
     remainingAmount,
     transactionCount = 0,
-    isActive = true
+    isActive = true,
+    isDefault = false
   } = category;
 
   const budget = parseCurrency(budgetAmount);
@@ -49,9 +53,14 @@ const CategoryCard = ({
     if (onDelete) onDelete(id);
   };
 
+  const handleRefill = (e) => {
+    e.stopPropagation();
+    if (onRefill) onRefill(id);
+  };
+
   return (
     <div 
-      className={`category-card ${!isActive ? 'category-card--inactive' : ''}`}
+      className={`category-card ${!isActive ? 'category-card--inactive' : ''} ${isDefault ? 'category-card--default' : ''}`}
     >
       <div className="category-card__identification" style={{ '--category-color': categoryStyle.color }}>
         <div className="category-card__header">
@@ -60,24 +69,45 @@ const CategoryCard = ({
           </div>
           <div className="category-card__actions">
             <button 
-              className="category-card__action-btn"
+              className={`category-card__action-btn ${isDefault ? 'category-card__action-btn--disabled' : ''}`}
               onClick={handleEdit}
-              title="Editar categoria"
+              title={isDefault ? "Categorias padrão não podem ser editadas" : "Editar categoria"}
+              disabled={isDefault}
             >
               <EditIcon fontSize="20" />
             </button>
-            <button 
-              className="category-card__action-btn category-card__action-btn--delete"
-              onClick={handleDelete}
-              title="Excluir categoria"
-            >
-              <TrashIcon fontSize="20" />
-            </button>
+            {!isDefault && (
+              <>
+                <button 
+                  className={`category-card__action-btn category-card__action-btn--refill ${isRefilling ? 'category-card__action-btn--loading' : ''}`}
+                  onClick={handleRefill}
+                  disabled={isRefilling}
+                  title={isRefilling ? 'Reabastecendo...' : 'Reabastecer categoria'}
+                >
+                  <FaCoins fontSize="20" />
+                </button>
+                <button 
+                  className="category-card__action-btn category-card__action-btn--delete"
+                  onClick={handleDelete}
+                  title="Excluir categoria"
+                >
+                  <TrashIcon fontSize="20" />
+                </button>
+              </>
+            )}
           </div>
         </div>
 
         <div className="category-card__info">
-          <div className="category-card__title">{name}</div>
+          <div className="category-card__title">
+            {name}
+            {isDefault && (
+              <span className="category-card__badge">
+                <FaLock size={10} />
+                Padrão
+              </span>
+            )}
+          </div>
           <div className="category-card__symbol">R$</div>
           <div className="category-card__amount">{remainingAmount}</div>
           <div className="category-card__description">{rightSizeDescription}</div>

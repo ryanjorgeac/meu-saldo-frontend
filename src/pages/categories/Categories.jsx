@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./Categories.css";
+import { FaMoneyBillWave } from 'react-icons/fa6';
 import AddButton from "../../components/common/AddButton";
-import CategoryList from "../../components/CategoryList/CategoryList";
+import CategoryList from "../../components/categories/CategoryList";
 import BudgetSummary from "../../components/budget/BudgetSummary";
-import { categoryService } from "../../services";
+import { categoryService, transactionService } from "../../services";
 import CategoryModal from "../../components/categories/CategoryModal";
+import BudgetSimulatorModal from "../../components/categories/BudgetSimulatorModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
+import Toast from "../../components/common/Toast";
 import { parseMoneyInputToCents } from "../../utils/money";
+import { useTransactionsCache } from "../../context/TransactionsContext";
 
 export default function Categories() {
+  const { setTransactionsCache } = useTransactionsCache();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [budgetData, setBudgetData] = useState({
@@ -19,9 +24,12 @@ export default function Categories() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [refillingCategoryId, setRefillingCategoryId] = useState(null);
+  const [toast, setToast] = useState(null);
   const [newCategory, setNewCategory] = useState({
     name: "",
     description: "",
@@ -30,6 +38,7 @@ export default function Categories() {
     icon: null,
     color: null,
     isActive: true,
+    isDefault: false,
   });
 
   async function fetchCategories(){
@@ -54,6 +63,14 @@ export default function Categories() {
   const handleEditCategory = (categoryId) => {
     const categoryToEdit = categories.find(cat => cat.id === categoryId);
     if (categoryToEdit) {
+      if (categoryToEdit.isDefault) {
+        setErrorMessage({ 
+          title: "Categoria Padrão", 
+          message: "Categorias padrão não podem ser editadas. Estas categorias são essenciais para o funcionamento do sistema." 
+        });
+        return;
+      }
+
       setEditingCategory(categoryToEdit);
       setNewCategory({
         name: categoryToEdit.name,
@@ -63,6 +80,7 @@ export default function Categories() {
         icon: categoryToEdit.icon,
         color: categoryToEdit.color,
         isActive: categoryToEdit.isActive ?? true,
+        isDefault: categoryToEdit.isDefault ?? false,
       });
       setIsModalOpen(true);
     }
@@ -70,6 +88,15 @@ export default function Categories() {
 
   const handleDeleteCategory = (categoryId) => {
     const category = categories.find(cat => cat.id === categoryId);
+    
+    if (category?.isDefault) {
+      setErrorMessage({ 
+        title: "Categoria Padrão", 
+        message: "Categorias padrão não podem ser deletadas. Estas categorias são essenciais para o funcionamento do sistema." 
+      });
+      return;
+    }
+    
     setCategoryToDelete(category);
   };
 
@@ -83,15 +110,57 @@ export default function Categories() {
       );
       setCategoryToDelete(null);
       fetchCategories();
+      setToast({ message: `Categoria "${categoryToDelete.name}" excluída com sucesso!`, type: 'success' });
     } catch (error) {
-      const errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
-      setErrorMessage({ title: "Erro ao Deletar Categoria", message: errorMsg });
+      let errorMsg = error.message || "Erro ao deletar categoria. Tente novamente.";
+      let titleMsg = "Erro ao Deletar Categoria";
+      
+      if (error.message && error.message.toLowerCase().includes("padrão")) {
+        titleMsg = "Categoria Padrão";
+      }
+      
+      setErrorMessage({ title: titleMsg, message: errorMsg });
       setCategoryToDelete(null);
     }
   };
 
+  const handleRefillCategory = useCallback(async (categoryId) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    if (!category) return;
+    setRefillingCategoryId(categoryId);
+    try {
+      const today = new Date().toISOString();
+      const payload = {
+        categoryId: category.id,
+        amountCents: parseMoneyInputToCents(category.budgetAmount),
+        type: 'INCOME',
+        description: `Reabastecimento: ${category.name}`,
+        date: today,
+      }
+      await transactionService.createTransaction(payload);
+      setToast({ message: `Categoria "${category.name}" reabastecida com sucesso!`, type: 'success' });
+      setTransactionsCache({ items: [], fetchedAt: null });
+      fetchCategories();
+    } catch (error) {
+      setToast({ message: error.message || 'Erro ao reabastecer categoria. Tente novamente.', type: 'error' });
+    } finally {
+      setRefillingCategoryId(null);
+    }
+  }, [categories, setTransactionsCache]);
+
   const handleAddCategory = () => {
     setIsModalOpen(true);
+  };
+
+  const handleBulkSave = async (categories) => {
+    try {
+      await categoryService.bulkCreateCategories(categories);
+      setIsSimulatorOpen(false);
+      await fetchCategories();
+      setToast({ message: `${categories.length} categoria(s) criada(s) com sucesso!`, type: 'success' });
+    } catch (error) {
+      setToast({ message: error.message || 'Erro ao criar categorias.', type: 'error' });
+    }
   };
 
   const handleCloseModal = () => {
@@ -105,6 +174,7 @@ export default function Categories() {
       icon: null,
       color: null,
       isActive: true,
+      isDefault: false,
     });
   };
 
@@ -149,11 +219,22 @@ export default function Categories() {
 
       handleCloseModal();
       fetchCategories();
+      setToast({ message: editingCategory ? 'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', type: 'success' });
     } catch (error) {
-      const errorMsg = error.message === "Invalid money input"
-        ? "Informe um orcamento valido com ate duas casas decimais."
-        : error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
-      const titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      let errorMsg;
+      let titleMsg;
+      
+      if (error.message === "Invalid money input") {
+        errorMsg = "Informe um orçamento válido com até duas casas decimais.";
+        titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      } else if (error.message && error.message.toLowerCase().includes("padrão")) {
+        errorMsg = error.message;
+        titleMsg = "Categoria Padrão";
+      } else {
+        errorMsg = error.message || (editingCategory ? "Erro ao atualizar categoria. Tente novamente." : "Erro ao criar categoria. Tente novamente.");
+        titleMsg = editingCategory ? "Erro ao Atualizar Categoria" : "Erro ao Criar Categoria";
+      }
+      
       setErrorMessage({ title: titleMsg, message: errorMsg });
     }
   };
@@ -169,10 +250,22 @@ export default function Categories() {
           <h2>Categorias</h2>
           <p>Gerencie suas categorias de despesas e receitas</p>
         </div>
-        <AddButton
-          text="Nova Categoria"
-          onClick={handleAddCategory}
-        />
+        <div className="category-page-header-actions">
+          <button
+            className="simulator-btn"
+            onClick={() => setIsSimulatorOpen(true)}
+            title="Simulador de Orçamento"
+          >
+            <span className="simulator-btn__icon">
+              <FaMoneyBillWave size={15} />
+            </span>
+            <span className="simulator-btn__text">Simulador</span>
+          </button>
+          <AddButton
+            text="Nova Categoria"
+            onClick={handleAddCategory}
+          />
+        </div>
       </div>
 
       <BudgetSummary 
@@ -186,9 +279,17 @@ export default function Categories() {
           categories={categories} 
           loading={loading}
           onEdit={handleEditCategory}
-          onDelete={handleDeleteCategory} 
+          onDelete={handleDeleteCategory}
+          onRefill={handleRefillCategory}
+          refillingCategoryId={refillingCategoryId}
         />
       </section>
+      {isSimulatorOpen && (
+        <BudgetSimulatorModal
+          onClose={() => setIsSimulatorOpen(false)}
+          onSave={handleBulkSave}
+        />
+      )}
       {isModalOpen && (
         <CategoryModal
           onClose={handleCloseModal}
@@ -197,6 +298,13 @@ export default function Categories() {
           onSave={handleCreateCategory}
           setCategory={setNewCategory}
           isEditing={!!editingCategory}
+        />
+      )}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
       {errorMessage && (

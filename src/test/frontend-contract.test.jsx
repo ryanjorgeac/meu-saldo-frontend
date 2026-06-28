@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Transactions from '../pages/transactions/Transactions'
 import Categories from '../pages/categories/Categories'
-import CategoryCard from '../components/categoryCard/CategoryCard'
+import CategoryCard from '../components/categories/CategoryCard'
 import { parseMoneyInputToCents } from '../utils/money'
 import { resolveCategoryStyle } from '../utils/colors'
 

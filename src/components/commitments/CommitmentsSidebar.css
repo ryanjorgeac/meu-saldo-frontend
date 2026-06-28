@@ -1,0 +1,224 @@
+.commitments-sidebar {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.commitments-sidebar__header {
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.commitments-sidebar__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.commitments-sidebar__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.commitments-sidebar__subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.commitments-sidebar__add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--lima-200, #d4f0b4);
+  border: none;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.commitments-sidebar__add-btn:hover {
+  background-color: var(--lima-300, #b8e88c);
+}
+
+.commitments-sidebar__list {
+  padding: 8px 0;
+}
+
+.commitments-sidebar__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px;
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+}
+
+.commitments-sidebar__empty-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.commitments-sidebar__empty-cta:hover {
+  border-color: #6dd265;
+  color: #2e7d32;
+}
+
+.commitment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background-color 0.15s;
+}
+
+.commitment-item:last-child {
+  border-bottom: none;
+}
+
+.commitment-item:hover {
+  background-color: #fafafa;
+}
+
+.commitment-item__left {
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.commitment-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.commitment-item__icon--expense {
+  background-color: #ffcdd2;
+  color: #e53935;
+}
+
+.commitment-item__icon--income {
+  background-color: #c8e6c9;
+  color: #43a047;
+}
+
+.commitment-item__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.commitment-item__description {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2328;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commitment-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.commitment-item__amount {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.commitment-item__amount--expense { color: #e53935; }
+.commitment-item__amount--income  { color: #43a047; }
+
+.commitment-item__frequency {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #f0f0f0;
+  color: #555;
+}
+
+.commitment-item__date {
+  font-size: 11px;
+  font-weight: 400;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #eef4ff;
+  color: #3b6cb7;
+}
+
+.commitment-item__category {
+  font-size: 11px;
+  color: #999;
+}
+
+.commitment-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.commitment-item__btn {
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  transition: color 0.15s, background 0.15s;
+}
+
+.commitment-item__btn--log:hover  { color: #2e7d32; background: #e8f5e9; }
+.commitment-item__btn--edit:hover { color: #1565c0; background: #e3f2fd; }
+.commitment-item__btn--delete:hover { color: #e53935; background: #ffebee; }
+
+.commitment-item__btn--loading {
+  opacity: 0.5;
+  cursor: wait;
+  animation: commitment-pulse 1s ease-in-out infinite;
+}
+
+.commitment-item__btn--loading:hover {
+  background: none;
+  color: #aaa;
+}
+
+@keyframes commitment-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.9; }
+}

@@ -61,8 +61,6 @@
   margin-top: 4px;
 }
 
-/* Remove unused radio styles as they're not in the current design */
-
 .icon-selector {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
