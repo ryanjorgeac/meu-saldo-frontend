@@ -2,6 +2,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import "./Header.css";
 import DropDown from "../profileMenu/DropDown";
+import logo from "../../assets/logo.svg";
 
 function Header() {
   const location = useLocation();
@@ -30,7 +31,7 @@ function Header() {
       <div className="header-content">
         <Link to="/categories" className="logo-title-link">
           <div className="logo-title">
-            <img src="/src/assets/logo.svg" alt="Logo" className="logo" />
+            <img src={logo} alt="Logo" className="logo" />
             <h1 className="title">Meu Saldo</h1>
           </div>
         </Link>
