@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { useState, useContext, useRef, useEffect } from "react";
 import "./DropDown.css";
 import AuthContext from "../../context/AuthContext";
+import profileIcon from "../../assets/profile-icon.png";
 
 function DropDown(){
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { logout } = useContext(AuthContext);
   const dropdownRef = useRef(null);
@@ -32,7 +31,7 @@ function DropDown(){
     return (
       <div className="dropdown" ref={dropdownRef}>
         <div className="profile-icon-container" onClick={toggleDropdown}>
-          <img src="/src/assets/profile-icon.png" alt="user-icon" className="user-icon"/>
+          <img src={profileIcon} alt="user-icon" className="user-icon"/>
         </div>
 
         {open && (
