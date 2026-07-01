@@ -51,7 +51,7 @@ export const formatMoneyInput = (value) => {
         return '';
     }
 
-    const digits = String(value).replace(/\D/g, '');
+    const digits = String(value).replace(/\D/g, '').slice(0, 13);
 
     if (!digits) {
         return '';
