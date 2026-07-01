@@ -72,7 +72,8 @@ function Transactions() {
       const response = await categoryService.getCategories();
       const formattedCategories = response.map(category => ({
         value: category.id,
-        label: category.name
+        label: category.name,
+        color: category.color || null
       }));
       setCategories(formattedCategories);
     } catch (err) {
@@ -181,6 +182,7 @@ function Transactions() {
           amountValue: parseAmountToNumber(transaction.amount),
           category: transaction.categoryId,
           categoryName: category ? category.label : "Sem categoria",
+          categoryColor: category?.color || null,
           date: formatDate(transaction.date),
           rawDate: transaction.date,
           createdAt: transaction.createdAt,

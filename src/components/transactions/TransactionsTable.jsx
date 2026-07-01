@@ -73,7 +73,7 @@ function TransactionsTable({ transactions, onEditTransaction, onDeleteTransactio
                   {isExpense ? "-" : "+"}R${transaction.amount}
                 </td>
                 <td>
-                  <CategoryChip categoryName={transaction.categoryName} />
+                  <CategoryChip categoryName={transaction.categoryName} color={transaction.categoryColor} />
                 </td>
                 <td>{transaction.date}</td>
                 <td>
